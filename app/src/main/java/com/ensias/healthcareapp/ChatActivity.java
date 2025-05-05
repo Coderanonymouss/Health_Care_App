@@ -17,6 +17,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Objects;
+
 public class ChatActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Bundle extras;
@@ -30,15 +32,15 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         extras = getIntent().getExtras();
-        MessageRef1 = FirebaseFirestore.getInstance().collection("chat").document(extras.getString("key1")).collection("message");
-        MessageRef2 = FirebaseFirestore.getInstance().collection("chat").document(extras.getString("key2")).collection("message");
+        MessageRef1 = FirebaseFirestore.getInstance().collection("chat").document(Objects.requireNonNull(extras.getString("key1"))).collection("message");
+        MessageRef2 = FirebaseFirestore.getInstance().collection("chat").document(Objects.requireNonNull(extras.getString("key2"))).collection("message");
         envoyer= (TextInputEditText)findViewById(R.id.activity_mentor_chat_message_edit_text);
         btnEnvoyer= (Button)findViewById(R.id.activity_mentor_chat_send_button);
         setUpRecyclerView();
         btnEnvoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Message msg = new Message(envoyer.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
+                Message msg = new Message(Objects.requireNonNull(envoyer.getText()).toString(), Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail()).toString());
                 MessageRef1.document().set(msg);
                 MessageRef2.document().set(msg);
                 envoyer.setText("");

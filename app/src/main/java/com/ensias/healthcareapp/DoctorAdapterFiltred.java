@@ -68,7 +68,7 @@ public class DoctorAdapterFiltred  extends RecyclerView.Adapter<DoctorAdapterFil
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(doctoreHolder.image.getContext())
+                Picasso.get()
                         .load(uri)
                         .placeholder(R.mipmap.ic_launcher)
                         .fit()

@@ -72,7 +72,7 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(myPatientsHolder.imageViewPatient.getContext())
+                Picasso.get()
                         .load(uri)
                         .placeholder(R.mipmap.ic_launcher)
                         .fit()

@@ -11,52 +11,40 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.Common.NonSwipeViewPager;
 import com.ensias.healthcareapp.adapter.MyViewPagerAdapter;
+import com.ensias.healthcareapp.databinding.ActivityTestBinding;
 import com.shuhart.stepview.StepView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Unbinder;
-
 import static com.ensias.healthcareapp.Common.Common.step;
 import static com.ensias.healthcareapp.fragment.BookingStep1Fragment.spinner;
 
 public class TestActivity extends AppCompatActivity {
 
-    StepView stepView;
-    NonSwipeViewPager viewPager;
-    Button btn_previous_step;
-    Button btn_next_step;
-    Unbinder unbinder;
-    LocalBroadcastManager localBroadcastManager;
-    private BroadcastReceiver buttonNextReceiver = new BroadcastReceiver() {
+    private ActivityTestBinding binding;
+    private LocalBroadcastManager localBroadcastManager;
+
+    private final BroadcastReceiver buttonNextReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            if(step == 2){
-                Common.currentTimeSlot = intent.getIntExtra(Common.KEY_TIME_SLOT,-1);
+            if (step == 2) {
+                Common.currentTimeSlot = intent.getIntExtra(Common.KEY_TIME_SLOT, -1);
             }
-            btn_next_step.setEnabled(true);
+            binding.btnNextStep.setEnabled(true);
             setColorButton();
         }
-
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-
-        stepView = findViewById(R.id.step_view);
-        viewPager = findViewById(R.id.view_pager);
-        btn_next_step  = findViewById(R.id.btn_next_step);
-        btn_previous_step = findViewById(R.id.btn_previous_step);
+        binding = ActivityTestBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         setupStepView();
         setColorButton();
@@ -64,85 +52,62 @@ public class TestActivity extends AppCompatActivity {
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(buttonNextReceiver, new IntentFilter(Common.KEY_ENABLE_BUTTON_NEXT));
 
-        viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
-        viewPager.setOffscreenPageLimit(2);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                setColorButton();
+        binding.viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
+        binding.viewPager.setOffscreenPageLimit(2);
 
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                setColorButton();
             }
 
             @Override
             public void onPageSelected(int position) {
-                stepView.go(position,true);
-                if( position == 0)
-                    btn_previous_step.setEnabled(false);
-                else
-                    btn_previous_step.setEnabled(true);
-                if(position == 2)
-                    btn_next_step.setEnabled(false);
-                else
-                    btn_next_step.setEnabled(true);
+                binding.stepView.go(position, true);
 
-
+                binding.btnPreviousStep.setEnabled(position != 0);
+                binding.btnNextStep.setEnabled(position != 2);
                 setColorButton();
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            @Override public void onPageScrollStateChanged(int state) {}
         });
-        btn_next_step.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(step < 3 || step == 0 ){
-                    step++ ;
-                    Common.Currentaappointementatype=spinner.getSelectedItem().toString();
-                    Log.e("Spinnr", Common.Currentaappointementatype);
 
-                    if(step==1){
-                        if(Common.CurreentDoctor != null) {
-                            Common.currentTimeSlot = -1;
-                            Common.currentDate = Calendar.getInstance();
-                            loadTimeSlotOfDoctor(Common.CurreentDoctor);
-                        }
-                    }
-                    else if(step == 2){
-                       // if(Common.currentTimeSlot != -1)
-                            confirmeBooking();
-                    }
-                    viewPager.setCurrentItem(step);
+        binding.btnNextStep.setOnClickListener(v -> {
+            if (step < 3 || step == 0) {
+                step++;
+                Common.Currentaappointementatype = spinner.getSelectedItem().toString();
+                Log.e("Spinnr", Common.Currentaappointementatype);
+
+                if (step == 1 && Common.CurreentDoctor != null) {
+                    Common.currentTimeSlot = -1;
+                    Common.currentDate = Calendar.getInstance();
+                    loadTimeSlotOfDoctor(Common.CurreentDoctor);
+                } else if (step == 2) {
+                    confirmeBooking();
                 }
 
-
+                binding.viewPager.setCurrentItem(step);
             }
         });
-        btn_previous_step.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(step == 3 || step > 0 ){
-                    step-- ;
-                    viewPager.setCurrentItem(step);
-                }
+
+        binding.btnPreviousStep.setOnClickListener(v -> {
+            if (step == 3 || step > 0) {
+                step--;
+                binding.viewPager.setCurrentItem(step);
             }
         });
 
         loadTimeSlotOfDoctor("testdoc@testdoc.com");
     }
 
-
-
     private void confirmeBooking() {
-
         Intent intent = new Intent(Common.KEY_CONFIRM_BOOKING);
         localBroadcastManager.sendBroadcast(intent);
     }
 
     @Override
     protected void onDestroy() {
-        step = 0 ;
+        step = 0;
         localBroadcastManager.unregisterReceiver(buttonNextReceiver);
         super.onDestroy();
     }
@@ -153,27 +118,20 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void setColorButton() {
-        if(btn_previous_step.isEnabled()){
-            btn_previous_step.setBackgroundResource(R.color.design_default_color_primary_dark);
-        }
-        else{
-            btn_previous_step.setBackgroundResource(R.color.colorAccent);
-        }
-        if(btn_next_step.isEnabled()){
-            btn_next_step.setBackgroundResource(R.color.design_default_color_primary_dark);
-        }
-        else{
-            btn_next_step.setBackgroundResource(R.color.colorAccent);
-        }
+        binding.btnPreviousStep.setBackgroundResource(
+                binding.btnPreviousStep.isEnabled() ? R.color.design_default_color_primary_dark : R.color.colorAccent
+        );
+
+        binding.btnNextStep.setBackgroundResource(
+                binding.btnNextStep.isEnabled() ? R.color.design_default_color_primary_dark : R.color.colorAccent
+        );
     }
 
     private void setupStepView() {
         List<String> stepList = new ArrayList<>();
         stepList.add("Purpose");
-        stepList.add("Tme and Date");
-        stepList.add("finish");
-        stepView.setSteps(stepList);
-
+        stepList.add("Time and Date");
+        stepList.add("Finish");
+        binding.stepView.setSteps(stepList);
     }
-
 }

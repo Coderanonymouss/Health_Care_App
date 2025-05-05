@@ -22,13 +22,13 @@
             android:background="#22BEA9">
             <TextView
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="120dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="30dp"
                 android:fontFamily="@font/courgette"
                 android:textColor="#FFFFFF"
-                android:text="Messages" />
+                android:text="@string/messages" />
         </LinearLayout>
         <!-- RECYCLER VIEW -->
         <androidx.recyclerview.widget.RecyclerView
@@ -44,19 +44,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/default_margin">
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginBottom="9dp">
+
 
         <!-- TEXT MESSAGE EDIT TEXT -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="300dp"
             android:layout_height="55dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/activity_mentor_chat_message_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:hint="hint" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activity_mentor_chat_message_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="hint"
+                android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- ADD MESSAGE BUTTON -->

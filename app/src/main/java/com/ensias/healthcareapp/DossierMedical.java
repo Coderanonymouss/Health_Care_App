@@ -79,7 +79,7 @@ public class DossierMedical extends AppCompatActivity {
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(image.getContext())
+                Picasso.get()
                         .load(uri)
                         .placeholder(R.mipmap.ic_launcher)
                         .fit()

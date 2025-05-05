@@ -73,7 +73,7 @@ public class ProfilePatientActivity extends AppCompatActivity {
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(ProfilePatientActivity.this)
+                Picasso.get()
                         .load(uri)
                         .placeholder(R.mipmap.ic_launcher)
                         .fit()

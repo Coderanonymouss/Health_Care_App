@@ -103,7 +103,7 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(EditProfileDoctorActivity.this)
+                Picasso.get()
                         .load(uri)
                         .placeholder(R.drawable.doctor)
                         .fit()
@@ -180,7 +180,7 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             uriImage = data.getData();
-            Picasso.with(this).load(uriImage).into(profileImage);
+            Picasso.get().load(uriImage).into(profileImage);
         }
     }
 
