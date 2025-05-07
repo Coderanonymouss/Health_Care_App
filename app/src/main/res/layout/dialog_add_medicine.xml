@@ -1,25 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/etMedName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Название лекарства" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/etMedDosage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Дозировка" />
+        <!-- Название -->
+        <EditText
+            android:id="@+id/etMedName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Название лекарства"
+            android:inputType="textPersonName" />
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner" />
-</LinearLayout>
+        <!-- Дозировка -->
+        <EditText
+            android:id="@+id/etMedDosage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Дозировка"
+            android:inputType="text" />
+
+        <!-- Сколько раз в день -->
+        <EditText
+            android:id="@+id/etTimesPerDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Сколько раз в день"
+            android:inputType="number" />
+
+        <!-- Сколько дней -->
+        <EditText
+            android:id="@+id/etDurationDays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="На сколько дней"
+            android:inputType="number" />
+
+        <!-- Контейнер для TimePicker -->
+        <LinearLayout
+            android:id="@+id/timePickerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+</ScrollView>

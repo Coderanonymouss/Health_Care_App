@@ -2,7 +2,6 @@ package com.ensias.healthcareapp.receiver;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,29 +10,27 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.MedicinesActivity;
-
 public class MedicineReminderReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String medName = intent.getStringExtra("medName");
 
-        Intent i = new Intent(context, MedicinesActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "medReminder")
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Время приёма лекарства")
-                .setContentText("Примите: " + medName)
-                .setContentIntent(pi)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "med_reminder_channel";
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("medReminder", "Medicine Reminder", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel(
+                    channelId, "Напоминания", NotificationManager.IMPORTANCE_HIGH
+            );
             manager.createNotificationChannel(channel);
         }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle("Время принять лекарство")
+                .setContentText("Не забудьте принять: " + medName)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
 
         manager.notify((int) System.currentTimeMillis(), builder.build());
     }

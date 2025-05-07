@@ -5,28 +5,45 @@
     android:orientation="vertical"
     android:padding="12dp"
     android:background="#FFFFFF"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
 
+    <!-- Название лекарства -->
     <TextView
         android:id="@+id/tvMedName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Парацетамол"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#000000" />
 
+    <!-- Дозировка -->
     <TextView
         android:id="@+id/tvMedDosage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="500 мг"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="#444444" />
 
+    <!-- Время приёма (одно или несколько) -->
     <TextView
-        android:id="@+id/tvMedTime"
+        android:id="@+id/tvMedTimes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Время приёма: 9:00"
-        android:textSize="14sp" />
-</LinearLayout>
+        android:text="Время приёма: 08:00, 13:00, 19:00"
+        android:textSize="14sp"
+        android:textColor="#666666" />
 
+    <!-- Кнопка изменить -->
+    <Button
+        android:id="@+id/btnEditMedicine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Настроить"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF" />
+</LinearLayout>

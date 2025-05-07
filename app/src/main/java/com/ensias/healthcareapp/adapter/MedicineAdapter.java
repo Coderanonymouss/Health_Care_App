@@ -5,21 +5,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.MedicinesActivity;
 import com.ensias.healthcareapp.model.Medicine;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder> {
-    private Context context;
-    private List<Medicine> list;
 
-    public MedicineAdapter(Context context, List<Medicine> list) {
+    private Context context;
+    private List<Medicine> medicineList;
+
+    public MedicineAdapter(Context context, List<Medicine> medicineList) {
         this.context = context;
-        this.list = list;
+        this.medicineList = medicineList;
     }
 
     @NonNull
@@ -28,47 +36,96 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         View view = LayoutInflater.from(context).inflate(R.layout.item_medicine, parent, false);
         return new MedicineViewHolder(view);
     }
+    private void showEditDialog(Medicine med, int position) {
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_medicine, null);
+        EditText etName = dialogView.findViewById(R.id.etMedName);
+        EditText etDosage = dialogView.findViewById(R.id.etMedDosage);
+        EditText etTimesPerDay = dialogView.findViewById(R.id.etTimesPerDay);
+        EditText etDurationDays = dialogView.findViewById(R.id.etDurationDays);
+        LinearLayout timeContainer = dialogView.findViewById(R.id.timePickerContainer);
+
+        etName.setText(med.getName());
+        etDosage.setText(med.getDosage());
+        etTimesPerDay.setText(String.valueOf(med.getTimes().size())); // если редактируешь
+        etDurationDays.setVisibility(View.GONE); // не нужно при редактировании
+
+        // Добавляем таймпикеры для каждого времени
+        for (String timeStr : med.getTimes()) {
+            String[] parts = timeStr.split(":");
+            TimePicker tp = new TimePicker(context);
+            tp.setIs24HourView(true);
+            tp.setHour(Integer.parseInt(parts[0]));
+            tp.setMinute(Integer.parseInt(parts[1]));
+            timeContainer.addView(tp);
+        }
+
+        new AlertDialog.Builder(context)
+                .setTitle("Редактировать лекарство")
+                .setView(dialogView)
+                .setPositiveButton("Сохранить", (dialog, which) -> {
+                    med.setName(etName.getText().toString().trim());
+                    med.setDosage(etDosage.getText().toString().trim());
+
+                    List<String> updatedTimes = new ArrayList<>();
+                    for (int i = 0; i < timeContainer.getChildCount(); i++) {
+                        View view = timeContainer.getChildAt(i);
+                        if (view instanceof TimePicker) {
+                            TimePicker tp = (TimePicker) view;
+                            String time = String.format("%02d:%02d", tp.getHour(), tp.getMinute());
+                            updatedTimes.add(time);
+                        }
+                    }
+                    med.setTimes(updatedTimes);
+                    notifyItemChanged(position);
+
+                    // Сохраняем изменения
+                    if (context instanceof com.ensias.healthcareapp.activity.MedicinesActivity) {
+                        ((com.ensias.healthcareapp.activity.MedicinesActivity) context).saveMedicines();
+                    }
+                })
+                .setNegativeButton("Отмена", null)
+                .show();
+    }
 
     @Override
     public void onBindViewHolder(@NonNull MedicineViewHolder holder, int position) {
-        Medicine medicine = list.get(position);
-        holder.tvName.setText(medicine.getName());
-        holder.tvDosage.setText(medicine.getDosage());
-        holder.tvTime.setText("Время приёма: " + medicine.getTime());
+        Medicine med = medicineList.get(position);
+        holder.tvName.setText(med.getName());
+        holder.tvDosage.setText(med.getDosage());
 
-        holder.itemView.setOnLongClickListener(v -> {
-            new AlertDialog.Builder(context)
-                    .setTitle("Удалить лекарство?")
-                    .setMessage("Вы уверены, что хотите удалить \"" + medicine.getName() + "\"?")
-                    .setPositiveButton("Удалить", (dialog, which) -> {
-                        list.remove(position);
-                        notifyItemRemoved(position);
+        List<String> times = med.getTimes();
+        if (times != null && !times.isEmpty()) {
+            StringBuilder timeText = new StringBuilder();
+            for (int i = 0; i < times.size(); i++) {
+                timeText.append(times.get(i));
+                if (i < times.size() - 1) timeText.append(", ");
+            }
+            holder.tvTimes.setText("Время приёма: " + timeText);
+        } else {
+            holder.tvTimes.setText("Время приёма не указано");
+        }
 
-                        // Обновить SharedPreferences через Activity
-                        if (context instanceof MedicinesActivity) {
-                            ((MedicinesActivity) context).saveMedicines();
-                        }
-                    })
-                    .setNegativeButton("Отмена", null)
-                    .show();
-            return true;
+        // Обработка кнопки "Настроить"
+        holder.btnEdit.setOnClickListener(v -> {
+            showEditDialog(med, position);
         });
     }
 
+
     @Override
     public int getItemCount() {
-        return list.size();
+        return medicineList.size();
     }
 
-    static class MedicineViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvDosage, tvTime;
-
+    public static class MedicineViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName, tvDosage, tvTimes;
+        Button btnEdit;
         public MedicineViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvMedName);
             tvDosage = itemView.findViewById(R.id.tvMedDosage);
-            tvTime = itemView.findViewById(R.id.tvMedTime);
+            tvTimes = itemView.findViewById(R.id.tvMedTimes);
+            btnEdit= itemView.findViewById(R.id.btnEditMedicine);
         }
     }
 }
-
