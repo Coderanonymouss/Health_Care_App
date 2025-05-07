@@ -1,7 +1,5 @@
 package com.ensias.healthcareapp.activity;
 
-import static kotlin.text.Typography.times;
-
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,16 +25,13 @@ import com.ensias.healthcareapp.adapter.MedicineAdapter;
 import com.ensias.healthcareapp.model.Medicine;
 import com.ensias.healthcareapp.receiver.MedicineReminderReceiver;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import android.widget.EditText;
-import android.widget.TimePicker;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 public class MedicinesActivity extends AppCompatActivity {
@@ -52,10 +49,12 @@ public class MedicinesActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewMedicines);
         fab = findViewById(R.id.fabAddMedicine);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        prefs = getSharedPreferences("MedPrefs", MODE_PRIVATE);
+        // ✅ Уникальное хранилище для каждого пользователя
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        prefs = getSharedPreferences("MedPrefs_" + userId, MODE_PRIVATE);
+
         loadMedicines();
 
         adapter = new MedicineAdapter(this, medicineList);
@@ -63,7 +62,6 @@ public class MedicinesActivity extends AppCompatActivity {
 
         fab.setOnClickListener(v -> showAddMedicineDialog());
     }
-
 
     public void saveMedicines() {
         String json = new Gson().toJson(medicineList);
@@ -93,7 +91,6 @@ public class MedicinesActivity extends AppCompatActivity {
         etTimesPerDay.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 timeContainer.removeAllViews();
-
                 int count;
                 try {
                     count = Integer.parseInt(etTimesPerDay.getText().toString());
@@ -140,13 +137,12 @@ public class MedicinesActivity extends AppCompatActivity {
                             cal.set(Calendar.MINUTE, minute);
                             cal.set(Calendar.SECOND, 0);
 
-                            timesForAlarm.add(cal); // для будильника
-                            stringTimes.add(String.format("%02d:%02d", hour, minute)); // для сохранения
+                            timesForAlarm.add(cal); // для напоминания
+                            stringTimes.add(String.format("%02d:%02d", hour, minute));
                         }
                     }
 
-                    Medicine med = new Medicine(name, dosage, stringTimes); // ✅ теперь правильно
- // где times — List<String>
+                    Medicine med = new Medicine(name, dosage, stringTimes);
                     medicineList.add(med);
                     adapter.notifyItemInserted(medicineList.size() - 1);
                     saveMedicines();
@@ -161,7 +157,6 @@ public class MedicinesActivity extends AppCompatActivity {
     private void scheduleRemindersCustomTimes(String medName, List<Calendar> timesPerDay, int durationDays) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        // Проверка разрешения на точные напоминания
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
                 Toast.makeText(this, "Разрешите точные напоминания в настройках", Toast.LENGTH_LONG).show();
@@ -181,7 +176,6 @@ public class MedicinesActivity extends AppCompatActivity {
                 int reqCode = (medName + cal.getTimeInMillis()).hashCode();
                 PendingIntent pi = PendingIntent.getBroadcast(this, reqCode, intent, PendingIntent.FLAG_IMMUTABLE);
 
-                // Здесь безопасно использовать setExact
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi);
             }
         }
