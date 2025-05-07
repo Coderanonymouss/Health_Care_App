@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_dark_background"
-    tools:context=".ConfirmedAppointmensActivity">
+    tools:context=".activity.ConfirmedAppointmensActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/confirmed_appointements_list"

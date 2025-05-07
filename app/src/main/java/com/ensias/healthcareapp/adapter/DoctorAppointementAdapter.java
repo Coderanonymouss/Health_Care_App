@@ -1,5 +1,6 @@
     package com.ensias.healthcareapp.adapter;
 
+    import android.annotation.SuppressLint;
     import android.content.Context;
     import android.content.Intent;
     import android.net.Uri;
@@ -10,7 +11,7 @@
     import android.widget.ImageView;
     import android.widget.TextView;
 
-    import com.ensias.healthcareapp.ChatActivity;
+    import com.ensias.healthcareapp.activity.ChatActivity;
     import com.ensias.healthcareapp.R;
     import com.ensias.healthcareapp.model.ApointementInformation;
     import com.ensias.healthcareapp.model.Doctor;
@@ -42,7 +43,7 @@
         }
 
         @Override
-        protected void onBindViewHolder(@NonNull MyDoctorAppointementHolder myDoctorAppointementHolder, int position, @NonNull final ApointementInformation apointementInformation) {
+        protected void onBindViewHolder(@NonNull MyDoctorAppointementHolder myDoctorAppointementHolder, @SuppressLint("RecyclerView") int position, @NonNull final ApointementInformation apointementInformation) {
             myDoctorAppointementHolder.dateAppointement.setText(apointementInformation.getTime());
             myDoctorAppointementHolder.patientName.setText(apointementInformation.getPatientName());
             myDoctorAppointementHolder.appointementType.setText(apointementInformation.getApointementType());

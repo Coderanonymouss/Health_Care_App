@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".FicheActivity">
+    tools:context=".activity.FicheActivity">
 
     <EditText
         android:id="@+id/fiche_maladie"

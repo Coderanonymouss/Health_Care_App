@@ -1,6 +1,5 @@
 package com.ensias.healthcareapp;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ensias.healthcareapp.Common.Common;
+import com.ensias.healthcareapp.activity.TestActivity;
 import com.ensias.healthcareapp.model.Doctor;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchPatActivity"
+    tools:context=".activity.SearchPatActivity"
     android:background="#F4F3F3"
     android:id="@+id/id_show"
     tools:actionBarNavMode="standard"

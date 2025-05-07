@@ -1,40 +1,29 @@
 package com.ensias.healthcareapp.adapter;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ensias.healthcareapp.AppointementActivity;
-import com.ensias.healthcareapp.ChatActivity;
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.HomeActivity;
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.SearchPatActivity;
-import com.ensias.healthcareapp.TestActivity;
+import com.ensias.healthcareapp.activity.TestActivity;
 import com.ensias.healthcareapp.model.Doctor;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 

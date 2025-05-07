@@ -3,8 +3,6 @@ package com.ensias.healthcareapp.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.Tag;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ensias.healthcareapp.ChatActivity;
+import com.ensias.healthcareapp.activity.ChatActivity;
 import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.model.Doctor;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;

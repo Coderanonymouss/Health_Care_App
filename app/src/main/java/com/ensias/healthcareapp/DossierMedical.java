@@ -6,17 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ensias.healthcareapp.Common.Common;
+import com.ensias.healthcareapp.activity.FicheActivity;
+import com.ensias.healthcareapp.activity.PatientInfoActivity;
 import com.ensias.healthcareapp.adapter.ConsultationFragmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

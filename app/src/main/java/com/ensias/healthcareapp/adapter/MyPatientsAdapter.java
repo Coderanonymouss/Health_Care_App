@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ensias.healthcareapp.ChatActivity;
 import com.ensias.healthcareapp.DossierMedical;
 import com.ensias.healthcareapp.FicheInfo;
 import com.ensias.healthcareapp.R;
+import com.ensias.healthcareapp.activity.ChatActivity;
 import com.ensias.healthcareapp.model.Fiche;
 import com.ensias.healthcareapp.model.Patient;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;

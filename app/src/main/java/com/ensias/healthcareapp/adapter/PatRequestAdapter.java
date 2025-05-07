@@ -1,7 +1,5 @@
 package com.ensias.healthcareapp.adapter;
 
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ensias.healthcareapp.MainActivity;
-import com.ensias.healthcareapp.PatientRequestPage;
 import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.model.Doctor;
 import com.ensias.healthcareapp.model.Patient;
@@ -29,11 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static androidx.core.content.ContextCompat.startActivities;
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class PatRequestAdapter extends FirestoreRecyclerAdapter<Request, PatRequestAdapter.PatRequesteHolder> {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();

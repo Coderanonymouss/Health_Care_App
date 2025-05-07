@@ -4,21 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppointementActivity">
+    tools:context=".activity.AppointementActivity">
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose your appointement time :"
-        android:textSize="@dimen/default_title_size" />
+        android:text="@string/choose_your_appointement_time"
+        android:textSize="@dimen/default_title_size"
+        tools:ignore="MissingConstraints" />
 
     <ScrollView
         android:layout_width="405dp"
         android:layout_height="583dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="1dp">
+        tools:layout_editor_absoluteX="1dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:id="@+id/listDate"

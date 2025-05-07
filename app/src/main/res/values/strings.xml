@@ -84,6 +84,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="messages">Messages</string>
+    <string name="welcome_user">Welcome User</string>
+    <string name="choose_an_option">Choose an option</string>
+    <string name="medical_folder">Medical Folder</string>
+    <string name="my_doctors">My Doctors</string>
+    <string name="appointement">Appointement</string>
+    <string name="signout">SignOut</string>
+    <string name="profile">Profile</string>
+    <string name="todo">TODO</string>
+    <string name="choose_your_appointement_time">Choose your appointement time :</string>
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->
 </resources>
