@@ -102,8 +102,11 @@
     <string name="confirm_password">Құпия сөзді қайтала</string>
     <string name="password">Құпия сөз</string>
     <string name="email">Email</string>
-    <string name="sign_up_Hight">Тіркелу</string>
+    <string name="sign_up_Hight">Qamqor</string>
     <string name="qamqor_logo">Qamqor Logo</string>
+    <string name="salem">Сәлем, қолданушы!</string>
+    <string name="edit">Edit</string>
+    <string name="my_profile">Менің профилім</string>
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->
 </resources>

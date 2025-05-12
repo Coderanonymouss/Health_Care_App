@@ -2,6 +2,7 @@ package com.ensias.healthcareapp.activity;
 
 import static com.ensias.healthcareapp.fireStoreApi.UserHelper.UsersRef;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView resetPasswordBtn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

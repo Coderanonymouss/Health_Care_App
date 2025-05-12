@@ -1,93 +1,88 @@
 package com.ensias.healthcareapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.DatePickerDialog;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.DatePicker;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.databinding.ActivityDoctorHomeBinding;
+import com.ensias.healthcareapp.R;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
+public class DoctorHomeActivity extends AppCompatActivity {
 
-public class DoctorHomeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+    MaterialButton signOutBtn;
+    MaterialCardView cardPatients, cardAppointments, cardCalendar, cardProfile;
 
-    private ActivityDoctorHomeBinding binding; // ✅ правильный биндинг
-
-    static String doc;
-
+    @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDoctorHomeBinding.inflate(getLayoutInflater()); // ✅ биндим layout активности
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_doctor_home);
 
-        // Установить глобальные переменные
-        Common.CurreentDoctor = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView welcomeText = findViewById(R.id.welcomeTitle);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            FirebaseFirestore.getInstance()
+                    .collection("User")
+                    .document(uid)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String fullName = documentSnapshot.getString("fullName");
+                            if (fullName != null) {
+                                welcomeText.setText("Сәлем, " + fullName + "!");
+                            } else {
+                                welcomeText.setText("Сәлем, доктор!");
+                            }
+                        } else {
+                            welcomeText.setText("Сәлем, доктор!");
+                        }
+                    })
+                    .addOnFailureListener(e -> welcomeText.setText("Сәлем, доктор!"));
+        }
+
+        // 🔐 Авторизация
+        Common.CurrentUserid = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Common.CurrentUserType = "doctor";
 
-        // Профиль
-        binding.profile.setOnClickListener(v -> {
-            startActivity(new Intent(this, ProfileDoctorActivity.class));
-        });
-
-        // Календарь
-        binding.myCalendarBtn.setOnClickListener(v -> {
-            Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, MyCalendarDoctorActivity.class));
-        });
-
-        // Выход из аккаунта
-        binding.signOutBtn.setOnClickListener(v -> {
+        // 🟢 Кнопка "Шығу"
+        signOutBtn = findViewById(R.id.signOutBtn);
+        signOutBtn.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         });
 
-        // Подтвержденные записи
-        binding.btnRequst.setOnClickListener(v -> {
-            startActivity(new Intent(this, ConfirmedAppointmensActivity.class));
-        });
+        // 👨‍⚕️ Пациенттер
+        cardPatients = findViewById(R.id.card_patients);
+        cardPatients.setOnClickListener(v ->
+                startActivity(new Intent(this, MyPatientsActivity.class)));
 
-        // Список пациентов
-        binding.listPatients.setOnClickListener(v -> {
-            startActivity(new Intent(this, MyPatientsActivity.class));
-        });
+        // 📅 Қабылдаулар
+        cardAppointments = findViewById(R.id.card_appointments);
+        cardAppointments.setOnClickListener(v ->
+                startActivity(new Intent(this, DoctorAppointementActivity.class)));
 
-        // Переход к приему
-        binding.appointement.setOnClickListener(v -> {
-            startActivity(new Intent(this, DoctorAppointementActivity.class));
-        });
-    }
+        // 🗓 Күнтізбе
+        cardCalendar = findViewById(R.id.card_calendar);
+        cardCalendar.setOnClickListener(v ->
+                startActivity(new Intent(this, MyCalendarDoctorActivity.class)));
 
-    public void showDatePickerDialog(Context context) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                context,
-                this,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        );
-        datePickerDialog.show();
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = "month_day_year: " + month + "_" + dayOfMonth + "_" + year;
-        openPage(view.getContext(), doc, date);
-    }
-
-    private void openPage(Context context, String doctorEmail, String day) {
-        Intent intent = new Intent(context, AppointementActivity.class);
-        intent.putExtra("key1", doctorEmail);
-        intent.putExtra("key2", day);
-        intent.putExtra("key3", "doctor");
-        context.startActivity(intent);
+        // 👤 Профиль
+        cardProfile = findViewById(R.id.card_profile);
+        cardProfile.setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileDoctorActivity.class)));
     }
 }

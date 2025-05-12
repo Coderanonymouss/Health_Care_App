@@ -62,8 +62,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginStart="298dp"
             android:layout_marginLeft="298dp"
-            android:visibility="gone"
-            android:text="Add Doctor" />
+            android:text="Add Doctor"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/appointemenBtn"

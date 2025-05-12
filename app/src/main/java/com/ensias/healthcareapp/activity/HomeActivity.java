@@ -1,113 +1,113 @@
 package com.ensias.healthcareapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.Common.Common;
 import com.ensias.healthcareapp.DossierMedical;
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.model.VideoLesson;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class HomeActivity extends AppCompatActivity {
-    Button SignOutBtn;
-    Button searchPatBtn;
-    Button myDoctors;
-    Button BtnRequst;
-    Button profile;
-    Button appointment;
-    Button videoLesson;
-    Button medicines;
+
+    MaterialButton signOutBtn;
+    MaterialCardView cardMyDoctors, cardMedicines, cardVideoLesson,
+            cardProfile, cardSearch, cardDossier;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        appointment = findViewById(R.id.appointement2);
-        appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent k = new Intent(HomeActivity.this, PatientAppointementsActivity.class);
-                startActivity(k);
-            }
-        });
-        searchPatBtn = (Button)findViewById(R.id.searchBtn);
-        searchPatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent k = new Intent(HomeActivity.this, SearchPatActivity.class);
-                startActivity(k);
-            }
-        });
-        SignOutBtn=findViewById(R.id.signOutBtn);
-        SignOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
+        TextView welcomeText = findViewById(R.id.welcomeTitle);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            FirebaseFirestore.getInstance()
+                    .collection("User")
+                    .document(uid)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String fullName = documentSnapshot.getString("fullName");
+                            if (fullName != null) {
+                                welcomeText.setText("Сәлем, " + fullName + "!");
+                            } else {
+                                welcomeText.setText("Сәлем, қолданушы!");
+                            }
+                        } else {
+                            welcomeText.setText("Сәлем, қолданушы!");
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        welcomeText.setText("Сәлем, қолданушы!");
+                    });
+        }
+
+
+        // 🔐 Авторизация
+        Common.CurrentUserid = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        FirebaseFirestore.getInstance().collection("User")
+                .document(Common.CurrentUserid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    Common.CurrentUserName = documentSnapshot.getString("name");
+                });
+
+        // 🟢 Кнопка "Шығу"
+        signOutBtn = findViewById(R.id.signOutBtn);
+        signOutBtn.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
         });
 
-        myDoctors = (Button)findViewById(R.id.myDoctors);
-        myDoctors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent k = new Intent(HomeActivity.this, MyDoctorsAvtivity.class);
-                startActivity(k);
-            }
-        });
-        BtnRequst = findViewById(R.id.btnRequst);
-        BtnRequst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DossierMedical.class);
-                intent.putExtra("patient_email",FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
-                startActivity(intent);
-            }
-        });
+        // 🩺 "Дәрігерлерім"
+        cardMyDoctors = findViewById(R.id.card_myDoctors);
+        cardMyDoctors.setOnClickListener(v ->
+                startActivity(new Intent(this, MyDoctorsAvtivity.class)));
 
-        profile = findViewById(R.id.profile);
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent k = new Intent(HomeActivity.this, ProfilePatientActivity.class);
-                startActivity(k);
-            }
-        });
+        // 💊 "Дәрілерім"
+        cardMedicines = findViewById(R.id.card_medicines);
+        cardMedicines.setOnClickListener(v ->
+                startActivity(new Intent(this, MedicinesActivity.class)));
 
-        videoLesson = findViewById(R.id.videoLesson);
-        videoLesson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent k = new Intent(HomeActivity.this, PatientVideoLessonActivity.class);
-                startActivity(k);
-            }
-        });
+        // 🎥 "Бейнесабақ"
+        cardVideoLesson = findViewById(R.id.card_videoLesson);
+        cardVideoLesson.setOnClickListener(v ->
+                startActivity(new Intent(this, PatientVideoLessonActivity.class)));
 
-        medicines = findViewById(R.id.medicines);
-        medicines.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent k = new Intent(HomeActivity.this, MedicinesActivity.class);
-                startActivity(k);
-            }
-        });
+        // 👤 "Профиль"
+        cardProfile = findViewById(R.id.card_profile);
+        cardProfile.setOnClickListener(v ->
+                startActivity(new Intent(this, ProfilePatientActivity.class)));
 
-        Common.CurrentUserid= FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-        FirebaseFirestore.getInstance().collection("User").document(Common.CurrentUserid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Common.CurrentUserName = documentSnapshot.getString("name");
-            }
-        });
+        // 🔍 "Іздеу"
+        cardSearch = findViewById(R.id.card_search);
+        cardSearch.setOnClickListener(v ->
+                startActivity(new Intent(this, SearchPatActivity.class)));
 
+        // 📁 "Жазбалар"
+        cardDossier = findViewById(R.id.card_dossier);
+        cardDossier.setOnClickListener(v -> {
+            Intent intent = new Intent(this, DossierMedical.class);
+            intent.putExtra("patient_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+            startActivity(intent);
+        });
     }
 }
