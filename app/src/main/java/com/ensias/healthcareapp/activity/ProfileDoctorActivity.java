@@ -38,11 +38,10 @@ public class ProfileDoctorActivity extends AppCompatActivity {
     private MaterialTextView doctorAddress;
     private MaterialTextView doctorAbout;
     private ImageView doctorImage;
-    StorageReference pathReference ;
+    StorageReference pathReference;
     final String doctorID = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     DocumentReference docRef = db.collection("Doctor").document("" + doctorID + "");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,76 +58,67 @@ public class ProfileDoctorActivity extends AppCompatActivity {
         AlertDialog dialog = new SpotsDialog.Builder().setContext(this).setCancelable(true).build();
         dialog.show();
 
-
-        //display profile image
+        // Display profile image
         String imageId = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-        pathReference = FirebaseStorage.getInstance().getReference().child("DoctorProfile/"+ imageId+".jpg");
-        pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get()
-                        .load(uri)
-                        .placeholder(R.mipmap.ic_launcher)
-                        .fit()
-                        .centerCrop()
-                        .into(doctorImage);//hna fin kayn Image view
-                dialog.dismiss();
-                // profileImage.setImageURI(uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+        pathReference = FirebaseStorage.getInstance().getReference().child("DoctorProfile/" + imageId + ".jpg");
+
+        pathReference.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get()
+                                .load(uri)
+                                .placeholder(R.mipmap.ic_launcher)
+                                .fit()
+                                .centerCrop()
+                                .into(doctorImage);
+                        dialog.dismiss();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        doctorImage.setImageResource(R.drawable.profile); // Заменить на вашу заглушку
+                        dialog.dismiss(); // <-- Обязательно закрыть
+                    }
+                });
 
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                doctorName.setText(documentSnapshot.getString("name"));
-                doctorSpe.setText(documentSnapshot.getString("specialite"));
-                doctorPhone.setText(documentSnapshot.getString("tel"));
-                doctorEmail.setText(documentSnapshot.getString("email"));
-                doctorAddress.setText(documentSnapshot.getString("adresse"));
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    doctorName.setText(documentSnapshot.getString("name"));
+                    doctorSpe.setText(documentSnapshot.getString("specialite"));
+                    doctorPhone.setText(documentSnapshot.getString("tel"));
+                    doctorEmail.setText(documentSnapshot.getString("email"));
+                    doctorAddress.setText(documentSnapshot.getString("adresse"));
+                    doctorAbout.setText(documentSnapshot.getString("about"));
+                }
             }
         });
-        // Find the toolbar view inside the activity layout
+
+        // Toolbar setup
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-        //getSupportActionBar().setDisplayUseLogoEnabled(true);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        // Get access to the custom title view
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
     }
 
-    // Menu icons are inflated just as they were with actionbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
     }
 
-    //Handling Action Bar button click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
-            //Back button
             case R.id.back:
-                //If this activity started from other activity
                 finish();
                 startHomeActivity();
                 return true;
-
             case R.id.edit:
-                //If the edit button is clicked.
                 startEditActivity();
                 return true;
             default:

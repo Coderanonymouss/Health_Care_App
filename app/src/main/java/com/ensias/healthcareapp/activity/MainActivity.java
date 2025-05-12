@@ -1,268 +1,223 @@
 package com.ensias.healthcareapp.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static com.ensias.healthcareapp.fireStoreApi.UserHelper.UsersRef;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.model.User;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.ensias.healthcareapp.activity.DoctorHomeActivity;
+import com.ensias.healthcareapp.activity.FirstSigninActivity;
+import com.ensias.healthcareapp.activity.HomeActivity;
+import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.*;
+import com.google.firebase.firestore.*;
 
 public class MainActivity extends AppCompatActivity {
-    private static int RC_SIGN_IN = 100;
-    private FirebaseAuth mAuth;
-    private Button signUpBtn;
-    private EditText emailText;
-    private EditText passwordText;
-    private Button loginBtn;
-    private Button creatBtn;
-    private EditText secondPass;
-    private EditText confirme;
-    SignInButton signInButton;
-    FirebaseFirestore  db = FirebaseFirestore.getInstance();
-    private CollectionReference UsersRef = db.collection("User");
+    private static final int RC_SIGN_IN = 100;
 
-    GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference usersRef = db.collection("User");
+
+    private EditText emailText, passwordText, confirmPassword;
+    private Button loginBtn, createAccountBtn, signUpBtn, resendVerificationBtn;
+    private SignInButton googleSignInBtn;
+    private GoogleSignInClient googleSignInClient;
+
+    private ProgressBar progressBar;
+    private ImageView logoImage;
+
+    TextView resetPasswordBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+
+        // UI elements
+        logoImage = findViewById(R.id.logoImage);
+        emailText = findViewById(R.id.editText2);
+        passwordText = findViewById(R.id.editText);
+        confirmPassword = findViewById(R.id.editText3);
+        confirmPassword.setVisibility(View.GONE);
+        resetPasswordBtn = findViewById(R.id.ResetPasswordBtn);
+        progressBar = findViewById(R.id.progressBar);
+
+
+        loginBtn = findViewById(R.id.LoginBtn);
+        signUpBtn = findViewById(R.id.SignUpBtn);
+        createAccountBtn = findViewById(R.id.CreateAccount);
+        resendVerificationBtn = findViewById(R.id.ResendVerificationBtn);
+        resendVerificationBtn.setVisibility(View.GONE);
+        resendVerificationBtn.setPaintFlags(resendVerificationBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        googleSignInBtn = findViewById(R.id.sign_in_button);
+        TextView googleText = (TextView) googleSignInBtn.getChildAt(0);
+        googleText.setText("Sign in with Google");
+
+        // Animation
+        Animation logoAnim = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
+        logoImage.startAnimation(logoAnim);
+
+        // Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-       mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        // сброс пороль
+        resetPasswordBtn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ResetPasswordActivity.class));
+        });
 
-        mAuth = FirebaseAuth.getInstance();
+        // Login
+        loginBtn.setOnClickListener(v -> {
+            String email = emailText.getText().toString();
+            String password = passwordText.getText().toString();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        confirme = (EditText)findViewById(R.id.editText3);
-        confirme.setVisibility(View.INVISIBLE);
-        signInButton = findViewById(R.id.sign_in_button);
+            if (email.isEmpty() || password.isEmpty()) {
+                showToast("Почта мен құпиясөзді енгізіңіз");
+                return;
+            }
 
-        TextView textView = (TextView) signInButton.getChildAt(0);
-        textView.setText("Or Sign in with Google");
-
-        emailText= (EditText) findViewById(R.id.editText2);
-        passwordText= (EditText) findViewById(R.id.editText);
-        secondPass= (EditText) findViewById(R.id.editText3);
-        signUpBtn =(Button)findViewById(R.id.SignUpBtn);
-        loginBtn = (Button)findViewById(R.id.LoginBtn);
-        creatBtn = findViewById(R.id.CreateAccount);
-        signUpBtn.setVisibility(View.GONE);
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email=emailText.getText().toString();
-                String password=passwordText.getText().toString();
-                String confirmPass = secondPass.getText().toString();
-                if(!email.isEmpty() && !password.isEmpty() && password.equals(confirmPass)){
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d("TAG", "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(MainActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
-                                }
-
-                                // ...
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null && user.isEmailVerified()) {
+                                updateUI(user);
+                            } else {
+                                showToast("Email-ді растаңыз");
+                                resendVerificationBtn.setVisibility(View.VISIBLE);
                             }
-                        });
-            }else{
-                    Toast.makeText(MainActivity.this, "vous devez rensegner toutes les champs",
-                            Toast.LENGTH_SHORT).show();
-                    if(!password.equals(confirmPass)){
-                        Toast.makeText(MainActivity.this, "Confirm pass don't match password",
-                                Toast.LENGTH_SHORT).show();
+                        } else {
+                            showToast("Кіру сәтсіз");
+                        }
+                    });
+        });
+
+        // Switch to Sign Up
+        createAccountBtn.setOnClickListener(v -> {
+            boolean creating = createAccountBtn.getText().toString().equals("Create Account");
+            confirmPassword.setVisibility(creating ? View.VISIBLE : View.GONE);
+            signUpBtn.setVisibility(creating ? View.VISIBLE : View.GONE);
+            loginBtn.setVisibility(creating ? View.GONE : View.VISIBLE);
+            resendVerificationBtn.setVisibility(View.GONE);
+            googleSignInBtn.setVisibility(creating ? View.GONE : View.VISIBLE);
+            createAccountBtn.setText(creating ? "Back to login" : "Create Account");
+        });
+
+        // Register new user
+        createAccountBtn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+        });
+
+        // Resend verification
+        resendVerificationBtn.setOnClickListener(v -> {
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null && !user.isEmailVerified()) {
+                user.sendEmailVerification().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        showToast("Хат қайта жіберілді");
+                    } else {
+                        showToast("Қате орын алды");
                     }
-                }
+                });
             }
         });
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email=emailText.getText().toString();
-                String password=passwordText.getText().toString();
-                if(!email.isEmpty() && !password.isEmpty() ){
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d("TAG", "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("TAG", "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(MainActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
-
-                                }
-
-                            }
-                        });
-            }else{
-                    Toast.makeText(MainActivity.this, "vous devez rensegnier toutes les champs",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
+        // Google Sign-in
+        googleSignInBtn.setOnClickListener(v -> {
+            Intent intent = googleSignInClient.getSignInIntent();
+            startActivityForResult(intent, RC_SIGN_IN);
         });
-
-        creatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                emailText.setText("");
-                passwordText.setText("");
-                if (creatBtn.getText().toString().equals("Create Account")){
-                    confirme.setVisibility(View.VISIBLE);
-                    signUpBtn.setVisibility(View.VISIBLE);
-                    loginBtn.setVisibility(View.INVISIBLE);
-                    creatBtn.setText("Back to login");
-                    signInButton.setVisibility(View.GONE);
-                }
-                else{
-                    confirme.setVisibility(View.INVISIBLE);
-                    signUpBtn.setVisibility(View.INVISIBLE);
-                    loginBtn.setVisibility(View.VISIBLE);
-                    creatBtn.setText("Create Account");
-                    signInButton.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent,RC_SIGN_IN);
-            }
-        });
-
     }
+
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            user.reload().addOnCompleteListener(task -> {
+                if (user.isEmailVerified()) updateUI(user);
+            });
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                updateUI(user);
+            } else {
+                Snackbar.make(findViewById(R.id.main_layout), "Google арқылы кіру сәтсіз", Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                firebaseAuthWithGoogle(task.getResult(ApiException.class));
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("TAG", "Google sign in failed", e);
-                // ...
+                Log.w("TAG", "Google кіру қатесі", e);
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
+    private void updateUI(FirebaseUser currentUser) {
+        if (currentUser == null) return;
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithCredential:failure", task.getException());
-                            Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+        progressBar.setVisibility(View.VISIBLE);
 
-                        // ..
+        usersRef.document(currentUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            progressBar.setVisibility(View.GONE);
+
+            if (documentSnapshot.exists()) {
+                Boolean firstCompleted = documentSnapshot.getBoolean("firstSigninCompleted");
+                if (firstCompleted != null && firstCompleted) {
+                    String role = documentSnapshot.getString("type");
+                    if ("Patient".equals(role)) {
+                        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                    } else if ("Doctor".equals(role)) {
+                        startActivity(new Intent(MainActivity.this, DoctorHomeActivity.class));
+                    } else {
+                        startActivity(new Intent(MainActivity.this, FirstSigninActivity.class));
                     }
-                });
-    }
-    private void updateUI(final FirebaseUser currentUser) {
-        if(currentUser!=null){
-            try {
-                UsersRef.document(currentUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            UsersRef.document(currentUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    User user=documentSnapshot.toObject(User.class);
-                                    if(user.getType().equals("Patient")){
-                                        Intent k = new Intent(MainActivity.this, HomeActivity.class);
-                                        startActivity(k);
-                                    }else{
-                                        Intent k = new Intent(MainActivity.this, DoctorHomeActivity.class);
-                                        startActivity(k);
-                                        //Snackbar.make(findViewById(R.id.main_layout), "Doctor interface entraint de realisation", Snackbar.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-
-
-                        } else {
-                            Intent k = new Intent(MainActivity.this, FirstSigninActivity.class);
-                            startActivity(k);
-                        }
-                    }
-                });
-            } catch(Exception e) {
-                e.printStackTrace();
+                } else {
+                    startActivity(new Intent(MainActivity.this, FirstSigninActivity.class));
+                }
+            } else {
+                startActivity(new Intent(MainActivity.this, FirstSigninActivity.class));
             }
+        }).addOnFailureListener(e -> {
+            progressBar.setVisibility(View.GONE);
+            e.printStackTrace();
+            showToast("Профиль оқу қатесі");
+        });
+    }
 
-        }
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

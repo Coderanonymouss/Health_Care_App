@@ -6,6 +6,8 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -22,6 +24,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".activity.ResetPasswordActivity"/>
+        <activity android:name=".activity.RegisterActivity"/>
+
         <activity android:name=".activity.MyCalendarDoctorActivity" />
         <activity android:name=".activity.TestActivity" />
         <activity android:name=".activity.AppointementActivity" />

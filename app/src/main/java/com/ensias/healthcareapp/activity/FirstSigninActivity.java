@@ -1,98 +1,121 @@
 package com.ensias.healthcareapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.fireStoreApi.DoctorHelper;
-import com.ensias.healthcareapp.fireStoreApi.PatientHelper;
-import com.ensias.healthcareapp.fireStoreApi.UserHelper;
+import com.ensias.healthcareapp.activity.MainActivity;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.*;
 
-import static android.widget.AdapterView.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirstSigninActivity extends AppCompatActivity {
-    private static final String TAG = "FirstSigninActivity";
-    private EditText fullName;
-    private EditText birthday;
-    private EditText teL;
-    private Button btn;
+
+    private TextInputEditText fullName, birthday, tel;
+    private Spinner spinner, specialiteSpinner;
+    private Button confirmBtn;
+    private FirebaseFirestore db;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_signin);
-        btn = (Button) findViewById(R.id.confirmeBtn);
-        fullName = (EditText) findViewById(R.id.firstSignFullName);
-        birthday = (EditText) findViewById(R.id.firstSignBirthDay);
-        teL = (EditText) findViewById(R.id.firstSignTel);
 
-        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
+        fullName = findViewById(R.id.firstSignFullName);
+        birthday = findViewById(R.id.firstSignBirthDay);
+        tel = findViewById(R.id.firstSignTel);
+        spinner = findViewById(R.id.spinner);
+        specialiteSpinner = findViewById(R.id.specialite_spinner);
+        confirmBtn = findViewById(R.id.confirmeBtn);
+
+        db = FirebaseFirestore.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Установка адаптера для ролей
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.planets_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        final Spinner specialiteList = (Spinner) findViewById(R.id.specialite_spinner);
-        ArrayAdapter<CharSequence> adapterSpecialiteList = ArrayAdapter.createFromResource(this,
-                R.array.specialite_spinner, android.R.layout.simple_spinner_item);
-        adapterSpecialiteList.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        specialiteList.setAdapter(adapterSpecialiteList);
-        String newAccountType = spinner.getSelectedItem().toString();
+        // Адаптер для специальностей
+        ArrayAdapter<CharSequence> adapterSpecialite = ArrayAdapter.createFromResource(
+                this, R.array.specialite_spinner, android.R.layout.simple_spinner_item);
+        adapterSpecialite.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        specialiteSpinner.setAdapter(adapterSpecialite);
 
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = spinner.getSelectedItem().toString();
-                Log.e(TAG, "onItemSelected:" + selected);
-                if (selected.equals("Doctor")) {
-                    specialiteList.setVisibility(View.VISIBLE);
-                } else {
-                    specialiteList.setVisibility(View.GONE);
-                }
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                String role = spinner.getSelectedItem().toString();
+                specialiteSpinner.setVisibility(role.equals("Doctor") ? android.view.View.VISIBLE : android.view.View.GONE);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                specialiteList.setVisibility(View.GONE);
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        birthday.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                String fullname, birtDay, tel, type, specialite;
-                fullname = fullName.getText().toString();
-                birtDay = birthday.getText().toString();
-                tel = teL.getText().toString();
-                type = spinner.getSelectedItem().toString();
-                specialite = specialiteList.getSelectedItem().toString();
-                UserHelper.addUser(fullname, birtDay, tel, type);
-                if (type.equals("Patient")) {
-                    PatientHelper.addPatient(fullname, "adress", tel);
-                    System.out.println("Add patient " + fullname + " to patient collection");
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    FirstSigninActivity.this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        String selectedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                        birthday.setText(selectedDate);
+                    },
+                    year, month, day);
+            datePickerDialog.show();
+        });
 
-                } else {
-                    DoctorHelper.addDoctor(fullname, "adress", tel, specialite);
-                }
-                Intent k = new Intent(FirstSigninActivity.this, MainActivity.class);
-                startActivity(k);
+        confirmBtn.setOnClickListener(v -> {
+            String name = fullName.getText().toString().trim();
+            String birth = birthday.getText().toString().trim();
+            String phone = tel.getText().toString().trim();
+            String role = spinner.getSelectedItem().toString();
+            String specialite = specialiteSpinner.getSelectedItem().toString();
+
+            if (name.isEmpty() || birth.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(this, "Барлық өрісті толтырыңыз", Toast.LENGTH_SHORT).show();
+                return;
             }
 
+            if (firebaseUser != null) {
+                Map<String, Object> userData = new HashMap<>();
+                userData.put("fullName", name);
+                userData.put("birthday", birth);
+                userData.put("tel", phone);
+                userData.put("type", role);
+                userData.put("firstSigninCompleted", true);
+                if (role.equals("Doctor")) {
+                    userData.put("specialite", specialite);
+                }
 
+                db.collection("User").document(firebaseUser.getUid())
+                        .set(userData, SetOptions.merge())
+                        .addOnSuccessListener(unused -> {
+                            Toast.makeText(this, "Анкета сақталды", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(this, MainActivity.class));
+                            finish();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Сақтау кезінде қате болды", Toast.LENGTH_SHORT).show();
+                            Log.e("Firestore", "Error saving user data", e);
+                        });
+            } else {
+                Toast.makeText(this, "Қолданушы табылмады", Toast.LENGTH_SHORT).show();
+            }
         });
     }
-
 }

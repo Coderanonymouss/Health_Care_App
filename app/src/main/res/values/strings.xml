@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Health Care App</string>
+    <string name="app_name">Qamqor</string>
     <string name="main_activity_description">Discute avec tes mentors, tout simplement.</string>
 
     <string name="login">Connexion</string>
@@ -83,16 +83,27 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="messages">Messages</string>
-    <string name="welcome_user">Welcome User</string>
+    <string name="messages">Хабарлама</string>
+    <string name="welcome_user">Сәлем</string>
     <string name="choose_an_option">Choose an option</string>
     <string name="medical_folder">Medical Folder</string>
     <string name="my_doctors">My Doctors</string>
     <string name="appointement">Appointement</string>
-    <string name="signout">SignOut</string>
-    <string name="profile">Profile</string>
+    <string name="signout">Шығу</string>
+    <string name="profile">Профиль</string>
     <string name="todo">TODO</string>
     <string name="choose_your_appointement_time">Choose your appointement time :</string>
+    <string name="birthday">Туылған күн</string>
+    <string name="resetpassword">Құпия сөзді ұмыттыңыз ба?</string>
+    <string name="resend_verification">Хабарламаны қайта жіберу</string>
+    <string name="sign_up">ТІРКЕЛУ</string>
+    <string name="sign_up_btn">Тіркелу</string>
+    <string name="login_btn">КІРУ</string>
+    <string name="confirm_password">Құпия сөзді қайтала</string>
+    <string name="password">Құпия сөз</string>
+    <string name="email">Email</string>
+    <string name="sign_up_Hight">Тіркелу</string>
+    <string name="qamqor_logo">Qamqor Logo</string>
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->
 </resources>

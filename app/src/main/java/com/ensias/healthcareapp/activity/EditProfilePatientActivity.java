@@ -1,257 +1,188 @@
 package com.ensias.healthcareapp.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.model.UploadImage;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.*;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.google.firebase.firestore.*;
+import com.google.firebase.storage.*;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import java.util.List;
+import java.util.Locale;import com.google.android.gms.location.*;
+
 
 public class EditProfilePatientActivity extends AppCompatActivity {
+
     private static final int PICK_IMAGE_REQUEST = 1;
-    private static final String TAG = "EditProfileDoctorActivity";
+    private static final int LOCATION_REQUEST_CODE = 100;
+    private static final String TAG = "EditProfilePatient";
+
+    private FusedLocationProviderClient fusedLocationClient;
+
     private ImageView profileImage;
     private ImageButton selectImage;
     private Button updateProfile;
-    private TextInputEditText doctorName;
-    private TextInputEditText doctorEmail;
-    private TextInputEditText doctorPhone;
-    private TextInputEditText doctorAddress;
-    final String currentDoctorUID = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-    final String doctorID = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
+    private TextInputEditText nameText, phoneText, addressText;
+    private TextInputLayout addressLayout;
+
     private Uri uriImage;
-
-    private StorageReference pStorageRef;
-    private DatabaseReference pDatabaseRef;
-    private FirebaseFirestore doctorRef;
-    private StorageReference pathReference;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    private StorageReference storageRef = storage.getReference();
-    private DatabaseReference currentUserImg;
-
+    private FirebaseFirestore firestore;
+    private StorageReference storageRef;
+    private String currentUserEmail;
+    private LocationManager locationManager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_patient);
-        doctorRef = FirebaseFirestore.getInstance();
+
+        firestore = FirebaseFirestore.getInstance();
+        currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
         profileImage = findViewById(R.id.image_profile);
         selectImage = findViewById(R.id.select_image);
         updateProfile = findViewById(R.id.update);
-        doctorName = findViewById(R.id.nameText);
-        doctorPhone = findViewById(R.id.phoneText);
-        ///doctorEmail = findViewById(R.id.emailText);
-        doctorAddress = findViewById(R.id.addressText);
+        nameText = findViewById(R.id.nameText);
+        phoneText = findViewById(R.id.phoneText);
+        addressText = findViewById(R.id.addressText);
+        addressLayout = findViewById(R.id.address);
 
-        pStorageRef = FirebaseStorage.getInstance().getReference("DoctorProfile");
-        pDatabaseRef = FirebaseDatabase.getInstance().getReference("DoctorProfile");
+        storageRef = FirebaseStorage.getInstance().getReference("PatientProfile");
 
-        //get the default doctor's informations from ProfileDoctorActivity
-        Intent intent = getIntent(); //get the current intent
-        String current_name = intent.getStringExtra("CURRENT_NAME");
-        String current_phone = intent.getStringExtra("CURRENT_PHONE");
-        String current_address = intent.getStringExtra("CURRENT_ADDRESS");
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        //Set the default informtions in he text fields
-        doctorName.setText(current_name);
-        doctorPhone.setText(current_phone);
-        doctorAddress.setText(current_address);
-        /*
-        currentUserImg = FirebaseDatabase.getInstance().getReference("DoctorProfile").child("1590965871687");
-        Glide.with(this)
-                .load(currentUserImg)
-                .into(profileImage);
-                   */
-        String userPhotoPath = currentDoctorUID + ".jpg";
-        pathReference = storageRef.child("DoctorProfile/" + userPhotoPath); //Doctor photo in database
-        pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get()
-                        .load(uri)
-                        .placeholder(R.drawable.doctor)
-                        .fit()
-                        .centerCrop()
-                        .into(profileImage);//Store here the imageView
 
-                // profileImage.setImageURI(uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-                Toast.makeText(EditProfilePatientActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
-            }
+        Intent intent = getIntent();
+        nameText.setText(intent.getStringExtra("CURRENT_NAME"));
+        phoneText.setText(intent.getStringExtra("CURRENT_PHONE"));
+        addressText.setText(intent.getStringExtra("CURRENT_ADDRESS"));
+
+        storageRef.child(currentUserEmail + ".jpg").getDownloadUrl()
+                .addOnSuccessListener(uri -> Picasso.get().load(uri).placeholder(R.drawable.doctor).into(profileImage))
+                .addOnFailureListener(e -> profileImage.setImageResource(R.drawable.ic_anon_user_48dp));
+
+        selectImage.setOnClickListener(v -> openFileChooser());
+
+        updateProfile.setOnClickListener(v -> {
+            uploadProfileImage();
+            updatePatientInfo(
+                    nameText.getText().toString(),
+                    addressText.getText().toString(),
+                    phoneText.getText().toString()
+            );
         });
 
-
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFileChooser();
-
-            }
+        addressLayout.setEndIconOnClickListener(v -> requestLocationPermissionAndFetchAddress());
+        addressLayout.setEndIconOnClickListener(v -> {
+            Log.d("LOCATION_ICON", "Clicked!");
+            requestLocationPermissionAndFetchAddress();
         });
 
-        updateProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String updateAddress = doctorAddress.getText().toString();
-                String updateName = doctorName.getText().toString();
-                //String updateEmail = doctorEmail.getText().toString();
-                String updatePhone = doctorPhone.getText().toString();
-                uploadProfileImage();
-                updateDoctorInfos(updateName, updateAddress, updatePhone);
-            }
-        });
     }
 
-
-    /* Update the doctor info in the database */
-    private void updateDoctorInfos(String name, String address, String phone) {
-        DocumentReference documentReference = doctorRef.collection("Patient").document("" + doctorID + "");
-        documentReference.update("adresse", address);
-        //documentReference.update("email", email);
-        documentReference.update("name", name);
-        documentReference.update("tel", phone)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(EditProfilePatientActivity.this, "Infos Updated", Toast.LENGTH_LONG).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditProfilePatientActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("Androidview", e.getMessage());
-                    }
-                });
-    }
-
-    /* Used to choose a file */
     private void openFileChooser() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    /* used to get the data back */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uriImage = data.getData();
             Picasso.get().load(uriImage).into(profileImage);
         }
     }
 
-    /* Retrieve the extension of the file to upload */
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
+    private void uploadProfileImage() {
+        if (uriImage != null) {
+            StorageReference fileRef = storageRef.child(currentUserEmail + ".jpg");
+            fileRef.putFile(uriImage)
+                    .addOnSuccessListener(task -> Log.d(TAG, "Photo updated"))
+                    .addOnFailureListener(e -> Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
     }
 
-    /* Used to upload the doctor image in the DataBase */
-    private void uploadProfileImage() {
-        /* check if the image is not null */
-        if (uriImage != null) {
-            StorageReference storageReference = pStorageRef.child(currentDoctorUID
-                    + "." + getFileExtension(uriImage));
-            storageReference.putFile(uriImage).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
+    private void updatePatientInfo(String name, String address, String phone) {
+        DocumentReference document = firestore.collection("Patient").document(currentUserEmail);
+        document.update("name", name, "adresse", address, "tel", phone)
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, ProfilePatientActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, e.getMessage());
+                });
+    }
+
+    private void requestLocationPermissionAndFetchAddress() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+        } else {
+            fetchCurrentLocation();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void fetchCurrentLocation() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        Geocoder geocoder = new Geocoder(EditProfilePatientActivity.this, Locale.getDefault());
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(
+                                    location.getLatitude(), location.getLongitude(), 1);
+                            if (addresses != null && !addresses.isEmpty()) {
+                                String fullAddress = addresses.get(0).getAddressLine(0);
+                                addressText.setText(fullAddress);
+                                Toast.makeText(this, "Адрес анықталды", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Адрес табылмады", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Орналасу табылмады", Toast.LENGTH_SHORT).show();
                     }
-                    return pStorageRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        Log.e(TAG, "then: " + downloadUri.toString());
+                });
+    }
 
-                        UploadImage upload = new UploadImage(currentDoctorUID,
-                                downloadUri.toString());
-                        pDatabaseRef.push().setValue(upload);
-                    }
-
-                    /*
-                    if (uriImage != null) {
-                        StorageReference fileReference = pStorageRef.child(System.currentTimeMillis()
-                                + "." + getFileExtension(uriImage));
-                        fileReference.putFile(uriImage)
-                                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        Toast.makeText(EditProfileDoctorActivity.this, "Update Successful", Toast.LENGTH_SHORT)
-                                                .show();
-                                        //Upload the image to the database
-                                        UploadImage uploadImage = new UploadImage(currentDoctorUID, taskSnapshot.getDownloadUrl().toString());
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(EditProfileDoctorActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT)
-                                                .show();
-                                    }
-                                });
-                    }*/
-                    else {
-                        Toast.makeText(EditProfilePatientActivity.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                /*
-                private void getDownloadUrl(StorageReference fileReference) {
-                    fileReference.getDownloadUrl()
-                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    //Log.d(TAG, "onSuccess" + uri);
-                                }
-                            });
-                }
-                 */
-
-
-            });
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            fetchCurrentLocation();
+        } else {
+            Toast.makeText(this, "Орналасу рұқсаты қажет", Toast.LENGTH_SHORT).show();
         }
     }
 }
