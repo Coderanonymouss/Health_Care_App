@@ -31,7 +31,7 @@ public class ConsultationAdapter  extends FirestoreRecyclerAdapter<Fiche,Consult
         FirebaseFirestore.getInstance().document("Doctor/" + model.getDoctor()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                holder.doctor_name.setText(documentSnapshot.getString("name"));
+                holder.doctor_name.setText(documentSnapshot.getString("fullName"));
             }
         });
         holder.type.setText(model.getType());

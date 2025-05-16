@@ -6,29 +6,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_home_gradient"
-    tools:context=".activity.HomeActivity"
+    tools:context=".activity.patient.HomeActivity"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/welcomeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Сәлем, қолданушы!"
-        android:textSize="22sp"
-        android:textColor="@color/primary_dark"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/montserrat_medium"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="Сәлем, қолданушы!"
+        android:textColor="@color/primary_dark"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/welcomeSub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="4dp"
         android:text="Не істегіңіз келеді?"
-        android:textSize="16sp"
         android:textColor="@color/primary_dark"
-        app:layout_constraintTop_toBottomOf="@id/welcomeTitle"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcomeTitle" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"

@@ -1,7 +1,5 @@
 package com.ensias.healthcareapp.activity;
 
-import static com.ensias.healthcareapp.fireStoreApi.UserHelper.UsersRef;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -12,13 +10,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.DoctorHomeActivity;
-import com.ensias.healthcareapp.activity.FirstSigninActivity;
-import com.ensias.healthcareapp.activity.HomeActivity;
+import com.ensias.healthcareapp.activity.doctor.DoctorHomeActivity;
+import com.ensias.healthcareapp.activity.patient.HomeActivity;
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;

@@ -22,4 +22,23 @@
         android:text="Название видеоурока"
         android:textSize="16sp"
         tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/videoTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Название видео"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:textColor="@android:color/black"/>
+    <ImageButton
+        android:id="@+id/btnPlayYouTube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play_circle"
+    android:contentDescription="Play YouTube video"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:layout_gravity="end"
+    android:padding="8dp" />
+
 </LinearLayout>

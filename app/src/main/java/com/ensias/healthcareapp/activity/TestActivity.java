@@ -1,43 +1,21 @@
 package com.ensias.healthcareapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.viewpager.widget.ViewPager;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.adapter.MyViewPagerAdapter;
 import com.ensias.healthcareapp.databinding.ActivityTestBinding;
+import com.ensias.healthcareapp.model.ApointementInformation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
-import static com.ensias.healthcareapp.Common.Common.step;
-import static com.ensias.healthcareapp.fragment.BookingStep1Fragment.spinner;
 
 public class TestActivity extends AppCompatActivity {
 
     private ActivityTestBinding binding;
-    private LocalBroadcastManager localBroadcastManager;
-
-    private final BroadcastReceiver buttonNextReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (step == 2) {
-                Common.currentTimeSlot = intent.getIntExtra(Common.KEY_TIME_SLOT, -1);
-            }
-            binding.btnNextStep.setEnabled(true);
-            setColorButton();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,92 +23,60 @@ public class TestActivity extends AppCompatActivity {
         binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setupStepView();
-        setColorButton();
+        Common.CurrentUserid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Common.CurrentUserName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        // 👉 Подтверждаем при запуске
+        confirmAppointment();
+    }
+    private void confirmAppointment() {
+        String formattedDate = Common.simpleFormat.format(Common.currentDate.getTime());
 
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.registerReceiver(buttonNextReceiver, new IntentFilter(Common.KEY_ENABLE_BUTTON_NEXT));
+        ApointementInformation apInfo = new ApointementInformation();
+        apInfo.setApointementType(Common.Currentaappointementatype);
+        apInfo.setDoctorId(Common.CurreentDoctor);
+        apInfo.setDoctorName(Common.CurrentDoctorName);
+        apInfo.setPatientName(Common.CurrentUserName);
+        apInfo.setPatientId(Common.CurrentUserid);
+        apInfo.setChemin("Doctor/" + Common.CurreentDoctor + "/" + formattedDate + "/" + Common.currentTimeSlot);
+        apInfo.setType("Checked");
+        apInfo.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot) + " at " + formattedDate);
+        apInfo.setSlot((long) Common.currentTimeSlot);
 
-        binding.viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
-        binding.viewPager.setOffscreenPageLimit(2);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                setColorButton();
-            }
+        // 👉 Создаём запись в расписании врача
+        db.collection("Doctor")
+                .document(Common.CurreentDoctor)
+                .collection(formattedDate)
+                .document(String.valueOf(Common.currentTimeSlot))
+                .set(apInfo)
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Консультация успешно назначена!", Toast.LENGTH_SHORT).show();
+                    finish(); // Закрываем экран
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show())
+                .addOnCompleteListener(task -> {
+                    // 👉 Добавляем запрос врачу
+                    db.collection("Doctor")
+                            .document(Common.CurreentDoctor)
+                            .collection("apointementrequest")
+                            .document(apInfo.getTime().replace("/", "_"))
+                            .set(apInfo);
 
-            @Override
-            public void onPageSelected(int position) {
-                binding.stepView.go(position, true);
+                    // 👉 Добавляем отправленный запрос пациенту
+                    db.collection("Patient")
+                            .document(Common.CurrentUserid)
+                            .collection("apointementrequest")
+                            .document(apInfo.getTime().replace("/", "_"))
+                            .set(apInfo);
 
-                binding.btnPreviousStep.setEnabled(position != 0);
-                binding.btnNextStep.setEnabled(position != 2);
-                setColorButton();
-            }
-
-            @Override public void onPageScrollStateChanged(int state) {}
-        });
-
-        binding.btnNextStep.setOnClickListener(v -> {
-            if (step < 3 || step == 0) {
-                step++;
-                Common.Currentaappointementatype = spinner.getSelectedItem().toString();
-                Log.e("Spinnr", Common.Currentaappointementatype);
-
-                if (step == 1 && Common.CurreentDoctor != null) {
-                    Common.currentTimeSlot = -1;
-                    Common.currentDate = Calendar.getInstance();
-                    loadTimeSlotOfDoctor(Common.CurreentDoctor);
-                } else if (step == 2) {
-                    confirmeBooking();
-                }
-
-                binding.viewPager.setCurrentItem(step);
-            }
-        });
-
-        binding.btnPreviousStep.setOnClickListener(v -> {
-            if (step == 3 || step > 0) {
-                step--;
-                binding.viewPager.setCurrentItem(step);
-            }
-        });
-
-        loadTimeSlotOfDoctor("testdoc@testdoc.com");
+                    // 👉 Также добавляем в календарь пациента (для удобства)
+                    db.collection("Patient")
+                            .document(Common.CurrentUserid)
+                            .collection("calendar")
+                            .document(apInfo.getTime().replace("/", "_"))
+                            .set(apInfo);
+                });
     }
 
-    private void confirmeBooking() {
-        Intent intent = new Intent(Common.KEY_CONFIRM_BOOKING);
-        localBroadcastManager.sendBroadcast(intent);
-    }
-
-    @Override
-    protected void onDestroy() {
-        step = 0;
-        localBroadcastManager.unregisterReceiver(buttonNextReceiver);
-        super.onDestroy();
-    }
-
-    private void loadTimeSlotOfDoctor(String doctorId) {
-        Intent intent = new Intent(Common.KEY_DISPLAY_TIME_SLOT);
-        localBroadcastManager.sendBroadcast(intent);
-    }
-
-    private void setColorButton() {
-        binding.btnPreviousStep.setBackgroundResource(
-                binding.btnPreviousStep.isEnabled() ? R.color.design_default_color_primary_dark : R.color.colorAccent
-        );
-
-        binding.btnNextStep.setBackgroundResource(
-                binding.btnNextStep.isEnabled() ? R.color.design_default_color_primary_dark : R.color.colorAccent
-        );
-    }
-
-    private void setupStepView() {
-        List<String> stepList = new ArrayList<>();
-        stepList.add("Purpose");
-        stepList.add("Time and Date");
-        stepList.add("Finish");
-        binding.stepView.setSteps(stepList);
-    }
 }

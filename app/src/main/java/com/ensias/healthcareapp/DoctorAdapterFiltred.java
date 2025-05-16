@@ -60,7 +60,7 @@ public class DoctorAdapterFiltred  extends RecyclerView.Adapter<DoctorAdapterFil
     public void onBindViewHolder(@NonNull DoctoreHolder2 doctoreHolder, int i) {
         final Doctor doctor = mTubeListFiltered.get(i);
         final TextView t = doctoreHolder.title ;
-        doctoreHolder.title.setText(doctor.getName());
+        doctoreHolder.title.setText(doctor.getFullName());
         /// ajouter l'image
 
         String imageId = doctor.getEmail()+".jpg";
@@ -93,14 +93,17 @@ public class DoctorAdapterFiltred  extends RecyclerView.Adapter<DoctorAdapterFil
                 Map<String, Object> note = new HashMap<>();
                 note.put("id_patient", idPat);
                 note.put("id_doctor", idDoc);
-                addRequest.document().set(note)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Snackbar.make(t, "Demande envoyée", Snackbar.LENGTH_SHORT).show();
+                addRequest
+                        .whereEqualTo("id_patient", idPat)
+                        .whereEqualTo("id_doctor", idDoc)
+                        .get()
+                        .addOnSuccessListener(querySnapshot -> {
+                            if (!querySnapshot.isEmpty()) {
+                                doctoreHolder.addDoc.setVisibility(View.GONE); // запрос уже есть
+                            } else {
+                                doctoreHolder.addDoc.setVisibility(View.VISIBLE); // можно отправлять
                             }
                         });
-                doctoreHolder.addDoc.setVisibility(View.INVISIBLE);
             }
         });
         doctoreHolder.appointemenBtn.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +111,7 @@ public class DoctorAdapterFiltred  extends RecyclerView.Adapter<DoctorAdapterFil
             public void onClick(View v) {
                 doc= doctor.getEmail();
                 Common.CurreentDoctor = doctor.getEmail();
-                Common.CurrentDoctorName = doctor.getName();
+                Common.CurrentDoctorName = doctor.getFullName();
                 Common.CurrentPhone = doctor.getTel();
                 openPage(v.getContext());
 
@@ -134,7 +137,7 @@ public class DoctorAdapterFiltred  extends RecyclerView.Adapter<DoctorAdapterFil
                     List<Doctor> filteredList = new ArrayList<>();
                     for(Doctor tube: mTubeList){
                         if(specialiteSearch == false) {
-                            if (tube.getName().toLowerCase().contains(pattern) || tube.getName().toLowerCase().contains(pattern)) {
+                            if (tube.getFullName().toLowerCase().contains(pattern) || tube.getFullName().toLowerCase().contains(pattern)) {
                                 filteredList.add(tube);
                             }
                         }

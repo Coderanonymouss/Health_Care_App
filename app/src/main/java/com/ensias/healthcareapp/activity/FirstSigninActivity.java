@@ -1,5 +1,6 @@
 package com.ensias.healthcareapp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +8,6 @@ import android.util.Log;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.MainActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,6 +63,7 @@ public class FirstSigninActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        // Обработчик для выбора даты рождения
         birthday.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -85,7 +86,7 @@ public class FirstSigninActivity extends AppCompatActivity {
             String phone = tel.getText().toString().trim();
             String role = spinner.getSelectedItem().toString();
             String specialite = specialiteSpinner.getSelectedItem().toString();
-
+            String email =firebaseUser.getEmail();
             if (name.isEmpty() || birth.isEmpty() || phone.isEmpty()) {
                 Toast.makeText(this, "Барлық өрісті толтырыңыз", Toast.LENGTH_SHORT).show();
                 return;
@@ -93,29 +94,62 @@ public class FirstSigninActivity extends AppCompatActivity {
 
             if (firebaseUser != null) {
                 Map<String, Object> userData = new HashMap<>();
+                userData.put("email", email);  // Добавляем email в Map
                 userData.put("fullName", name);
-                userData.put("birthday", birth);
+                userData.put("birthday", birth);  // Timestamp, если дата хранится как Timestamp
                 userData.put("tel", phone);
                 userData.put("type", role);
                 userData.put("firstSigninCompleted", true);
+
                 if (role.equals("Doctor")) {
                     userData.put("specialite", specialite);
-                }
 
-                db.collection("User").document(firebaseUser.getUid())
-                        .set(userData, SetOptions.merge())
-                        .addOnSuccessListener(unused -> {
-                            Toast.makeText(this, "Анкета сақталды", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(this, MainActivity.class));
-                            finish();
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(this, "Сақтау кезінде қате болды", Toast.LENGTH_SHORT).show();
-                            Log.e("Firestore", "Error saving user data", e);
-                        });
+                    // Сохраняем данные для врача в отдельной подколлекции "Doctor"
+                    db.collection("User").document(firebaseUser.getUid())
+                            .set(userData, SetOptions.merge())
+                            .addOnSuccessListener(unused -> {
+                                db.collection("Doctor").document(firebaseUser.getUid())
+                                        .set(userData)  // Дополнительные данные для врача
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(this, "Доктор успешно зарегистрирован", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(this, MainActivity.class));
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(this, "Ошибка при регистрации врача", Toast.LENGTH_SHORT).show();
+                                            Log.e("Firestore", "Error saving doctor data", e);
+                                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Ошибка сохранения данных пользователя", Toast.LENGTH_SHORT).show();
+                                Log.e("Firestore", "Error saving user data", e);
+                            });
+                } else if (role.equals("Patient")) {
+                    // Сохраняем данные для пациента в отдельной подколлекции "Patient"
+                    db.collection("User").document(firebaseUser.getUid())
+                            .set(userData, SetOptions.merge())
+                            .addOnSuccessListener(unused -> {
+                                db.collection("Patient").document(firebaseUser.getUid())
+                                        .set(userData)  // Дополнительные данные для пациента
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(this, "Пациент успешно зарегистрирован", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(this, MainActivity.class));
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(this, "Ошибка при регистрации пациента", Toast.LENGTH_SHORT).show();
+                                            Log.e("Firestore", "Error saving patient data", e);
+                                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Ошибка сохранения данных пользователя", Toast.LENGTH_SHORT).show();
+                                Log.e("Firestore", "Error saving user data", e);
+                            });
+                }
             } else {
-                Toast.makeText(this, "Қолданушы табылмады", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Пользователь не найден", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }

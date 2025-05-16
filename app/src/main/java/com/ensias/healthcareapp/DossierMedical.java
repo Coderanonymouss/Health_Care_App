@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.ensias.healthcareapp.Common.Common;
 import com.ensias.healthcareapp.activity.FicheActivity;
-import com.ensias.healthcareapp.activity.PatientInfoActivity;
+import com.ensias.healthcareapp.activity.patient.PatientInfoActivity;
 import com.ensias.healthcareapp.adapter.ConsultationFragmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -115,7 +115,7 @@ public class DossierMedical extends AppCompatActivity {
             patRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    patient_name = documentSnapshot.getString("name");
+                    patient_name = documentSnapshot.getString("fullName");
                     patient_phone = documentSnapshot.getString("tel");
                     patient_email = documentSnapshot.getString("email");
 

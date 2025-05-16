@@ -1,5 +1,6 @@
 package com.ensias.healthcareapp.activity;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,7 +15,9 @@ import android.widget.SearchView;
 
 import com.ensias.healthcareapp.DoctorAdapterFiltred;
 import com.ensias.healthcareapp.R;
+import com.ensias.healthcareapp.adapter.DoctoreAdapter;
 import com.ensias.healthcareapp.model.Doctor;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,7 +50,7 @@ public class SearchPatActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.serachPatRecycle);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Query query = doctorRef.orderBy("name", Query.Direction.DESCENDING);
+        Query query = doctorRef.orderBy("fullName", Query.Direction.DESCENDING);
 
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -57,11 +60,11 @@ public class SearchPatActivity extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
             }
         });
-        //FirestoreRecyclerOptions<Doctor> options = new FirestoreRecyclerOptions.Builder<Doctor>()
-              //  .setQuery(query, Doctor.class)
-              //  .build();
+        FirestoreRecyclerOptions<Doctor> options = new FirestoreRecyclerOptions.Builder<Doctor>()
+                .setQuery(query, Doctor.class)
+                .build();
 
-        //adapter = new DoctoreAdapter(options);
+        adapter = new DoctorAdapterFiltred(options.getSnapshots());
 
 
     }
@@ -82,7 +85,7 @@ public class SearchPatActivity extends AppCompatActivity {
         inflater.inflate(R.menu.navigation_bar, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
-        Drawable r= getResources().getDrawable(R.drawable.ic_local_hospital_black_24dp);
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable r= getResources().getDrawable(R.drawable.ic_local_hospital_black_24dp);
         r.setBounds(0, 0, r.getIntrinsicWidth(), r.getIntrinsicHeight());
         SpannableString sb = new SpannableString(" Specialite" );
         ImageSpan imageSpan = new ImageSpan(r, ImageSpan.ALIGN_BOTTOM);
@@ -151,7 +154,7 @@ public class SearchPatActivity extends AppCompatActivity {
     private void configureToolbar(){
         // Get the toolbar view inside the activity layout
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
-        toolbar.setTitle("Doctors list");
+        toolbar.setTitle("Дәрігерлер тізімі");
         // Sets the Toolbar
         setSupportActionBar(toolbar);
     }

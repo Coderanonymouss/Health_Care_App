@@ -11,10 +11,13 @@ public class DoctorHelper {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static CollectionReference DoctorRef = db.collection("Doctor");
 
-    public static void addDoctor(String name, String adresse, String tel,String specialite){
-        Doctor doctor = new Doctor(name,adresse,tel, Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(),specialite);
+    public static void addDoctor(String name, String adresse, String tel, String specialite, String birthday, boolean firstSigninCompleted, String type) {
+        // Создаем объект doctor с дополнительными полями
+        Doctor doctor = new Doctor(name, adresse, tel,
+                Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail(),
+                specialite, birthday, firstSigninCompleted, type);
 
+        // Сохраняем документ с email как идентификатор
         DoctorRef.document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getEmail())).set(doctor);
-
     }
 }
