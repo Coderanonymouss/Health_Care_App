@@ -5,6 +5,7 @@
 ##  Gradle start up script for UN*X
 ##
 ##############################################################################
+DEFAULT_JVM_OPTS="-Xmx2048m -Xms512m -Dfile.encoding=UTF-8"
 
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
