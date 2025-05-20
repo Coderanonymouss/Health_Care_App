@@ -1,2 +1,24 @@
-/build
+
+# IntelliJ IDEA/Android Studio
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+app/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Node.js (если вдруг у тебя есть Node-папки)
+node_modules/
+
+# MacOS системные файлы
+.DS_Store
+
+# Личные ключи, секреты, конфиги
 serviceAccountKey.json
+*.keystore
+local.properties
+
+# VSCode settings (если пользуешься)
+.vscode/
