@@ -51,7 +51,6 @@
         <activity android:name=".admin.AdminProfileActivity" />
         <activity android:name=".admin.adminLogin.AdminSetupActivity" />
         <activity android:name=".patient.FirstSigninPatientActivity" />
-        <activity android:name=".testinfo.AddTestPatientsActivity"/>
         <activity android:name=".activity.doctor.AddPatientActivity"/>
 
         <activity android:name=".activity.doctor.ProfileDoctorActivity" />

@@ -1,5 +1,6 @@
 package com.ensias.healthcareapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -103,6 +104,7 @@ public class MyDoctorsAdapter extends FirestoreRecyclerAdapter<Doctor, MyDoctors
         Button sendMessageButton;
         Button callBtn;
         Button contactButton;
+        @SuppressLint("WrongViewCast")
         public MyDoctorAppointementHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.doctor_view_title);
