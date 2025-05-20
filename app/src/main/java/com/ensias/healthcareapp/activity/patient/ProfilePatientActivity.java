@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Objects;
+
 import dmax.dialog.SpotsDialog;
 
 public class ProfilePatientActivity extends AppCompatActivity {
@@ -30,19 +32,23 @@ public class ProfilePatientActivity extends AppCompatActivity {
     private MaterialTextView patientAbout;
     private ImageView patientImage;
 
-    private StorageReference pathReference;
-    private final String patientID = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+    private final String patientID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final DocumentReference docRef = db.collection("Patient").document(patientID);
+    private final DocumentReference docRef;
 
-    @SuppressLint("WrongViewCast")
+    {
+        assert patientID != null;
+        docRef = db.collection("Patient").document(patientID);
+    }
+
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_info); // или создай activity_profile_patient
 
         // 🔄 View init
-        ImageView backButton = findViewById(R.id.backButton);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView backButton = findViewById(R.id.backButton);
         ImageView editIcon = findViewById(R.id.editIcon);
 
         patientName = findViewById(R.id.doctor_name);
@@ -51,7 +57,7 @@ public class ProfilePatientActivity extends AppCompatActivity {
         patientAddress = findViewById(R.id.doctor_address);
         patientAbout = findViewById(R.id.doctor_about);
         patientImage = findViewById(R.id.imageView3);
-        Drawable defaultImage = getResources().getDrawable(R.drawable.ic_user_placeholder);
+        @SuppressLint("UseCompatLoadingForDrawables") Drawable defaultImage = getResources().getDrawable(R.drawable.ic_user_placeholder);
 
         AlertDialog dialog = new SpotsDialog.Builder().setContext(this).setCancelable(true).build();
         dialog.show();
@@ -72,8 +78,8 @@ public class ProfilePatientActivity extends AppCompatActivity {
         });
 
         // 🖼️ Загрузка фото из Firebase
-        String imageId = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        pathReference = FirebaseStorage.getInstance().getReference().child("PatientProfile/" + imageId + ".jpg");
+        String imageId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
+        StorageReference pathReference = FirebaseStorage.getInstance().getReference().child("PatientProfile/" + imageId + ".jpg");
 
         pathReference.getDownloadUrl()
                 .addOnSuccessListener(uri -> {
@@ -104,7 +110,7 @@ public class ProfilePatientActivity extends AppCompatActivity {
         // 🧭 Toolbar кастомный
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
