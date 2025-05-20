@@ -7,6 +7,13 @@ android {
     namespace 'com.ensias.healthcareapp'
     compileSdk 35
 
+    packagingOptions {
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
     defaultConfig {
         applicationId "com.ensias.healthcareapp"
         minSdk 23
@@ -52,6 +59,10 @@ dependencies {
     implementation 'io.github.pilgr:paperdb:2.7.2'
 
 
+    implementation 'com.sun.mail:android-mail:1.6.7'
+    implementation 'com.sun.mail:android-activation:1.6.7'
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     // AndroidX библиотеки
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -64,6 +75,9 @@ dependencies {
 
     // Google Play Services
     implementation 'com.google.android.material:material:1.12.0'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
+
     implementation 'com.google.android.gms:play-services-auth:21.3.0'
 
     // Firebase
@@ -79,6 +93,7 @@ dependencies {
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.gridlayout:gridlayout:1.1.0'
 
     // Тестовые библиотеки
     testImplementation 'junit:junit:4.13.2'

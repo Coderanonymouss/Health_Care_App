@@ -1,54 +1,36 @@
 package com.ensias.healthcareapp.model;
 
+import com.google.firebase.firestore.Exclude;
+
 public class User {
-    private String name;
-    private String adresse;
-    private String tel;
+    private String uid;
+    private String fullName;
     private String email;
-    private String type;
+    private String type; // doctor, patient, admin и т.п.
 
-    public User(){
-        //need firebase
-    }
+    public User() { }
 
-    public User(String name, String adresse, String tel, String email,String type) {
-        this.name = name;
-        this.adresse = adresse;
-        this.tel = tel;
+    public User( String uid,String fullName, String email, String type) {
+
+        this.fullName = fullName;
         this.email = email;
         this.type = type;
     }
 
-    public String getType() {
-        return type;
+    public String getUid() {
+        return uid;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -57,5 +39,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

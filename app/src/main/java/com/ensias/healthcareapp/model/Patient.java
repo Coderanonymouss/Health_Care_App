@@ -1,49 +1,27 @@
 package com.ensias.healthcareapp.model;
 
 public class Patient {
-    private String name;
-    private String adresse;
-    private String tel;
+    private String doctorId;
     private String email;
-    private String dateNaissance;
-    private String situationFamiliale;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String address;
+    private String tel;
+    private Boolean firstSigninCompleted;
+    private String uid;
 
+    // Пустой конструктор нужен для Firebase
+    public Patient() {}
 
-    public Patient(){
-        //needed for firebase
+    // Геттеры и сеттеры для всех полей
+
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public Patient(String name, String adresse, String tel, String email, String dateNaissance, String situationFamiliale) {
-        this.name = name;
-        this.adresse = adresse;
-        this.tel = tel;
-        this.email = email;
-        this.dateNaissance = dateNaissance;
-        this.situationFamiliale = situationFamiliale;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getEmail() {
@@ -54,19 +32,64 @@ public class Patient {
         this.email = email;
     }
 
-    public String getDateNaissance() {
-        return dateNaissance;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setDateNaissance(String dateNaissance) {
-        this.dateNaissance = dateNaissance;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSituationFamiliale() {
-        return situationFamiliale;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSituationFamiliale(String situationFamiliale) {
-        this.situationFamiliale = situationFamiliale;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public Boolean getFirstSigninCompleted() {
+        return firstSigninCompleted;
+    }
+
+    public void setFirstSigninCompleted(Boolean firstSigninCompleted) {
+        this.firstSigninCompleted = firstSigninCompleted;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    // При необходимости можно добавить метод getName() для удобства
+    public String getFullName() {
+        return (firstName != null ? firstName : "") + " " + (lastName != null ? lastName : "");
     }
 }

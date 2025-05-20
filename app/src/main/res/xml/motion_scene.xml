@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:duration="1200">
+        <!-- OnSwipe убран, анимация будет автоматической -->
+    </Transition>
+
+    <!-- Начальное состояние -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@id/logoImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0" />
+    </ConstraintSet>
+
+    <!-- Конечное состояние -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@id/logoImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:alpha="1" />
+    </ConstraintSet>
+
+</MotionScene>

@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ensias.healthcareapp.R;
+import com.ensias.healthcareapp.activity.patient.MedicinesActivity;
 import com.ensias.healthcareapp.model.Medicine;
 
 import java.util.ArrayList;
@@ -79,8 +80,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                     notifyItemChanged(position);
 
                     // Сохраняем изменения
-                    if (context instanceof com.ensias.healthcareapp.activity.MedicinesActivity) {
-                        ((com.ensias.healthcareapp.activity.MedicinesActivity) context).saveMedicines();
+                    if (context instanceof MedicinesActivity) {
+                        ((MedicinesActivity) context).saveMedicines();
                     }
                 })
                 .setNegativeButton("Отмена", null)

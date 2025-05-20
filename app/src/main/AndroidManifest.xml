@@ -11,8 +11,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
@@ -23,39 +23,54 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.HealthCareApp">
         <activity android:name=".activity.ResetPasswordActivity"/>
         <activity android:name=".activity.RegisterActivity"/>
+        <activity android:name=".activity.doctor.DoctorVideoLessonsActivity"
+            tools:ignore="Instantiatable" />
 
-        <activity android:name=".activity.MyCalendarDoctorActivity" />
+        <activity android:name=".activity.doctor.MyCalendarDoctorActivity" />
         <activity android:name=".activity.TestActivity" />
         <activity android:name=".activity.AppointementActivity" />
         <activity android:name=".FicheInfo" />
-        <activity android:name=".activity.PatientInfoActivity" />
+        <activity android:name=".activity.patient.PatientInfoActivity" />
         <activity android:name=".DossierMedical" />
         <activity android:name=".activity.ChatActivity" />
         <activity android:name=".PatientRequestPage" />
-        <activity android:name=".activity.DoctorHomeActivity" />
-        <activity android:name=".activity.EditProfileDoctorActivity" />
+        <activity android:name=".activity.doctor.DoctorHomeActivity" />
+        <activity android:name=".activity.doctor.EditProfileDoctorActivity" />
         <activity android:name=".activity.ConfirmedAppointmensActivity" />
-        <activity android:name=".activity.PatientAppointementsActivity" />
-        <activity android:name=".activity.ProfilePatientActivity" />
-        <activity android:name=".activity.MyDoctorsAvtivity" />
-        <activity android:name=".activity.ProfileDoctorActivity" />
-        <activity android:name=".activity.EditProfilePatientActivity" />
-        <activity android:name=".activity.DoctorAppointementActivity" />
+        <activity android:name=".activity.patient.PatientAppointementsActivity" />
+        <activity android:name=".activity.patient.ProfilePatientActivity" />
+        <activity android:name=".patient.MyDoctorsActivity" />
+        <activity android:name=".admin.AdminPanelActivity" />
+        <activity android:name=".admin.ManageDoctorsActivity" />
+        <activity android:name=".admin.ManageUsersActivity" />
+        <activity android:name=".admin.AdminSettingsActivity" />
+        <activity android:name=".admin.AdminReportsActivity" />
+        <activity android:name=".admin.AdminProfileActivity" />
+        <activity android:name=".admin.adminLogin.AdminSetupActivity" />
+        <activity android:name=".patient.FirstSigninPatientActivity" />
+        <activity android:name=".testinfo.AddTestPatientsActivity"/>
+        <activity android:name=".activity.doctor.AddPatientActivity"/>
+
+        <activity android:name=".activity.doctor.ProfileDoctorActivity" />
+        <activity android:name=".activity.patient.EditProfilePatientActivity" />
+        <activity android:name=".activity.doctor.DoctorAppointementActivity" />
         <activity android:name=".activity.FicheActivity" />
-        <activity android:name=".activity.MyPatientsActivity" />
+        <activity android:name=".doctor.MyPatientsActivity" />
         <activity android:name=".activity.SearchPatActivity" />
         <activity android:name=".activity.FirstSigninActivity" />
         <activity android:name=".activity.VideoListActivity" />
-        <activity android:name=".activity.PatientVideoLessonActivity"
+        <activity android:name=".activity.patient.PatientVideoLessonActivity"
             tools:targetApi="26" />
-        <activity android:name=".activity.FullScreenVideoActivity"
+        <activity android:name=".activity.patient.FullScreenVideoActivity"
             android:theme="@style/AppTheme.FullScreen"/>
+        <activity android:name=".activity.doctor.DoctorDetailActivity"/>
 
-        <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.MedicinesActivity" />
+
+        <activity android:name=".activity.patient.HomeActivity" />
+        <activity android:name=".activity.patient.MedicinesActivity" />
         <activity android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>

@@ -39,7 +39,7 @@ public class DoctoreAdapter extends FirestoreRecyclerAdapter<Doctor, DoctoreAdap
     @Override
     protected void onBindViewHolder(@NonNull final DoctoreHolder doctoreHolder, int i, @NonNull final Doctor doctor) {
         final TextView t = doctoreHolder.title ;
-        doctoreHolder.title.setText(doctor.getName());
+        doctoreHolder.title.setText(doctor.getFullName());
         doctoreHolder.specialite.setText("Specialite : "+doctor.getSpecialite());
         final String idPat = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
         final String idDoc = doctor.getEmail();

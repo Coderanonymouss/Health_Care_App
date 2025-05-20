@@ -18,7 +18,7 @@ public class Common {
     public static String CurreentDoctor = "testdoc@testdoc.com";
     public static String Currentaappointementatype;
     public static int currentTimeSlot = -1;
-    public static String CurrentDoctorName = "yassine";
+    public static String CurrentDoctorName = "Dinislam";
     public static Calendar currentDate = Calendar.getInstance();
     public static String CurrentPhone = "062912361255";
     public static SimpleDateFormat simpleFormat = new SimpleDateFormat("dd_MM_yyyy");

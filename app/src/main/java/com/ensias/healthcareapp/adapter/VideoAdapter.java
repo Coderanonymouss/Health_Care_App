@@ -1,11 +1,11 @@
 package com.ensias.healthcareapp.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,49 +17,53 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
-    private List<VideoLesson> videoList;
-    private Context context;
-    private OnItemClickListener listener;
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
+    public interface OnVideoClickListener {
+        void onVideoClick(VideoLesson video);
     }
 
-    public VideoAdapter(Context context, List<VideoLesson> videoList, OnItemClickListener listener) {
-        this.context = context;
-        this.videoList = videoList;
+    private final List<VideoLesson> videos;
+    private final OnVideoClickListener listener;
+
+    public VideoAdapter(List<VideoLesson> videos, OnVideoClickListener listener) {
+        this.videos = videos;
         this.listener = listener;
     }
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_video, parent, false);
-        return new VideoViewHolder(view);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_video, parent, false);
+        return new VideoViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        VideoLesson video = videoList.get(position);
-        holder.tvTitle.setText(video.getTitle());
-        holder.ivStatus.setImageResource(video.isWatched() ? R.drawable.ic_check : R.drawable.ic_unwatched);
+    public void onBindViewHolder(@NonNull VideoViewHolder h, int pos) {
+        VideoLesson video = videos.get(pos);
+        h.tvTitle.setText(video.getTitle());
+        // если у вас есть флаг watched в модели — показывайте соответствующую иконку:
+        h.ivStatus.setImageResource(
+                video.isWatched()
+                        ? R.drawable.ic_watched
+                        : R.drawable.ic_unwatched
+        );
+        // кнопка Play
+        h.btnPlay.setOnClickListener(v -> listener.onVideoClick(video));
+        // можно также весь элемент:
+        h.itemView.setOnClickListener(v -> listener.onVideoClick(video));
     }
 
-    @Override
-    public int getItemCount() {
-        return videoList.size();
-    }
+    @Override public int getItemCount() { return videos.size(); }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle;
-        ImageView ivStatus;
+    static class VideoViewHolder extends RecyclerView.ViewHolder {
+        ImageView    ivStatus;
+        TextView     tvTitle;
+        ImageButton  btnPlay;
 
-        public VideoViewHolder(@NonNull View itemView) {
+        VideoViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvVideoTitle);
             ivStatus = itemView.findViewById(R.id.ivStatus);
-
-            itemView.setOnClickListener(v -> listener.onItemClick(getAdapterPosition()));
+            tvTitle  = itemView.findViewById(R.id.tvVideoTitle);
+            btnPlay  = itemView.findViewById(R.id.btnPlayYouTube);
         }
     }
 }

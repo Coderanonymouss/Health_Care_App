@@ -5,34 +5,39 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
 import com.ensias.healthcareapp.R;
+
 public class MedicineReminderReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String medName = intent.getStringExtra("medName");
+        showNotification(context, medName);
+    }
 
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        String channelId = "med_reminder_channel";
+    private void showNotification(Context context, String medName) {
+        String channelId = "med_channel";
+        String channelName = "Medicine Reminders";
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        NotificationManager manager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Только для Android 8+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    channelId, "Напоминания", NotificationManager.IMPORTANCE_HIGH
-            );
+                    channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             manager.createNotificationChannel(channel);
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle("Время принять лекарство")
-                .setContentText("Не забудьте принять: " + medName)
+                .setSmallIcon(R.drawable.ic_medicine) // обязательно добавь иконку!
+                .setContentTitle("Напоминание")
+                .setContentText("Пора принять: " + medName)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
         manager.notify((int) System.currentTimeMillis(), builder.build());
     }
 }
-

@@ -50,7 +50,7 @@ public class PatRequestAdapter extends FirestoreRecyclerAdapter<Request, PatRequ
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         final Patient pat= documentSnapshot.toObject(Patient.class);
-                        RequestHolder.title.setText(pat.getName());
+                        RequestHolder.title.setText(pat.getFullName());
                         RequestHolder.specialite.setText("Want to be your patient");
                         RequestHolder.addDoc.setOnClickListener(new View.OnClickListener() {
                             @Override

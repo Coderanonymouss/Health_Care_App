@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E5E5E5"
-    tools:context=".activity.MyPatientsActivity">
+    tools:context=".doctor.MyPatientsActivity">
 
     <LinearLayout
         android:id="@+id/activity_mentor_chat_recycler_view_container"

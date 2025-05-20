@@ -36,7 +36,7 @@ public class HospitalisationAdapter  extends FirestoreRecyclerAdapter<Fiche,Hosp
         FirebaseFirestore.getInstance().document("Doctor/"+model.getDoctor()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                holder.doctor_name.setText(documentSnapshot.getString("name"));
+                holder.doctor_name.setText(documentSnapshot.getString("fullName"));
             }
         });        holder.type.setText(model.getType());
         holder.btn.setOnClickListener(new View.OnClickListener() {

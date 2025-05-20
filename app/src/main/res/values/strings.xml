@@ -1,72 +1,71 @@
 <resources>
     <string name="app_name">Qamqor</string>
-    <string name="main_activity_description">Discute avec tes mentors, tout simplement.</string>
+    <string name="main_activity_description">Менторларыңызбен жай ғана сөйлесіңіз.</string>
 
-    <string name="login">Connexion</string>
-    <string name="chat_with_mentor">Discute avec un mentor</string>
+    <string name="login">Кіру</string>
+    <string name="chat_with_mentor">Ментормен сөйлесу</string>
 
     <!-- NOTIFICATION SERVICE -->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="notification_title">"Vous avez reçu une notification"</string>
+    <string name="notification_title">"Сізге хабарлама келді"</string>
 
     <!-- MAIN ACTIVITY -->
-    <string name="error_not_connected">Vous devez vous connecter !</string>
-    <string name="error_authentication_canceled">Authentification annulée&#8230;</string>
-    <string name="error_no_internet">Aucune connexion internet !</string>
-    <string name="error_unknown_error">Une erreur inconnue s\'est produite&#8230;</string>
-    <string name="connection_succeed">Authentification réussie !</string>
-    <string name="button_login_text_logged">Afficher le profil</string>
-    <string name="button_login_text_not_logged">Connexion</string>
+    <string name="error_not_connected">Қосылу қажет!</string>
+    <string name="error_authentication_canceled">Аутентификация тоқтатылды…</string>
+    <string name="error_no_internet">Интернет байланысы жоқ!</string>
+    <string name="error_unknown_error">Белгісіз қате орын алды…</string>
+    <string name="connection_succeed">Аутентификация сәтті өтті!</string>
+    <string name="button_login_text_logged">Профильді көрсету</string>
+    <string name="button_login_text_not_logged">Кіру</string>
 
     <!-- LOGIN ACTIVITY -->
-    <string name="toolbar_title_login_activity">Votre Profil</string>
-    <string name="text_input_username">Nom d\'utilisateur</string>
-    <string name="text_view_email">Adresse email :</string>
-    <string name="button_update_account">Mettre à jour le nom d\'utilisateur</string>
-    <string name="button_delete_account">Supprimer mon compte</string>
-    <string name="button_sign_out_account">Déconnexion</string>
-    <string name="info_no_email_found">Auncune adresse email</string>
-    <string name="info_no_username_found">Aucun nom d\'utilisateur</string>
-    <string name="popup_message_confirmation_delete_account">Es-tu sûr(e) de vouloir supprimer ton compte ?</string>
-    <string name="popup_message_choice_yes">Oui !</string>
-    <string name="popup_message_choice_no">Non</string>
-    <string name="check_box_is_mentor">Etes-vous un mentor ?</string>
+    <string name="toolbar_title_login_activity">Сіздің профиліңіз</string>
+    <string name="text_input_username">Пайдаланушы аты</string>
+    <string name="text_view_email">Email мекенжайы:</string>
+    <string name="button_update_account">Пайдаланушы атын жаңарту</string>
+    <string name="button_delete_account">Есептік жазбаны жою</string>
+    <string name="button_sign_out_account">Шығу</string>
+    <string name="info_no_email_found">Email мекенжайы табылмады</string>
+    <string name="info_no_username_found">Пайдаланушы аты табылмады</string>
+    <string name="popup_message_confirmation_delete_account">Есептік жазбаны өшіргіңіз келе ме?</string>
+    <string name="popup_message_choice_yes">Иә</string>
+    <string name="popup_message_choice_no">Жоқ</string>
+    <string name="check_box_is_mentor">Сіз менторсыз ба?</string>
 
     <!-- MENTOR_CHAT ACTIVITY -->
-    <string name="toolbar_title_mentor_chat_activity">Chats de discussions</string>
-    <string name="text_input_title_mentor_chat_activity">Composer votre message</string>
-    <string name="button_title_mentor_chat_activity">SEND</string>
-    <string name="text_view_mentor_chat_error">Ce fil de discussion ne contient pour le moment aucun message&#8230;</string>
-    <string name="popup_title_permission_files_access">Cette application a besoin de permission pour fonctionner.</string>
-    <string name="toast_title_no_image_chosen">Aucune image choisie&#8230;</string>
+    <string name="toolbar_title_mentor_chat_activity">Сөйлесу чаттары</string>
+    <string name="text_input_title_mentor_chat_activity">Хабарлама жазыңыз</string>
+    <string name="button_title_mentor_chat_activity">ЖІБЕРУ</string>
+    <string name="text_view_mentor_chat_error">Бұл әңгіме әзірге хабарламалардан бос…</string>
+    <string name="popup_title_permission_files_access">Бұл қосымша жұмыс істеу үшін рұқсат қажет.</string>
+    <string name="toast_title_no_image_chosen">Сурет таңдалмады…</string>
     <!-- Book api -->
-    <string name="thumbnail">thumbnail</string>
-    <string name="title">Title</string>
-    <string name="category">Category</string>
+    <string name="thumbnail">миниатюра</string>
+    <string name="title">Атауы</string>
+    <string name="category">Саны</string>
     <string name="price">40 $</string>
-    <string name="author">Author</string>
+    <string name="author">Автор</string>
 
-
-    <string name="search">SEARCH</string>
-    <string name="hint">Enter your query </string>
-    <string name="description_image_view">Template for  the image</string>
-    <string name="description_divider">Divider</string>
-    <string name="Failed_to_Load_data">Please check your Internet Connection</string>
-    <string name="NO_RESULT">No matching results</string>
+    <string name="search">ІЗДЕУ</string>
+    <string name="hint">Сұрауыңызды енгізіңіз</string>
+    <string name="description_image_view">Сурет үлгісі</string>
+    <string name="description_divider">Бөлімше</string>
+    <string name="Failed_to_Load_data">Интернет байланысын тексеріңіз</string>
+    <string name="NO_RESULT">Нәтиже табылған жоқ</string>
 
     <string-array name="fiche_type">
-        <item>Consultation</item>
-        <item>Hospitalisation</item>
+        <item>Кеңес алу</item>
+        <item>Госпитализация</item>
     </string-array>
 
     <string-array name="specialite_spinner">
-        <item>Dentiste</item>
-        <item>Médecin général</item>
-        <item>ORL</item>
-        <item>Ophtalmologue</item>
-        <item>Pédiatre</item>
-        <item>Radiologue</item>
-        <item>Rhumatologue</item>
+        <item>Тіс дәрігері</item>
+        <item>Жалпы дәрігер</item>
+        <item>Құлақ, мұрын, тамақ дәрігері</item>
+        <item>Көз дәрігері</item>
+        <item>Балалар дәрігері</item>
+        <item>Рентгенолог</item>
+        <item>Ревматолог</item>
     </string-array>
 
     <string-array name="blood_spinner">
@@ -80,31 +79,40 @@
         <item>O-</item>
     </string-array>
 
-
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Сәлем, бос фрагмент</string>
     <string name="messages">Хабарлама</string>
-    <string name="welcome_user">Сәлем</string>
-    <string name="choose_an_option">Choose an option</string>
-    <string name="medical_folder">Medical Folder</string>
-    <string name="my_doctors">My Doctors</string>
-    <string name="appointement">Appointement</string>
+    <string name="welcome_user">Қош келдіңіз</string>
+    <string name="choose_an_option">Опция таңдаңыз</string>
+    <string name="medical_folder">Медициналық папка</string>
+    <string name="my_doctors">Менің дәрігерлерім</string>
+    <string name="appointement">Кездесу</string>
     <string name="signout">Шығу</string>
     <string name="profile">Профиль</string>
-    <string name="todo">TODO</string>
-    <string name="choose_your_appointement_time">Choose your appointement time :</string>
-    <string name="birthday">Туылған күн</string>
+    <string name="todo">Істелетін жұмыс</string>
+    <string name="choose_your_appointement_time">Кездесу уақытын таңдаңыз:</string>
+    <string name="birthday">Туған күні</string>
     <string name="resetpassword">Құпия сөзді ұмыттыңыз ба?</string>
     <string name="resend_verification">Хабарламаны қайта жіберу</string>
     <string name="sign_up">ТІРКЕЛУ</string>
     <string name="sign_up_btn">Тіркелу</string>
     <string name="login_btn">КІРУ</string>
-    <string name="confirm_password">Құпия сөзді қайтала</string>
+    <string name="confirm_password">Құпия сөзді қайталаңыз</string>
     <string name="password">Құпия сөз</string>
     <string name="email">Email</string>
-    <string name="sign_up_Hight">Тіркелу</string>
-    <string name="qamqor_logo">Qamqor Logo</string>
+    <string name="sign_up_Hight">Qamqor</string>
+    <string name="qamqor_logo">Qamqor Логотипі</string>
+    <string name="salem">Сәлем, қолданушы!</string>
+    <string name="edit">Өңдеу</string>
+    <string name="my_profile">Менің профилім</string>
+    <string name="add_medicine">дәрі қосу\n</string>
+    <string name="patient_email_com">Пациент: patient@email.com</string>
+    <string name="watch_v_videos_embed_youtu_be_v_e_watch_v_w_11"><![CDATA[(?<=watch\\?v=|/videos/|embed/|youtu.be/|/v/|/e/|watch\\?.+&v=)([\\w-]{11})]]></string>
+    <string name="play_video">бейне ойнату</string>
+    <string name="video_status">бейне күйі</string>
+    <string name="status">Күйі</string>
+    <string name="call_patient">шақыру\n</string>
+    <string name="chat_patient">чат</string>
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->
 </resources>
-

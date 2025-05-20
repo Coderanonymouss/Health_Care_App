@@ -11,7 +11,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.PatientVideoLessonActivity;
+import com.ensias.healthcareapp.activity.patient.PatientVideoLessonActivity;
 
 public class ReminderReceiver extends BroadcastReceiver {
     @Override
