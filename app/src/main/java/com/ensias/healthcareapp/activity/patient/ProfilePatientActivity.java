@@ -6,81 +6,64 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
-
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import com.ensias.healthcareapp.R;
-import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import java.util.Objects;
-
 import dmax.dialog.SpotsDialog;
 
 public class ProfilePatientActivity extends AppCompatActivity {
 
-    private MaterialTextView patientName;
-    private MaterialTextView patientPhone;
-    private MaterialTextView patientEmail;
-    private MaterialTextView patientAddress;
-    private MaterialTextView patientAbout;
-    private ImageView patientImage;
+    private TextView patientName, patientPhone, patientEmail, patientAddress, patientAbout;
+    private ImageView patientImage, editIcon;
+    private Toolbar toolbar;
 
-    private final String patientID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final DocumentReference docRef;
+    private String patientID;
+    private String currentUserEmail;
 
-    {
-        assert patientID != null;
-        docRef = db.collection("Patient").document(patientID);
-    }
-
-    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
+    @SuppressLint({"UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_info); // или создай activity_profile_patient
+        setContentView(R.layout.activity_profile_info);
 
-        // 🔄 View init
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView backButton = findViewById(R.id.backButton);
-        ImageView editIcon = findViewById(R.id.editIcon);
+        // Получаем email профиля пациента
+        patientID = getIntent().getStringExtra("patient_uid");
+        if (patientID == null) {
+            patientID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        }
+        currentUserEmail = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
-        patientName = findViewById(R.id.doctor_name);
-        patientPhone = findViewById(R.id.doctor_phone);
-        patientEmail = findViewById(R.id.doctor_email);
-        patientAddress = findViewById(R.id.doctor_address);
-        patientAbout = findViewById(R.id.doctor_about);
+        // View init
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
+        patientName = findViewById(R.id.patient_full_name);
+        patientPhone = findViewById(R.id.patient_phone_value);
+        patientEmail = findViewById(R.id.patient_email_value);
+        patientAddress = findViewById(R.id.patient_address_value);
+        patientAbout = findViewById(R.id.patient_about_value);
         patientImage = findViewById(R.id.imageView3);
-        @SuppressLint("UseCompatLoadingForDrawables") Drawable defaultImage = getResources().getDrawable(R.drawable.ic_user_placeholder);
+        editIcon = findViewById(R.id.editIcon); // Теперь editIcon есть!
+
+        Drawable defaultImage = getResources().getDrawable(R.drawable.ic_user_placeholder);
 
         AlertDialog dialog = new SpotsDialog.Builder().setContext(this).setCancelable(true).build();
         dialog.show();
 
-        // 🔙 Назад
-        backButton.setOnClickListener(v -> {
-            finish();
-            startActivity(new Intent(ProfilePatientActivity.this, HomeActivity.class));
-        });
-
-        // ✏️ Редактировать
-        editIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfilePatientActivity.this, EditProfilePatientActivity.class);
-            intent.putExtra("CURRENT_NAME", patientName.getText().toString());
-            intent.putExtra("CURRENT_PHONE", patientPhone.getText().toString());
-            intent.putExtra("CURRENT_ADDRESS", patientAddress.getText().toString());
-            startActivity(intent);
-        });
-
-        // 🖼️ Загрузка фото из Firebase
-        String imageId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
-        StorageReference pathReference = FirebaseStorage.getInstance().getReference().child("PatientProfile/" + imageId + ".jpg");
-
+        // Фото профиля
+        StorageReference pathReference = FirebaseStorage.getInstance()
+                .getReference().child("PatientProfile/" + patientID + ".jpg");
         pathReference.getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     Picasso.get()
@@ -96,29 +79,39 @@ public class ProfilePatientActivity extends AppCompatActivity {
                     dialog.dismiss();
                 });
 
-        // 🧾 Загрузка данных пациента
+        // Получаем поля профиля из Firestore
+
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Patient").document(patientID);
         docRef.addSnapshotListener(this, (documentSnapshot, e) -> {
             if (documentSnapshot != null && documentSnapshot.exists()) {
-                patientName.setText(documentSnapshot.getString("fullName"));
+                String firstName = documentSnapshot.getString("firstName");
+                String lastName = documentSnapshot.getString("lastName");
+                String middleName = documentSnapshot.getString("middleName");
+                StringBuilder nameBuilder = new StringBuilder();
+                if (firstName != null) nameBuilder.append(firstName).append(" ");
+                if (middleName != null && !middleName.isEmpty() && !"null".equals(middleName)) nameBuilder.append(middleName).append(" ");
+                if (lastName != null) nameBuilder.append(lastName);
+                String fullName = nameBuilder.toString().trim();
+                patientName.setText(fullName);
+
                 patientPhone.setText(documentSnapshot.getString("tel"));
                 patientEmail.setText(documentSnapshot.getString("email"));
-                patientAddress.setText(documentSnapshot.getString("adresse"));
-                patientAbout.setText(documentSnapshot.getString("about"));
+                patientAddress.setText(documentSnapshot.getString("address"));
+                String about = documentSnapshot.getString("about");
+                patientAbout.setText(about != null ? about : "-");
             }
         });
 
-        // 🧭 Toolbar кастомный
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-    private void startEditActivity() {
-        Intent intent = new Intent(this, EditProfilePatientActivity.class);
-        intent.putExtra("CURRENT_NAME", patientName.getText().toString());
-        intent.putExtra("CURRENT_PHONE", patientPhone.getText().toString());
-        intent.putExtra("CURRENT_ADDRESS", patientAddress.getText().toString());
-        startActivity(intent);
+        // Кнопка "редактировать" — видна только если профиль свой
+        if (patientID.equals(currentUserEmail)) {
+            editIcon.setVisibility(ImageView.VISIBLE);
+            editIcon.setOnClickListener(v -> {
+                Intent intent = new Intent(this, EditProfilePatientActivity.class);
+                intent.putExtra("patient_uid", patientID);
+                startActivity(intent);
+            });
+        } else {
+            editIcon.setVisibility(ImageView.GONE);
+        }
     }
 }

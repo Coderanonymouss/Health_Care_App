@@ -84,7 +84,7 @@ public class AddPatientActivity extends AppCompatActivity {
         String tempPassword = generateTempPassword();
         FirebaseUser doctor = FirebaseAuth.getInstance().getCurrentUser();
         String doctorEmail = doctor != null ? doctor.getEmail() : "";
-
+        String doctorUid = doctor != null ? doctor.getUid() : "";
         auth.createUserWithEmailAndPassword(email, tempPassword)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -110,6 +110,7 @@ public class AddPatientActivity extends AppCompatActivity {
                             patient.put("middleName", middleName.isEmpty() ? null : middleName);
                             patient.put("email", email);
                             patient.put("doctorId", doctorEmail);
+                            patient.put("doctorUid", doctorUid);
                             patient.put("uid", patientUid);
 
                             db.collection("Patient").document(patientUid)
@@ -121,6 +122,7 @@ public class AddPatientActivity extends AppCompatActivity {
                                         userData.put("type", "Patient");
                                         userData.put("firstSigninCompleted", false);
                                         userData.put("doctorId", doctorEmail);
+                                        userData.put("doctorUid", doctorUid);
                                         userData.put("uid", patientUid);
 
                                         db.collection("User").document(patientUid)

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.ensias.healthcareapp.R;
+import com.ensias.healthcareapp.doctor.ProfileDoctorActivity;
 import com.google.android.gms.location.*;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,8 +26,11 @@ import com.google.firebase.firestore.*;
 import com.google.firebase.storage.*;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class EditProfileDoctorActivity extends AppCompatActivity {
 
@@ -43,7 +47,8 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
     private Uri uriImage;
     private FirebaseFirestore firestore;
     private StorageReference storageRef;
-    private String currentUserEmail;
+    private String currentUserId;
+
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -53,7 +58,8 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile_doctor);
 
         firestore = FirebaseFirestore.getInstance();
-        currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        currentUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+
         storageRef = FirebaseStorage.getInstance().getReference("DoctorProfile");
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -67,14 +73,25 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
         addressText = findViewById(R.id.addressText);
         addressLayout = findViewById(R.id.address);
 
-        // Установка начальных данных
-        Intent intent = getIntent();
-        nameText.setText(intent.getStringExtra("CURRENT_NAME"));
-        phoneText.setText(intent.getStringExtra("CURRENT_PHONE"));
-        addressText.setText(intent.getStringExtra("CURRENT_ADDRESS"));
+        firestore.collection("Doctor").document(currentUserId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        nameText.setText(documentSnapshot.getString("fullName"));
+                        phoneText.setText(documentSnapshot.getString("tel"));
+                        addressText.setText(documentSnapshot.getString("adresse"));
+                        // Можно добавить ещё поля, если нужны
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Ошибка загрузки данных: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+        storageRef.child(currentUserId + ".jpg").getDownloadUrl()
+                .addOnSuccessListener(uri -> Picasso.get().load(uri).placeholder(R.drawable.doctor).into(profileImage))
+                .addOnFailureListener(e -> profileImage.setImageResource(R.drawable.ic_anon_user_48dp));
 
         // Загрузка текущего фото из Firebase Storage
-        storageRef.child(currentUserEmail + ".jpg").getDownloadUrl()
+        storageRef.child(currentUserId + ".jpg").getDownloadUrl()
                 .addOnSuccessListener(uri -> Picasso.get().load(uri).placeholder(R.drawable.doctor).into(profileImage))
                 .addOnFailureListener(e -> profileImage.setImageResource(R.drawable.ic_anon_user_48dp));
 
@@ -115,7 +132,7 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
 
     private void uploadProfileImage() {
         if (uriImage != null) {
-            StorageReference fileRef = storageRef.child(currentUserEmail + ".jpg");
+            StorageReference fileRef = storageRef.child(currentUserId + ".jpg");
             fileRef.putFile(uriImage)
                     .addOnSuccessListener(task -> Log.d(TAG, "Фото врача обновлено"))
                     .addOnFailureListener(e -> Toast.makeText(this, "Суретті жүктеу қатесі: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -123,17 +140,45 @@ public class EditProfileDoctorActivity extends AppCompatActivity {
     }
 
     private void updateDoctorInfo(String name, String address, String phone) {
-        DocumentReference document = firestore.collection("Doctor").document(currentUserEmail);
-        document.update("fullName", name, "adresse", address, "tel", phone)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, ProfileDoctorActivity.class));
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, e.getMessage());
-                });
+        DocumentReference document = firestore.collection("Doctor").document(currentUserId);
+        document.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot docSnapshot = task.getResult();
+                if (docSnapshot.exists()) {
+                    // Документ существует, обновляем
+                    document.update("fullName", name, "adresse", address, "tel", phone)
+                            .addOnSuccessListener(unused -> {
+                                Toast.makeText(this, "Профиль обновлен", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(this, ProfileDoctorActivity.class));
+                                finish();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, e.getMessage());
+                            });
+                } else {
+                    // Документ не существует, создаем
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("fullName", name);
+                    data.put("adresse", address);
+                    data.put("tel", phone);
+                    document.set(data)
+                            .addOnSuccessListener(unused -> {
+                                Toast.makeText(this, "Профиль создан", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(this, ProfileDoctorActivity.class));
+                                finish();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Ошибка: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, e.getMessage());
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Ошибка при получении документа: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, task.getException().getMessage());
+            }
+        });
+
     }
 
     private void requestLocationPermissionAndFetchAddress() {

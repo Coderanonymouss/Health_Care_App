@@ -25,25 +25,57 @@
         android:layout_height="wrap_content"
         android:text="500 мг"
         android:textSize="16sp"
-        android:textColor="#444444" />
+        android:textColor="#444444"
+        android:layout_marginTop="2dp"/>
 
     <!-- Время приёма (одно или несколько) -->
     <TextView
         android:id="@+id/tvMedTimes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Время приёма: 08:00, 13:00, 19:00"
+        android:text="Қабылдау уақыты: 08:00, 13:00, 19:00"
         android:textSize="14sp"
-        android:textColor="#666666" />
+        android:textColor="#666666"
+        android:layout_marginTop="2dp"/>
 
-    <!-- Кнопка изменить -->
-    <Button
-        android:id="@+id/btnEditMedicine"
+    <!-- Соңғы қабылдау уақыты -->
+    <TextView
+        android:id="@+id/tvLastTaken"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Настроить"
-        android:layout_marginTop="8dp"
+        android:text="Соңғы қабылдау: --:--"
         android:textSize="14sp"
-        android:backgroundTint="#2196F3"
-        android:textColor="#FFFFFF" />
+        android:textColor="#009688"
+        android:layout_marginTop="2dp"/>
+
+    <!-- Батырмалар қатарымен -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="8dp">
+
+        <!-- Изменить батырмасы -->
+        <Button
+            android:id="@+id/btnEditMedicine"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="Өзгерту"
+            android:textSize="14sp"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Қабылдау батырмасы -->
+        <Button
+            android:id="@+id/btnTakeMedicine"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="ҚАБЫЛДАУ"
+            android:textSize="14sp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
 </LinearLayout>

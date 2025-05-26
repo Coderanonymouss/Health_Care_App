@@ -14,7 +14,7 @@
             android:id="@+id/etMedName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Название лекарства"
+            android:hint="Дәрі атауы"
             android:inputType="textPersonName" />
 
         <!-- Дозировка -->
@@ -22,7 +22,7 @@
             android:id="@+id/etMedDosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Дозировка"
+            android:hint="Дозасы"
             android:inputType="text" />
 
         <!-- Сколько раз в день -->
@@ -30,7 +30,7 @@
             android:id="@+id/etTimesPerDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Сколько раз в день"
+            android:hint="Күніне қанша рет "
             android:inputType="number" />
 
         <!-- Сколько дней -->
@@ -38,7 +38,7 @@
             android:id="@+id/etDurationDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="На сколько дней"
+            android:hint="Қанша күн қабылдайсыз"
             android:inputType="number" />
 
         <!-- Контейнер для TimePicker -->

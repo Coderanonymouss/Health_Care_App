@@ -1,31 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@android:color/white">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewVideos"
+    <!-- AppBar с кнопкой назад и заголовком -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="Список видеоуроков для пациента" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:title="Видеоуроки"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAddVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="55dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="660dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Добавить видео"
-        app:cornerRadius="12dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewVideos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:overScrollMode="ifContentScrolls"
+            android:contentDescription="Список видеоуроков для пациента"/>
+
+        <!-- Кнопка Добавить видео (современно и удобно) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Добавить видео"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_add_24"
+            app:iconTint="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            app:backgroundTint="@color/md_theme_light_primaryContainer"
+            android:textColor="@color/md_theme_light_primary"/>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -40,12 +40,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public void onBindViewHolder(@NonNull VideoViewHolder h, int pos) {
         VideoLesson video = videos.get(pos);
         h.tvTitle.setText(video.getTitle());
-        // если у вас есть флаг watched в модели — показывайте соответствующую иконку:
-        h.ivStatus.setImageResource(
-                video.isWatched()
-                        ? R.drawable.ic_watched
-                        : R.drawable.ic_unwatched
-        );
         // кнопка Play
         h.btnPlay.setOnClickListener(v -> listener.onVideoClick(video));
         // можно также весь элемент:

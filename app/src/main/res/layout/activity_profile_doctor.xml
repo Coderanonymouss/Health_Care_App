@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_home_gradient"
-    tools:context=".activity.doctor.ProfileDoctorActivity"
+    tools:context=".doctor.ProfileDoctorActivity"
     android:padding="16dp">
 
     <androidx.appcompat.widget.Toolbar
@@ -151,19 +151,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="4dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signOutBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Шығу"
-        app:icon="@drawable/ic_logout"
-        app:iconTint="@android:color/white"
-        app:cornerRadius="24dp"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/danger"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/doctor_about"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

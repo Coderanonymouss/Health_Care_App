@@ -44,12 +44,9 @@ public class FirestoreVideoAdapter
         // Заголовок
         holder.tvTitle.setText(model.getTitle());
         // Статус просмотрено/не просмотрено
-        holder.ivStatus.setImageResource(
-                model.isWatched() ? R.drawable.ic_watched : R.drawable.ic_unwatched
-        );
         // Кнопка play
         holder.btnPlay.setOnClickListener(v -> {
-            String url = model.getUrl();
+            String url = model.getVideoUrl();
             if (url.contains("youtube.com") || url.contains("youtu.be")) {
                 Intent i = new Intent(context, YouTubePlayerActivity.class);
                 i.putExtra("videoUrl", url);

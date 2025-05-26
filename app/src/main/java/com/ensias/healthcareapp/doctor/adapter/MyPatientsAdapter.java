@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ensias.healthcareapp.DossierMedical;
 import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.activity.ChatActivity;
+import com.ensias.healthcareapp.doctor.DoctorPatientProfileActivity;
 import com.ensias.healthcareapp.model.Patient;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -27,7 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatientsAdapter.MyPatientsHolder> {
-    StorageReference pathReference;
+    private StorageReference pathReference;
 
     public MyPatientsAdapter(@NonNull FirestoreRecyclerOptions<Patient> options) {
         super(options);
@@ -43,24 +43,20 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
         holder.textViewTitle.setText(patientName);
         holder.textViewTelephone.setText("Tél: " + patientPhone);
 
+        // Кнопка чата
         holder.contactButton.setOnClickListener(v -> openChatPage(v.getContext(), patient));
-        holder.parentLayout.setOnClickListener(v -> openPatientMedicalFolder(v.getContext(), patient));
-        holder.callBtn.setOnClickListener(v -> openDialer(holder.contactButton.getContext(), patientPhone));
+        // Клик по всей карточке открывает профиль пациента врача (по UID)
+        holder.parentLayout.setOnClickListener(v -> openDoctorPatientProfile(v.getContext(), patient));
+        // Кнопка звонка
+        holder.callBtn.setOnClickListener(v -> openDialer(holder.callBtn.getContext(), patientPhone));
 
-        // Подгружаем фото пациента (а не доктора!)
+        // Фото пациента
         if (!patientEmail.isEmpty()) {
             String imageId = patientEmail + ".jpg";
             pathReference = FirebaseStorage.getInstance().getReference().child("PatientProfile/" + imageId);
-            pathReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                Picasso.get()
-                        .load(uri)
-                        .placeholder(R.drawable.ic_account)
-                        .fit()
-                        .centerCrop()
-                        .into(holder.imageViewPatient);
-            }).addOnFailureListener(exception -> {
-                holder.imageViewPatient.setImageResource(R.drawable.ic_account);
-            });
+            pathReference.getDownloadUrl()
+                    .addOnSuccessListener(uri -> Picasso.get().load(uri).into(holder.imageViewPatient))
+                    .addOnFailureListener(e -> holder.imageViewPatient.setImageResource(R.drawable.ic_account));
         } else {
             holder.imageViewPatient.setImageResource(R.drawable.ic_account);
         }
@@ -71,11 +67,9 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
         context.startActivity(intent);
     }
 
-    private void openPatientMedicalFolder(Context context, Patient patient) {
-        Intent intent = new Intent(context, DossierMedical.class);
-        intent.putExtra("patient_name", patient.getFullName());
-        intent.putExtra("patient_email", patient.getEmail());
-        intent.putExtra("patient_phone", patient.getTel());
+    private void openDoctorPatientProfile(Context context, Patient patient) {
+        Intent intent = new Intent(context, DoctorPatientProfileActivity.class); // Профиль по UID!
+        intent.putExtra("patient_uid", patient.getUid());
         context.startActivity(intent);
     }
 
@@ -84,6 +78,11 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
         Intent i = new Intent(context, ChatActivity.class);
         i.putExtra("key1", patient.getEmail() + "_" + currentUserEmail);
         i.putExtra("key2", currentUserEmail + "_" + patient.getEmail());
+        i.putExtra("companionName", patient.getFullName() != null ? patient.getFullName() : "Не указано");
+        // Можно добавить companionPhotoUrl, если есть
+        i.putExtra("companionPhotoUrl", "");
+        i.putExtra("companionRole", "Patient");
+        i.putExtra("companionId", patient.getEmail());
         context.startActivity(i);
     }
 
@@ -94,7 +93,7 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
         return new MyPatientsHolder(v);
     }
 
-    class MyPatientsHolder extends RecyclerView.ViewHolder {
+    static class MyPatientsHolder extends RecyclerView.ViewHolder {
         ImageButton callBtn;
         TextView textViewTitle;
         TextView textViewTelephone;

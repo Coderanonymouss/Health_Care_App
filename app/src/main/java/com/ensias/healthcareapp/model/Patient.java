@@ -2,6 +2,7 @@ package com.ensias.healthcareapp.model;
 
 public class Patient {
     private String doctorId;
+    private String doctorUid;
     private String email;
     private String firstName;
     private String lastName;
@@ -10,11 +11,29 @@ public class Patient {
     private String tel;
     private Boolean firstSigninCompleted;
     private String uid;
+    private String photoUrl;
 
     // Пустой конструктор нужен для Firebase
     public Patient() {}
 
     // Геттеры и сеттеры для всех полей
+
+
+    public String getDoctorUid() {
+        return doctorUid;
+    }
+
+    public void setDoctorUid(String doctorUid) {
+        this.doctorUid = doctorUid;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
     public String getDoctorId() {
         return doctorId;

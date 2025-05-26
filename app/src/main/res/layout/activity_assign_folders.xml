@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <Spinner
+        android:id="@+id/spinner_patient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:prompt="@string/prompt_select_patient"/>
+
+
+    <Button
+        android:id="@+id/btn_select_folders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Папкаларды таңдау"/>
+
+    <TextView
+        android:id="@+id/tv_selected_folders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Таңдалған папкалар: "
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btn_assign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Папкаларды тағайындау"/>
+</LinearLayout>

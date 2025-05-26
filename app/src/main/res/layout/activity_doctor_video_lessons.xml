@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
-    tools:context=".activity.doctor.DoctorVideoLessonsActivity">
+    tools:context=".doctor.DoctorVideoLessonsActivity">
 
     <Button
         android:id="@+id/btnAddFolder"

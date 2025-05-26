@@ -10,6 +10,8 @@ public class Doctor {
     private boolean firstSigninCompleted;  // Добавлено поле для первого входа
     private String type;  // Добавлено поле для типа (например, "Doctor")
 
+    private String photoUrl;
+
     public Doctor() {
         // Пустой конструктор для Firebase
     }
@@ -89,5 +91,13 @@ public class Doctor {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 }

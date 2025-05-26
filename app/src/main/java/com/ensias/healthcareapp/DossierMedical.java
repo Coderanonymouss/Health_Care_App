@@ -15,9 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.activity.FicheActivity;
 import com.ensias.healthcareapp.activity.patient.PatientInfoActivity;
-import com.ensias.healthcareapp.adapter.ConsultationFragmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -150,7 +148,6 @@ public class DossierMedical extends AppCompatActivity {
         // 1 - Get ViewPager from layout
         ViewPager pager = (ViewPager) findViewById(R.id.ViewPagerDossier);
         // 2 - Set Adapter PageAdapter and glue it together
-        pager.setAdapter(new ConsultationFragmentAdapter(getSupportFragmentManager()));
         // 1 - Get TabLayout from layout
         TabLayout tabs = (TabLayout) findViewById(R.id.activity_main_tabs);
         // 2 - Glue TabLayout and ViewPager together
@@ -165,7 +162,7 @@ public class DossierMedical extends AppCompatActivity {
     }
 
     private void openPatientFiche(){
-        Intent intent = new Intent(this, FicheActivity.class);
+        Intent intent = new Intent(this, PatientInfoActivity.class);
         String patient_name = getIntent().getStringExtra("patient_name");
         String patient_email = getIntent().getStringExtra("patient_email");
         intent.putExtra("patient_email", patient_email);

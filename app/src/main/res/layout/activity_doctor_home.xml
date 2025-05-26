@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.doctor.DoctorHomeActivity"
+    tools:context=".doctor.DoctorHomeActivity"
     android:padding="16dp">
 
     <!-- Заголовок -->
@@ -63,7 +63,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Пациенттер"
+                    android:text="Чат"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -99,7 +99,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Қабылдаулар"
+                    android:text="@string/new_patient"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -108,7 +108,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_calendar"
+            android:id="@+id/card_users"
             android:layout_width="0dp"
             android:layout_height="130dp"
             android:layout_margin="6dp"
@@ -129,13 +129,13 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_calendar"
+                    android:src="@drawable/ic_users"
                     app:tint="@color/primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Күнтізбе"
+                    android:text="Пациенттер"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"

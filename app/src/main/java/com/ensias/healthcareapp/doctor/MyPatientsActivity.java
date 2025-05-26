@@ -22,12 +22,17 @@
         // Теперь используем коллекцию "Patient"
         private CollectionReference patientsRef = db.collection("Patient");
 
+        private RecyclerView recyclerView;
         private MyPatientsAdapter adapter;
+
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_my_patients);
+
+            recyclerView = findViewById(R.id.ListMyPatients); // <-- вынеси сюда
             setUpRecyclerView();
         }
 
@@ -45,7 +50,6 @@
                     .build();
 
             adapter = new MyPatientsAdapter(options);
-            RecyclerView recyclerView = findViewById(R.id.ListMyPatients);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
@@ -54,12 +58,16 @@
         @Override
         protected void onStart() {
             super.onStart();
+            if (recyclerView.getAdapter() == null) recyclerView.setAdapter(adapter);
             if (adapter != null) adapter.startListening();
         }
 
+
         @Override
         protected void onStop() {
-            super.onStop();
             if (adapter != null) adapter.stopListening();
+            if (recyclerView != null) recyclerView.setAdapter(null);
+            super.onStop();
         }
+
     }

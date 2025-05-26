@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <EditText
-            android:id="@+id/input_patient_email"
-            android:hint="Пациент Email"
+        <!-- Папка -->
+        <Spinner
+            android:id="@+id/spinner_folder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:prompt="@string/prompt_select_folder" />
 
+        <!-- Имя видеоурока -->
         <EditText
             android:id="@+id/input_title"
-            android:hint="Бейне сабақтың атауы"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:hint="Имя видеоурока (например, 1 урок)"
+            android:layout_marginBottom="12dp"/>
 
+        <!-- Ссылка на YouTube (необязательно) -->
         <EditText
             android:id="@+id/input_url"
-            android:hint="YouTube немесе mp4 сілтемесі"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:hint="@string/youtube"
+            android:layout_marginBottom="12dp"/>
 
-        <Spinner
-            android:id="@+id/spinner_function"
+        <!-- Кнопка выбора видео из галереи -->
+        <Button
+            android:id="@+id/btn_choose_gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:text="Выбрать видео из галереи"
+            android:layout_marginBottom="12dp"/>
 
-        <Spinner
-            android:id="@+id/spinner_priority"
+        <!-- Имя выбранного файла (отображается после выбора) -->
+        <TextView
+            android:id="@+id/tv_file_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:text=""
+            android:layout_marginBottom="12dp"
+            android:textStyle="italic"/>
 
+        <!-- Кнопка сохранить -->
         <Button
             android:id="@+id/btn_upload"
-            android:text="Жүктеу"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"/>
+            android:text="Сохранить"/>
+
     </LinearLayout>
 </ScrollView>

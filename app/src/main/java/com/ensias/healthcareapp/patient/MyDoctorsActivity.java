@@ -1,120 +1,103 @@
 package com.ensias.healthcareapp.patient;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.ChatActivity;
+import com.ensias.healthcareapp.model.Contact;
 import com.ensias.healthcareapp.model.Doctor;
+import com.ensias.healthcareapp.patient.adapter.ContactsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class MyDoctorsActivity extends AppCompatActivity {
 
-    private ImageView doctorImage;
-    private TextView doctorName, doctorSpeciality;
-    private Button chatBtn, callBtn;
-    private String doctorEmail, doctorPhone;
+    private RecyclerView contactsRecycler;
+    private ContactsAdapter adapter;
+    private List<Contact> contactList = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_doctors);
 
-        doctorImage = findViewById(R.id.doctor_image);
-        doctorName = findViewById(R.id.doctor_name);
-        doctorSpeciality = findViewById(R.id.doctor_speciality);
-        chatBtn = findViewById(R.id.doctor_chat);
-        callBtn = findViewById(R.id.doctor_call);
+        contactsRecycler = findViewById(R.id.contactsRecycler);
+        contactsRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new ContactsAdapter(contactList);
+        contactsRecycler.setAdapter(adapter);
 
         loadDoctor();
     }
 
     private void loadDoctor() {
-        String currentPatientEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        if (currentPatientEmail == null) {
-            Toast.makeText(this, "Ошибка авторизации", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        String currentPatientEmail = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         FirebaseFirestore.getInstance()
                 .collection("Patient")
                 .whereEqualTo("email", currentPatientEmail)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     if (!querySnapshot.isEmpty()) {
-                        // Берём первый найденный документ
                         DocumentSnapshot snapshot = querySnapshot.getDocuments().get(0);
-                        if (snapshot.contains("doctorId")) {
-                            doctorEmail = snapshot.getString("doctorId");
-                            if (doctorEmail != null && !doctorEmail.isEmpty()) {
-                                loadDoctorData(doctorEmail);
-                            } else {
-                                doctorName.setText("Доктор не назначен");
-                                doctorSpeciality.setText("");
-                            }
+                        String doctorUid = snapshot.getString("doctorUid"); // ПОЛЕ doctorUid ДОЛЖНО БЫТЬ В Patient
+                        if (doctorUid != null && !doctorUid.isEmpty()) {
+                            loadDoctorData(doctorUid);
+                        } else {
+                            Toast.makeText(this, "Доктор не назначен", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        doctorName.setText("Доктор не назначен");
-                        doctorSpeciality.setText("");
                     }
                 })
                 .addOnFailureListener(e -> {
-                    doctorName.setText("Ошибка загрузки доктора");
+                    Toast.makeText(this, "Ошибка загрузки доктора", Toast.LENGTH_SHORT).show();
                 });
     }
 
-    private void loadDoctorData(String doctorId) {
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadDoctorData(String doctorUid) {
         FirebaseFirestore.getInstance()
                 .collection("Doctor")
-                .document(doctorId)
+                .document(doctorUid)
                 .get()
                 .addOnSuccessListener(snapshot -> {
-                    if (snapshot.exists()) {
-                        Doctor doctor = snapshot.toObject(Doctor.class);
-                        if (doctor != null) {
-                            doctorName.setText(doctor.getFullName());
-                            doctorSpeciality.setText(doctor.getSpecialite());
-                            doctorPhone = doctor.getTel();
-
-                            // Загрузка фото доктора
-                            StorageReference imgRef = FirebaseStorage.getInstance()
-                                    .getReference("DoctorProfile/" + doctor.getEmail() + ".jpg");
-                            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                Picasso.get().load(uri).into(doctorImage);
-                            });
-
-                            chatBtn.setOnClickListener(v -> openChat(doctor.getEmail()));
-                            callBtn.setOnClickListener(v -> callDoctor(doctorPhone));
-                        }
-                    } else {
-                        doctorName.setText("Доктор не найден");
-                        doctorSpeciality.setText("");
+                    Doctor doctor = snapshot.toObject(Doctor.class);
+                    if (doctor != null) {
+                        StorageReference imgRef = FirebaseStorage.getInstance()
+                                .getReference("DoctorProfile/" + doctorUid + ".jpg");
+                        imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            contactList.add(new Contact(
+                                    doctorUid,                 // UID доктора
+                                    doctor.getEmail(),
+                                    doctor.getFullName(),
+                                    "Дәрігер",
+                                    uri.toString(),
+                                    doctor.getTel()
+                            ));
+                            adapter.notifyDataSetChanged();
+                        }).addOnFailureListener(e -> {
+                            contactList.add(new Contact(
+                                    doctorUid,
+                                    doctor.getEmail(),
+                                    doctor.getFullName(),
+                                    "Дәрігер",
+                                    "",
+                                    doctor.getTel()
+                            ));
+                            adapter.notifyDataSetChanged();
+                        });
                     }
                 });
-    }
-
-    private void openChat(String doctorEmail) {
-        String patientEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        Intent i = new Intent(this, ChatActivity.class);
-        i.putExtra("key1", doctorEmail + "_" + patientEmail);
-        i.putExtra("key2", patientEmail + "_" + doctorEmail);
-        startActivity(i);
-    }
-
-    private void callDoctor(String phone) {
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
-        startActivity(intent);
     }
 }

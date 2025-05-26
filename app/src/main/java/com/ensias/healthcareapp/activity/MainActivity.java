@@ -14,15 +14,13 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.doctor.DoctorHomeActivity;
+import com.ensias.healthcareapp.doctor.DoctorHomeActivity;
 import com.ensias.healthcareapp.activity.patient.HomeActivity;
 import com.ensias.healthcareapp.admin.AdminPanelActivity;
 import com.ensias.healthcareapp.patient.FirstSigninPatientActivity;
 import com.google.android.gms.auth.api.signin.*;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.*;
 import com.google.firebase.firestore.*;
 
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference usersRef = db.collection("User"); // "User" коллекциясы
 
     private EditText emailText, passwordText, confirmPassword; // Email, құпия сөз және оның қайталануы
-    private Button loginBtn, resendVerificationBtn; // Батырмалар
+    private Button loginBtn, resendVerificationBtn,greateAccountBtn; // Батырмалар
 
     private GoogleSignInClient googleSignInClient; // Google Sign-in клиенті
 
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         loginBtn = findViewById(R.id.LoginBtn);
+        greateAccountBtn = findViewById(R.id.CreateAccount);
         resendVerificationBtn = findViewById(R.id.ResendVerificationBtn);
 
         // Алғашында "Қайта жіберу" батырмасын жасырын күйде қоямыз
@@ -111,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
                             showToast("Кіру сәтсіз");
                         }
                     });
+        });
+
+        greateAccountBtn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         });
 
 

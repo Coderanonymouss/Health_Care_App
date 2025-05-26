@@ -135,7 +135,7 @@ public class PatientVideoLessonActivity extends AppCompatActivity {
                     VideoAdapter adapter = new VideoAdapter(videoList, video -> {
                         // при клике — перезапустить этот activity с url
                         Intent it = new Intent(PatientVideoLessonActivity.this, PatientVideoLessonActivity.class);
-                        it.putExtra("videoUrl", video.getUrl());
+                        it.putExtra("videoUrl", video.getVideoUrl());
                         startActivity(it);
                         finish();
                     });

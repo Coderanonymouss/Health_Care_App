@@ -1,33 +1,53 @@
 package com.ensias.healthcareapp.model;
 
-import com.google.firebase.firestore.ServerTimestamp;
-
-import java.util.Date;
+import com.google.firebase.Timestamp;
 
 public class Message {
+    private String text;         // Текст сообщения
+    private String sender;       // Email отправителя
+    private String senderName;
+    private String type;         // "text", "image", "audio"
+    private String fileUrl;      // Ссылка на файл (если есть)
+    private Timestamp dateCreated; // Для сортировки
 
-    private String message;
-    private Date dateCreated;
-    private String userSender;
+    private int duration;
 
-    public Message() { }
+    public int getDuration() {
+        return duration;
+    }
 
-    public Message(String message, String userSender) {
-        this.message = message;
-        this.userSender = userSender;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
 
-    // --- GETTERS ---
-    public String getMessage() { return message; }
+    public Message() {} // Нужен для Firestore
 
-    @ServerTimestamp
-    public Date getDateCreated() { return dateCreated; }
-    public String getUserSender() { return userSender; }
+    public Message(String text, String fileUrl, String sender, String senderName, String type) {
+        this.text = text;
+        this.fileUrl = fileUrl;
+        this.sender = sender;
+        this.senderName = senderName;
+        this.type = type;
+        this.dateCreated = Timestamp.now();
+        this.duration = duration;
+    }
+    // Универсальный конструктор для любого типа
+    public Message(String text, String fileUrl, String sender, String senderName, String type, int duration) {
+        this.text = text;
+        this.fileUrl = fileUrl;
+        this.sender = sender;
+        this.senderName = senderName;
+        this.type = type;
+        this.dateCreated = Timestamp.now();
+        this.duration = duration;
+    }
 
-    // --- SETTERS ---
-    public void setMessage(String message) { this.message = message; }
-    public void setDateCreated(Date dateCreated) { this.dateCreated = dateCreated; }
-    public void setUserSender(String userSender) { this.userSender = userSender; }
-
+    // Getters
+    public String getText() { return text; }
+    public String getSender() { return sender; }
+    public String getSenderName() { return senderName; }
+    public String getType() { return type; }
+    public String getFileUrl() { return fileUrl; }
+    public Timestamp getDateCreated() { return dateCreated; }
 }

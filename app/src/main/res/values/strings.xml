@@ -113,6 +113,17 @@
     <string name="status">Күйі</string>
     <string name="call_patient">шақыру\n</string>
     <string name="chat_patient">чат</string>
+    <string name="new_patient">Пациент қосу</string>
+    <string name="_00_00">00:00</string>
+    <string name="message_chat">Сообщение...</string>
+    <string name="select_folder">select folder\n</string>
+    <string name="prompt_select_patient">Пациентті таңдаңыз</string>
+    <string name="prompt_select_folder">Папканы таңдаңыз</string>
+    <string name="youtube">YouTube-ссылка (опционально)</string>
+    <string name="back">Назад</string>
+    <string name="name">Имя</string>
+    <string name="role">Роль</string>
+
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->
 </resources>
