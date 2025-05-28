@@ -123,6 +123,7 @@
     <string name="back">Назад</string>
     <string name="name">Имя</string>
     <string name="role">Роль</string>
+    <string name="arrays_medicine">Дәрілер тізімі</string>
 
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->

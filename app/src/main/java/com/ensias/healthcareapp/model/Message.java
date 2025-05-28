@@ -50,4 +50,28 @@ public class Message {
     public String getType() { return type; }
     public String getFileUrl() { return fileUrl; }
     public Timestamp getDateCreated() { return dateCreated; }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 }

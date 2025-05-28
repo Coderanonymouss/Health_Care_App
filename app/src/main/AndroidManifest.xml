@@ -29,23 +29,24 @@
         android:theme="@style/Theme.HealthCareApp">
         <activity android:name=".activity.ResetPasswordActivity"/>
         <activity android:name=".activity.RegisterActivity"/>
-        <activity android:name=".doctor.DoctorVideoLessonsActivity"
+        <activity android:name=".doctor.videolesson.DoctorVideoLessonsActivity"
             tools:ignore="Instantiatable" />
         <activity android:name=".doctor.DoctorVideoPlayerActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             tools:ignore="DiscouragedApi" />
-        <activity android:name=".doctor.DoctorPatientProfileActivity" />
-        <activity android:name=".doctor.SelectFolderActivity"/>
+        <activity android:name=".doctor.chat.DoctorPatientProfileActivity" />
+        <activity android:name=".doctor.chat.SelectFolderActivity"/>
+        <activity android:name=".patient.chat.ProfileDoctorInPatientActivity"/>
 
         <activity android:name=".activity.doctor.MyCalendarDoctorActivity" />
         <activity android:name=".activity.patient.PatientInfoActivity" />
-        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".doctor.chat.ChatActivity" />
         <activity android:name=".doctor.DoctorHomeActivity" />
         <activity android:name=".activity.doctor.EditProfileDoctorActivity" />
         <activity android:name=".activity.patient.PatientAppointementsActivity" />
         <activity android:name=".activity.patient.ProfilePatientActivity" />
-        <activity android:name=".patient.MyDoctorsActivity" />
+        <activity android:name=".patient.chat.MyDoctorsActivity" />
         <activity android:name=".admin.AdminPanelActivity" />
         <activity android:name=".admin.ManageDoctorsActivity" />
         <activity android:name=".admin.ManageUsersActivity" />
@@ -55,25 +56,24 @@
         <activity android:name=".admin.adminLogin.AdminSetupActivity" />
         <activity android:name=".patient.FirstSigninPatientActivity" />
         <activity android:name=".activity.doctor.AddPatientActivity"/>
-        <activity android:name=".doctor.DoctorUploadVideoActivity" />
+        <activity android:name=".doctor.videolesson.DoctorUploadVideoActivity" />
         <activity android:name=".doctor.ProfileDoctorActivity" />
         <activity android:name=".activity.patient.EditProfilePatientActivity" />
         <activity android:name=".activity.doctor.DoctorAppointementActivity" />
-        <activity android:name=".doctor.MyPatientsActivity" />
+        <activity android:name=".doctor.chat.MyPatientsActivity" />
         <activity android:name=".activity.SearchPatActivity" />
         <activity android:name=".activity.FirstSigninActivity" />
-        <activity android:name=".doctor.DoctorVideoListActivity"/>
-        <activity android:name=".patient.PatientVideoListActivity"/>
-        <activity android:name=".patient.ChatPatientActivity"/>
-        <activity android:name=".activity.patient.PatientVideoLessonActivity"
-            tools:targetApi="26" />
+        <activity android:name=".doctor.videolesson.DoctorVideoListActivity"/>
+        <activity android:name=".patient.videolesson.PatientVideoListActivity"/>
         <activity android:name=".activity.patient.FullScreenVideoActivity"
             android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".activity.doctor.DoctorDetailActivity"/>
+        <activity android:name=".patient.medicine.IntakeHistoryActivity" />
+        <activity android:name=".patient.videolesson.PatientVideoPlayerActivity" />
 
 
         <activity android:name=".activity.patient.HomeActivity" />
-        <activity android:name=".patient.MedicinesActivity" />
+        <activity android:name=".patient.medicine.MedicinesActivity" />
         <activity android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -82,21 +82,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver
-            android:name=".receiver.BootReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
-        <receiver android:name=".patient.receiver.MedicineReminderReceiver" android:exported="false"/>
-        <receiver android:name=".patient.receiver.MedicineTakenReceiver" android:exported="false">
-            <intent-filter>
-                <action android:name="com.ensias.healthcareapp.ACTION_TAKE_MEDICINE" />
-            </intent-filter>
-        </receiver>
+        <receiver
+            android:name=".patient.medicine.receiver.MissedIntakeReceiver"
+            android:exported="true" />
+        <receiver
+            android:name=".patient.medicine.receiver.MedicineReminderReceiver"
+            android:exported="true"/>
 
 
         <meta-data

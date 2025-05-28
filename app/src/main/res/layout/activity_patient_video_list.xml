@@ -5,38 +5,113 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/bgLightBlue">
 
+    <!-- Иллюстрация на фоне -->
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:src="@drawable/bg_video_lessons"
+        android:scaleType="fitEnd"
+        android:layout_gravity="bottom|end"
+        android:alpha="0.11"
+        android:layout_margin="10dp" />
+
+    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:title="Видеоуроки"
+        android:background="@color/colorPrimary"
+        app:title="Видео сабақтар"
         app:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back_24" />
 
+    <!-- Основной контент -->
     <LinearLayout
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Прогресс -->
+        <!-- Карточка мотивации -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/motivationCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="7dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:padding="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivMedal"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:src="@drawable/ic_medal"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="Медаль достижения"
+                    android:alpha="0.92" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvStreak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Дней подряд: 3 🔥"
+                        android:textColor="#ff9800"
+                        android:textStyle="bold"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvCongrats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ещё одно видео до медали!"
+                        android:textColor="#249b4e"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Прогресс просмотра -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            android:progressDrawable="@drawable/progress_bar_rounded" />
+
         <TextView
             android:id="@+id/tvProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Просмотрено: 0 из 0"
+            android:text="Прогресс: 0/0"
+            android:textSize="15sp"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginBottom="2dp"
+            android:textColor="@android:color/black" />
 
-        <!-- Список видео -->
+        <!-- RecyclerView с видеоуроками -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewVideos"
             android:layout_width="match_parent"
@@ -46,6 +121,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:overScrollMode="ifContentScrolls"
-            android:contentDescription="Список видеоуроков для пациента"/>
+            android:contentDescription="Список видеоуроков для пациента" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

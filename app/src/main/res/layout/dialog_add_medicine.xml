@@ -4,50 +4,49 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Название -->
         <EditText
             android:id="@+id/etMedName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Дәрі атауы"
-            android:inputType="textPersonName" />
+            android:hint="Название лекарства"
+            android:inputType="textCapWords" />
 
-        <!-- Дозировка -->
         <EditText
             android:id="@+id/etMedDosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Дозасы"
+            android:hint="Дозировка (например, 500 мг)"
             android:inputType="text" />
 
-        <!-- Сколько раз в день -->
-        <EditText
-            android:id="@+id/etTimesPerDay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Күніне қанша рет "
-            android:inputType="number" />
 
-        <!-- Сколько дней -->
         <EditText
             android:id="@+id/etDurationDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Қанша күн қабылдайсыз"
+            android:hint="Длительность (дней)"
             android:inputType="number" />
 
-        <!-- Контейнер для TimePicker -->
+
+        <EditText
+            android:id="@+id/etTimesPerDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Приёмов в день"
+            android:inputType="number" />
+
+        <!-- Контейнер для динамических TimePicker -->
         <LinearLayout
             android:id="@+id/timePickerContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"/>
 
     </LinearLayout>
 </ScrollView>

@@ -12,8 +12,9 @@ import com.ensias.healthcareapp.DossierMedical;
 import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.activity.MainActivity;
 import com.ensias.healthcareapp.activity.SearchPatActivity;
-import com.ensias.healthcareapp.patient.MedicinesActivity;
-import com.ensias.healthcareapp.patient.MyDoctorsActivity;
+import com.ensias.healthcareapp.patient.medicine.MedicinesActivity;
+import com.ensias.healthcareapp.patient.chat.MyDoctorsActivity;
+import com.ensias.healthcareapp.patient.videolesson.PatientVideoListActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -99,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         // 🎥 Бейнесабақтарға өту
         cardVideoLesson = findViewById(R.id.card_videoLesson);
         cardVideoLesson.setOnClickListener(v ->
-                startActivity(new Intent(this, PatientVideoLessonActivity.class)));
+                startActivity(new Intent(this, PatientVideoListActivity.class)));
 
         // 👤 Пайдаланушы профилі
         cardProfile = findViewById(R.id.card_profile);

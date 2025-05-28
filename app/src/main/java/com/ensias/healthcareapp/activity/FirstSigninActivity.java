@@ -128,7 +128,7 @@ public class FirstSigninActivity extends AppCompatActivity {
         String phone = tel.getText().toString().trim();
         String specialite = specialiteSpinner.getSelectedItem().toString();
         String email = firebaseUser != null ? firebaseUser.getEmail() : null;
-
+        String uid = firebaseUser != null ? firebaseUser.getUid() : null;
         if (name.isEmpty() || birth.isEmpty() || phone.isEmpty()) {
             Toast.makeText(this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
             return;
@@ -144,7 +144,7 @@ public class FirstSigninActivity extends AppCompatActivity {
             StorageReference imageRef = storageReference.child("profile_images/" + firebaseUser.getUid() + ".jpg");
             imageRef.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        saveUserData(name, birth, phone, specialite, email, uri.toString());
+                        saveUserData(uid,name, birth, phone, specialite, email, uri.toString());
                     }))
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Ошибка загрузки фото", Toast.LENGTH_SHORT).show();
@@ -152,12 +152,13 @@ public class FirstSigninActivity extends AppCompatActivity {
                     });
         } else {
             // Если фото не выбрано, сохраняем без фото
-            saveUserData(name, birth, phone, specialite, email, null);
+            saveUserData(uid,name, birth, phone, specialite, email, null);
         }
     }
 
-    private void saveUserData(String name, String birth, String phone, String specialite, String email, String photoUrl) {
+    private void saveUserData(String uid,String name, String birth, String phone, String specialite, String email, String photoUrl) {
         Map<String, Object> userData = new HashMap<>();
+        userData.put("uid",uid);
         userData.put("email", email);
         userData.put("fullName", name);
         userData.put("birthday", birth);

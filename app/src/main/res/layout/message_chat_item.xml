@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="start"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp">
 
         <TextView
             android:id="@+id/sender_name_left"
@@ -24,15 +26,33 @@
             android:textSize="13sp"
             android:layout_marginBottom="2dp"/>
 
-        <TextView
-            android:id="@+id/text_left"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_message_other"
-            android:textColor="#222"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:maxWidth="220dp"/>
+            android:orientation="vertical"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/text_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_message_other"
+                android:textColor="#222"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:maxWidth="220dp"/>
+
+            <TextView
+                android:id="@+id/time_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#BBBBBB"
+                android:textSize="12sp"
+                android:gravity="start"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/image_left"
             android:layout_width="180dp"
@@ -63,7 +83,6 @@
                 app:lottie_autoPlay="false"
                 app:lottie_loop="true"
                 android:visibility="invisible"/>
-            <!-- duration аудио -->
             <TextView
                 android:id="@+id/audio_duration_left"
                 android:layout_width="wrap_content"
@@ -75,14 +94,6 @@
                 android:layout_marginStart="8dp"
                 android:visibility="gone"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/time_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#BBBBBB"
-            android:textSize="12sp"
-            android:gravity="start"
-            android:layout_marginTop="2dp"/>
     </LinearLayout>
 
     <!-- Сообщение пользователя -->
@@ -92,7 +103,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="end"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp">
 
         <TextView
             android:id="@+id/sender_name_right"
@@ -104,15 +117,35 @@
             android:textSize="13sp"
             android:layout_marginBottom="2dp"/>
 
-        <TextView
-            android:id="@+id/text_right"
+        <!-- Пузырь + Время в одном контейнере -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_message_own"
-            android:textColor="#fff"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:maxWidth="220dp"/>
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/text_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_message_own"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:maxWidth="220dp"/>
+
+            <TextView
+                android:id="@+id/time_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#BBBBBB"
+                android:textSize="12sp"
+                android:gravity="end"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"/>
+        </LinearLayout>
+
+        <!-- Картинка -->
         <ImageView
             android:id="@+id/image_right"
             android:layout_width="180dp"
@@ -121,6 +154,7 @@
             android:layout_marginTop="4dp"
             android:visibility="gone"/>
 
+        <!-- Аудио -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -143,7 +177,6 @@
                 app:lottie_autoPlay="false"
                 app:lottie_loop="true"
                 android:visibility="invisible"/>
-            <!-- duration аудио -->
             <TextView
                 android:id="@+id/audio_duration_right"
                 android:layout_width="wrap_content"
@@ -155,13 +188,7 @@
                 android:layout_marginStart="8dp"
                 android:visibility="gone"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/time_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#BBBBBB"
-            android:textSize="12sp"
-            android:gravity="end"
-            android:layout_marginTop="2dp"/>
+
     </LinearLayout>
+
 </LinearLayout>

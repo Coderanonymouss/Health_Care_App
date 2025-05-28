@@ -14,6 +14,8 @@ import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.activity.MainActivity;
 import com.ensias.healthcareapp.activity.doctor.AddPatientActivity;
 import com.ensias.healthcareapp.activity.doctor.MyCalendarDoctorActivity;
+import com.ensias.healthcareapp.doctor.videolesson.DoctorVideoLessonsActivity;
+import com.ensias.healthcareapp.doctor.chat.MyPatientsActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;

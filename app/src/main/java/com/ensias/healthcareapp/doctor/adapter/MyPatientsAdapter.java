@@ -13,8 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.ChatActivity;
-import com.ensias.healthcareapp.doctor.DoctorPatientProfileActivity;
+import com.ensias.healthcareapp.doctor.chat.ChatActivity;
+import com.ensias.healthcareapp.doctor.chat.DoctorPatientProfileActivity;
 import com.ensias.healthcareapp.model.Patient;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -80,7 +80,7 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
         i.putExtra("key2", currentUserEmail + "_" + patient.getEmail());
         i.putExtra("companionName", patient.getFullName() != null ? patient.getFullName() : "Не указано");
         // Можно добавить companionPhotoUrl, если есть
-        i.putExtra("companionPhotoUrl", "");
+        i.putExtra("companionPhotoUrl", patient.getPhotoUrl());
         i.putExtra("companionRole", "Patient");
         i.putExtra("companionId", patient.getEmail());
         context.startActivity(i);

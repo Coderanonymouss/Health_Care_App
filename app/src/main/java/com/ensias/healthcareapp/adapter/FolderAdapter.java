@@ -22,6 +22,7 @@ public class FolderAdapter extends FirestoreRecyclerAdapter<VideoFolder, FolderA
         void onFolderClick(VideoFolder folder);
         void onEditFolder(VideoFolder folder);
         void onDeleteFolder(VideoFolder folder);
+
     }
 
     private final OnFolderClickListener listener;

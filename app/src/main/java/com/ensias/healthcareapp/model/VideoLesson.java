@@ -6,7 +6,13 @@ public class VideoLesson {
     private String videoUrl;    // Должно быть videoUrl, а не url!
     private String createdBy;
     private Object createdAt;   // Можешь заменить на Timestamp, если используешь com.google.firebase.Timestamp
+    private boolean available; // доступно для просмотра
+    private boolean watched;   // просмотрено
 
+    public boolean isAvailable() { return available; }
+    public void setAvailable(boolean a) { this.available = a; }
+    public boolean isWatched() { return watched; }
+    public void setWatched(boolean w) { this.watched = w; }
     public VideoLesson() {}
 
     public VideoLesson(String title, String videoUrl) {

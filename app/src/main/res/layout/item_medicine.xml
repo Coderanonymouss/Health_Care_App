@@ -1,81 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#FFFFFF"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/primary">
 
-    <!-- Название лекарства -->
-    <TextView
-        android:id="@+id/tvMedName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Парацетамол"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#000000" />
-
-    <!-- Дозировка -->
-    <TextView
-        android:id="@+id/tvMedDosage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="500 мг"
-        android:textSize="16sp"
-        android:textColor="#444444"
-        android:layout_marginTop="2dp"/>
-
-    <!-- Время приёма (одно или несколько) -->
-    <TextView
-        android:id="@+id/tvMedTimes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Қабылдау уақыты: 08:00, 13:00, 19:00"
-        android:textSize="14sp"
-        android:textColor="#666666"
-        android:layout_marginTop="2dp"/>
-
-    <!-- Соңғы қабылдау уақыты -->
-    <TextView
-        android:id="@+id/tvLastTaken"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Соңғы қабылдау: --:--"
-        android:textSize="14sp"
-        android:textColor="#009688"
-        android:layout_marginTop="2dp"/>
-
-    <!-- Батырмалар қатарымен -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginTop="8dp">
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="18dp">
 
-        <!-- Изменить батырмасы -->
-        <Button
-            android:id="@+id/btnEditMedicine"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvMedName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Лекарство"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primaryText"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <ImageButton
+                android:id="@+id/btnDeleteMedicine"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="Удалить"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_baseline_delete_24"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvMedDosage"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Өзгерту"
-            android:textSize="14sp"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="8dp" />
+            android:layout_height="wrap_content"
+            android:text="Дозировка: 500mg"
+            android:textColor="@color/secondaryText"
+            android:textSize="15sp"
+            android:layout_marginTop="2dp"/>
 
-        <!-- Қабылдау батырмасы -->
+        <TextView
+            android:id="@+id/tvMedTimes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Қабылдау уақыты: 08:00, 14:00"
+            android:textColor="@color/secondaryText"
+            android:textSize="15sp"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/tvLastTaken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Соңғы қабылдау: --:--"
+            android:textColor="@color/primaryText"
+            android:textSize="13sp"
+            android:layout_marginTop="2dp"/>
+
+        <LinearLayout
+            android:id="@+id/historyContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"/>
+
         <Button
             android:id="@+id/btnTakeMedicine"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="ҚАБЫЛДАУ"
-            android:textSize="14sp"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="Қабылдадым"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@android:color/white"
+            android:elevation="2dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"/>
 
-</LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

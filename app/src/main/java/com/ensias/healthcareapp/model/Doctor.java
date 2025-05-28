@@ -1,6 +1,7 @@
 package com.ensias.healthcareapp.model;
 
 public class Doctor {
+    private String uid;
     private String fullName;
     private String adresse;
     private String tel;
@@ -25,6 +26,14 @@ public class Doctor {
         this.birthday = birthday;
         this.firstSigninCompleted = firstSigninCompleted;
         this.type = type;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     // Геттеры и сеттеры для всех полей

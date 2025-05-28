@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,18 +40,23 @@ public class FirestoreVideoAdapter
     protected void onBindViewHolder(@NonNull VideoViewHolder holder,
                                     int position,
                                     @NonNull VideoLesson model) {
-        // Заголовок
+        // Заголовок видео
         holder.tvTitle.setText(model.getTitle());
-        // Статус просмотрено/не просмотрено
-        // Кнопка play
+
+        // Кнопка воспроизведения
         holder.btnPlay.setOnClickListener(v -> {
             String url = model.getVideoUrl();
+            if (url == null || url.isEmpty()) return;
+
+            // Если это YouTube
             if (url.contains("youtube.com") || url.contains("youtu.be")) {
                 Intent i = new Intent(context, YouTubePlayerActivity.class);
                 i.putExtra("videoUrl", url);
                 context.startActivity(i);
             } else {
+                // Обычный mp4 или другой видеофайл — открыть внешним плеером
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                i.setDataAndType(Uri.parse(url), "video/*");
                 context.startActivity(i);
             }
             listener.onVideoClick(model);
@@ -69,13 +73,11 @@ public class FirestoreVideoAdapter
     }
 
     static class VideoViewHolder extends RecyclerView.ViewHolder {
-        ImageView    ivStatus;
         TextView     tvTitle;
         ImageButton  btnPlay;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivStatus = itemView.findViewById(R.id.ivStatus);
             tvTitle  = itemView.findViewById(R.id.tvVideoTitle);
             btnPlay  = itemView.findViewById(R.id.btnPlayYouTube);
         }
