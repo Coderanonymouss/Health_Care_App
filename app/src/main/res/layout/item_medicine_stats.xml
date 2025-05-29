@@ -1,0 +1,46 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:paddingHorizontal="8dp">
+
+    <TextView
+        android:id="@+id/tvMedicineName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Название"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="Дата"
+        android:gravity="center"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.2"
+        android:text="Время"
+        android:gravity="center"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/tvIntakeStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Статус"
+        android:gravity="center"
+        android:maxLines="1"/>
+</LinearLayout>

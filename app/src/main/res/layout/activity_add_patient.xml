@@ -1,68 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="24dp">
+    android:background="@drawable/bg_home_gradient">
+
+    <!-- Toolbar -->
+
+    <!-- Центрированная карточка -->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/dlya_shapka"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:navigationIcon="@drawable/ic_arrow_back_24" >
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Пациентті қосу"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:singleLine="true"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Жаңа пациент қосу"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            android:textColor="@color/primary"
-            android:layout_marginBottom="24dp"/>
-
-        <EditText
-            android:id="@+id/input_patient_last_name"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Тегі"
-            android:inputType="textPersonName"
-            android:layout_marginBottom="14dp"/>
+            android:layout_margin="16dp"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="10dp"
+            android:backgroundTint="@color/white"
+            app:cardBackgroundColor="@color/white">
 
-        <EditText
-            android:id="@+id/input_patient_first_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Аты"
-            android:inputType="textPersonName"
-            android:layout_marginBottom="14dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-        <EditText
-            android:id="@+id/input_patient_middle_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Әкесінің аты"
-            android:inputType="textPersonName"
-            android:layout_marginBottom="14dp"/>
+                <!-- Ввод ИИН -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Пациенттің ЖСН"
+                    android:textSize="16sp"
+                    android:textColor="#3C3A3A"
+                    android:textStyle="bold"
+                    android:layout_marginTop="12dp"/>
+                <EditText
+                    android:id="@+id/input_patient_iin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ЖСН енгізіңіз"
+                    android:background="@drawable/edittext_bg"
+                    android:padding="14dp"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:inputType="number"
+                    android:maxLength="12"
+                    android:layout_marginBottom="8dp"/>
 
-        <EditText
-            android:id="@+id/input_patient_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="20dp"/>
+                <!-- ФИО -->
+                <TextView
+                    android:id="@+id/text_patient_fio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:textColor="#6495ED"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginTop="3dp"
+                    android:textStyle="italic|bold"/>
 
-        <Button
-            android:id="@+id/btn_add_patient"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Пациент қосу"
-            android:backgroundTint="@color/primary"
-            android:textColor="@android:color/white"
-            android:textAllCaps="false"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="16dp"
-            android:elevation="4dp"/>
+                <!-- Ввод Email -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email пациента"
+                    android:textSize="16sp"
+                    android:textColor="#3C3A3A"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+                <EditText
+                    android:id="@+id/input_patient_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="example@gmail.com"
+                    android:background="@drawable/edittext_bg"
+                    android:padding="14dp"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginBottom="20dp"/>
 
+                <!-- Кнопка добавления пациента -->
+                <Button
+                    android:id="@+id/btn_add_patient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить пациента"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/btn_orange_rounded"
+                    android:elevation="4dp"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

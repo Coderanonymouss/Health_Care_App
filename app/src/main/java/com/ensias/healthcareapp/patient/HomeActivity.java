@@ -1,4 +1,4 @@
-package com.ensias.healthcareapp.activity.patient;
+package com.ensias.healthcareapp.patient;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,8 +12,11 @@ import com.ensias.healthcareapp.DossierMedical;
 import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.activity.MainActivity;
 import com.ensias.healthcareapp.activity.SearchPatActivity;
+import com.ensias.healthcareapp.activity.patient.ProfilePatientActivity;
 import com.ensias.healthcareapp.patient.medicine.MedicinesActivity;
 import com.ensias.healthcareapp.patient.chat.MyDoctorsActivity;
+import com.ensias.healthcareapp.patient.progress.PatientAnalyticsActivity;
+import com.ensias.healthcareapp.patient.search.AIChatActivity;
 import com.ensias.healthcareapp.patient.videolesson.PatientVideoListActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -110,12 +113,12 @@ public class HomeActivity extends AppCompatActivity {
         // 🔍 Дәрігерлерді немесе басқа пациенттерді іздеу
         cardSearch = findViewById(R.id.card_search);
         cardSearch.setOnClickListener(v ->
-                startActivity(new Intent(this, SearchPatActivity.class)));
+                startActivity(new Intent(this, AIChatActivity.class)));
 
         // 📁 Медициналық жазбалар (DossierMedical)
         cardDossier = findViewById(R.id.card_dossier);
         cardDossier.setOnClickListener(v -> {
-            Intent intent = new Intent(this, DossierMedical.class);
+            Intent intent = new Intent(this, PatientAnalyticsActivity.class);
             intent.putExtra("patient_email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
             startActivity(intent);
         });

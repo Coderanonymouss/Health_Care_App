@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_home_gradient"
-    tools:context=".activity.patient.HomeActivity"
+    tools:context=".patient.HomeActivity"
     android:padding="16dp">
 
     <TextView
@@ -57,7 +57,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_doctor"
-                    app:tint="@color/primary" />
+                    app:tint="@color/dlya_shapka" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_medicine"
-                    app:tint="@color/primary" />
+                    app:tint="@color/dlya_shapka" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_video"
-                    app:tint="@color/primary" />
+                    app:tint="@color/dlya_shapka" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_profile"
-                    app:tint="@color/primary" />
+                    app:tint="@color/dlya_shapka" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -197,7 +197,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_search"
-                    app:tint="@color/primary" />
+                    app:tint="@color/dlya_shapka" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_folder"
-                    app:tint="@color/primary" />
+                    app:tint="@color/dlya_shapka" />
 
                 <TextView
                     android:layout_width="wrap_content"

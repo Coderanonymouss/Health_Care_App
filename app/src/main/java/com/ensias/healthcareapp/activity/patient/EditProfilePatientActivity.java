@@ -26,8 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.util.List;
-import java.util.Locale;import com.google.android.gms.location.*;
+import java.util.Locale;
+import java.util.Objects;
 
+import com.google.android.gms.location.*;
 
 public class EditProfilePatientActivity extends AppCompatActivity {
 
@@ -38,16 +40,14 @@ public class EditProfilePatientActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
 
     private ImageView profileImage;
-    private ImageButton selectImage;
-    private Button updateProfile;
     private TextInputEditText nameText, phoneText, addressText;
-    private TextInputLayout addressLayout;
 
     private Uri uriImage;
     private FirebaseFirestore firestore;
     private StorageReference storageRef;
-    private String currentUserEmail;
+    private String patientUid;
     private LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,47 +55,55 @@ public class EditProfilePatientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile_patient);
 
         firestore = FirebaseFirestore.getInstance();
-        currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        patientUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        storageRef = FirebaseStorage.getInstance().getReference("PatientProfile");
 
         profileImage = findViewById(R.id.image_profile);
-        selectImage = findViewById(R.id.select_image);
-        updateProfile = findViewById(R.id.update);
-        nameText = findViewById(R.id.nameText);
+        ImageButton selectImage = findViewById(R.id.select_image);
+        Button updateProfile = findViewById(R.id.update);
         phoneText = findViewById(R.id.phoneText);
         addressText = findViewById(R.id.addressText);
-        addressLayout = findViewById(R.id.address);
-
-        storageRef = FirebaseStorage.getInstance().getReference("PatientProfile");
+        TextInputLayout addressLayout = findViewById(R.id.address);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-
         Intent intent = getIntent();
-        nameText.setText(intent.getStringExtra("CURRENT_NAME"));
         phoneText.setText(intent.getStringExtra("CURRENT_PHONE"));
         addressText.setText(intent.getStringExtra("CURRENT_ADDRESS"));
 
-        storageRef.child(currentUserEmail + ".jpg").getDownloadUrl()
-                .addOnSuccessListener(uri -> Picasso.get().load(uri).placeholder(R.drawable.doctor).into(profileImage))
-                .addOnFailureListener(e -> profileImage.setImageResource(R.drawable.ic_anon_user_48dp));
+
+
+        // Загрузка и обновление фото
+        storageRef.child(patientUid + ".jpg").getDownloadUrl()
+                .addOnSuccessListener(uri -> Picasso.get().load(uri).placeholder(R.drawable.ic_user_placeholder).into(profileImage))
+                .addOnFailureListener(e -> profileImage.setImageResource(R.drawable.ic_user_placeholder));
 
         selectImage.setOnClickListener(v -> openFileChooser());
 
         updateProfile.setOnClickListener(v -> {
             uploadProfileImage();
             updatePatientInfo(
-                    nameText.getText().toString(),
-                    addressText.getText().toString(),
-                    phoneText.getText().toString()
+                    Objects.requireNonNull(addressText.getText()).toString(),
+                    Objects.requireNonNull(phoneText.getText()).toString()
             );
         });
 
         addressLayout.setEndIconOnClickListener(v -> requestLocationPermissionAndFetchAddress());
-        addressLayout.setEndIconOnClickListener(v -> {
-            Log.d("LOCATION_ICON", "Clicked!");
-            requestLocationPermissionAndFetchAddress();
-        });
+    }
 
+    // Сохранять только адрес и телефон
+    private void updatePatientInfo(String address, String phone) {
+        DocumentReference document = firestore.collection("Patient").document(patientUid);
+        document.update("address", address, "tel", phone)
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, ProfilePatientActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                });
     }
 
     private void openFileChooser() {
@@ -113,9 +121,10 @@ public class EditProfilePatientActivity extends AppCompatActivity {
         }
     }
 
+    // Сохраняем фото по patientUid
     private void uploadProfileImage() {
         if (uriImage != null) {
-            StorageReference fileRef = storageRef.child(currentUserEmail + ".jpg");
+            StorageReference fileRef = storageRef.child(patientUid + ".jpg");
             fileRef.putFile(uriImage)
                     .addOnSuccessListener(task -> Log.d(TAG, "Photo updated"))
                     .addOnFailureListener(e -> Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -123,8 +132,8 @@ public class EditProfilePatientActivity extends AppCompatActivity {
     }
 
     private void updatePatientInfo(String name, String address, String phone) {
-        DocumentReference document = firestore.collection("Patient").document(currentUserEmail);
-        document.update("fullName", name, "adresse", address, "tel", phone)
+        DocumentReference document = firestore.collection("Patient").document(patientUid);
+        document.update("fullName", name, "address", address, "tel", phone)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, ProfilePatientActivity.class));
@@ -132,7 +141,7 @@ public class EditProfilePatientActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, e.getMessage());
+                    Log.e(TAG, Objects.requireNonNull(e.getMessage()));
                 });
     }
 

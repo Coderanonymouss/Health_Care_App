@@ -1,0 +1,85 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:text="Мониторинг состояния"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- Прогрессбар по приёму лекарств -->
+        <TextView
+            android:id="@+id/tvMedProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Прогресс приёма" />
+
+        <ProgressBar
+            android:id="@+id/progressBarMed"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- PieChart -->
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- LineChart -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Календарь -->
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Бейджи -->
+        <LinearLayout
+            android:id="@+id/badgesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Рекомендация -->
+        <TextView
+            android:id="@+id/tvHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textStyle="italic"
+            android:padding="8dp"
+            android:gravity="center"/>
+
+        <!-- История -->
+        <TextView
+            android:text="История последних событий"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistory"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView android:id="@+id/tvMedicineName"
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Название" android:textStyle="bold"/>
+
+    <TextView android:id="@+id/tvCourseDays"
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:text="Курс"/>
+
+
+    <TextView android:id="@+id/tvTakenCount"
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:text="Принято"/>
+
+    <TextView android:id="@+id/tvMissedCount"
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:text="Пропущено"/>
+
+    <TextView android:id="@+id/tvPercent"
+        android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:text="%" android:textStyle="bold"/>
+</LinearLayout>

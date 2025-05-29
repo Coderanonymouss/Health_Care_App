@@ -124,6 +124,12 @@
     <string name="name">Имя</string>
     <string name="role">Роль</string>
     <string name="arrays_medicine">Дәрілер тізімі</string>
+    <string name="update_profile">UPDATE PROFILE</string>
+    <string name="enter_your_phone">Enter your phone</string>
+    <string name="enter_your_address">Enter your address</string>
+    <string name="edit_my_profile">Edit My Profile</string>
+    <string name="hi_doctor">Сәлем, доктор!</string>
+    <string name="chat">Чат</string>
 
     <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
         -->

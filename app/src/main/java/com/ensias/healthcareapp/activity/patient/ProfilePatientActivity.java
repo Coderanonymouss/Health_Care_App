@@ -22,11 +22,9 @@ import dmax.dialog.SpotsDialog;
 public class ProfilePatientActivity extends AppCompatActivity {
 
     private TextView patientName, patientPhone, patientEmail, patientAddress, patientAbout;
-    private ImageView patientImage, editIcon;
-    private Toolbar toolbar;
+    private ImageView patientImage;
 
     private String patientID;
-    private String currentUserEmail;
 
     @SuppressLint({"UseCompatLoadingForDrawables"})
     @Override
@@ -39,10 +37,10 @@ public class ProfilePatientActivity extends AppCompatActivity {
         if (patientID == null) {
             patientID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         }
-        currentUserEmail = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        String currentUserEmail = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         // View init
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -52,9 +50,8 @@ public class ProfilePatientActivity extends AppCompatActivity {
         patientPhone = findViewById(R.id.patient_phone_value);
         patientEmail = findViewById(R.id.patient_email_value);
         patientAddress = findViewById(R.id.patient_address_value);
-        patientAbout = findViewById(R.id.patient_about_value);
         patientImage = findViewById(R.id.imageView3);
-        editIcon = findViewById(R.id.editIcon); // Теперь editIcon есть!
+        ImageView editIcon = findViewById(R.id.editIcon); // Теперь editIcon есть!
 
         Drawable defaultImage = getResources().getDrawable(R.drawable.ic_user_placeholder);
 
@@ -98,7 +95,6 @@ public class ProfilePatientActivity extends AppCompatActivity {
                 patientEmail.setText(documentSnapshot.getString("email"));
                 patientAddress.setText(documentSnapshot.getString("address"));
                 String about = documentSnapshot.getString("about");
-                patientAbout.setText(about != null ? about : "-");
             }
         });
 

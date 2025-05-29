@@ -101,7 +101,7 @@ public class DoctorHomeActivity extends AppCompatActivity {
         // 🗓 Күнтізбе
         cardCalendar = findViewById(R.id.card_users);
         cardCalendar.setOnClickListener(v ->
-                startActivity(new Intent(this, MyCalendarDoctorActivity.class)));
+                startActivity(new Intent(this, AllUsersActivity.class)));
 
         // 👤 Профиль
         cardProfile = findViewById(R.id.card_profile);

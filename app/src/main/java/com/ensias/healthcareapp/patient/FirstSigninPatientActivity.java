@@ -105,7 +105,7 @@ public class FirstSigninPatientActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Данные сохранены", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(FirstSigninPatientActivity.this,
-                            com.ensias.healthcareapp.activity.patient.HomeActivity.class));
+                            HomeActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Ошибка сохранения данных", Toast.LENGTH_SHORT).show());
@@ -114,7 +114,7 @@ public class FirstSigninPatientActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Данные сохранены", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(FirstSigninPatientActivity.this,
-                            com.ensias.healthcareapp.activity.patient.HomeActivity.class));
+                            HomeActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Ошибка сохранения данных", Toast.LENGTH_SHORT).show());

@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="2dp"
+    android:paddingVertical="1dp">
+
+    <TextView
+        android:id="@+id/tvMedName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/tvTakenToday"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tvRemainingToday"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/tvDaysLeft"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        android:gravity="center"/>
+
+
+</LinearLayout>

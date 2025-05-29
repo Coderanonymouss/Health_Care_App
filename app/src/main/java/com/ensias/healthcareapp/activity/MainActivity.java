@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ensias.healthcareapp.R;
 import com.ensias.healthcareapp.doctor.DoctorHomeActivity;
-import com.ensias.healthcareapp.activity.patient.HomeActivity;
+import com.ensias.healthcareapp.patient.HomeActivity;
 import com.ensias.healthcareapp.admin.AdminPanelActivity;
 import com.ensias.healthcareapp.patient.FirstSigninPatientActivity;
 import com.google.android.gms.auth.api.signin.*;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference usersRef = db.collection("User"); // "User" коллекциясы
 
     private EditText emailText, passwordText, confirmPassword; // Email, құпия сөз және оның қайталануы
-    private Button loginBtn, resendVerificationBtn,greateAccountBtn; // Батырмалар
+    private Button loginBtn,greateAccountBtn; // Батырмалар
 
     private GoogleSignInClient googleSignInClient; // Google Sign-in клиенті
 
@@ -51,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance(); // FirebaseAuth инициализациялау
+        mAuth = FirebaseAuth.getInstance();
 
-        // UI элементтерін байланыстыру
         logoImage = findViewById(R.id.logoImage);
         emailText = findViewById(R.id.editText2);
         passwordText = findViewById(R.id.editText);
@@ -62,30 +61,14 @@ public class MainActivity extends AppCompatActivity {
 
         loginBtn = findViewById(R.id.LoginBtn);
         greateAccountBtn = findViewById(R.id.CreateAccount);
-        resendVerificationBtn = findViewById(R.id.ResendVerificationBtn);
 
-        // Алғашында "Қайта жіберу" батырмасын жасырын күйде қоямыз
-        resendVerificationBtn.setVisibility(View.GONE);
-        resendVerificationBtn.setPaintFlags(resendVerificationBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-
-        // Логотипке анимация қолдану
         Animation logoAnim = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
         logoImage.startAnimation(logoAnim);
 
-        // Google Sign-In параметрлерін баптау
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        // Құпия сөзді қалпына келтіру батырмасы басылғанда іске қосылады
         resetPasswordBtn.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, ResetPasswordActivity.class));
         });
 
-        // Кіру батырмасы басылғанда аутентификацияны іске қосады
         loginBtn.setOnClickListener(v -> {
             String email = emailText.getText().toString();
             String password = passwordText.getText().toString();
@@ -95,16 +78,18 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // Firebase арқылы Email/пароль арқылы кіру
+            showLoading();
+
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
+                        hideLoading();
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null && user.isEmailVerified()) {
-                                updateUI(user); // Рөлін тексеріп, бағыттау
+                                updateUI(user);
                             } else {
                                 showToast("Email-ді растаңыз");
-                                resendVerificationBtn.setVisibility(View.VISIBLE); // Қайта жіберу батырмасын көрсету
+                                // больше ничего не делаем
                             }
                         } else {
                             showToast("Кіру сәтсіз");
@@ -112,24 +97,6 @@ public class MainActivity extends AppCompatActivity {
                     });
         });
 
-        greateAccountBtn.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
-        });
-
-
-        // Қайта растау хат жіберу батырмасы басылғанда
-        resendVerificationBtn.setOnClickListener(v -> {
-            FirebaseUser user = mAuth.getCurrentUser();
-            if (user != null && !user.isEmailVerified()) {
-                user.sendEmailVerification().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        showToast("Хат қайта жіберілді");
-                    } else {
-                        showToast("Қате орын алды");
-                    }
-                });
-            }
-        });
 
     }
 
@@ -142,20 +109,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Google Sign-in нәтижесін қабылдау және өңдеу
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                firebaseAuthWithGoogle(task.getResult(ApiException.class));
-            } catch (ApiException e) {
-                Log.w("TAG", "Google кіру қатесі", e);
-                showToast("Google арқылы кіру сәтсіз");
-            }
-        }
-    }
+
     private void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
         // Можно дополнительно отключить взаимодействие с UI
@@ -169,22 +123,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-
-    /**
-     * Google-дың аутентификация нысанын Firebase-ке беру және кіруді аяқтау
-     * @param acct GoogleSignInAccount объектісі
-     */
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                updateUI(user);
-            } else {
-                showToast("Google арқылы кіру сәтсіз");
-            }
-        });
-    }
 
     /**
      * Пайдаланушының деректерін Firestore-дан алып, рөлі мен бірінші кіру мәртебесіне қарай бағыттау жасайды

@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+    <TextView
+        android:id="@+id/tvEventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Лекарство — ✅"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/tvEventTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2024-05-29 08:00"
+        android:textSize="13sp"/>
+</LinearLayout>

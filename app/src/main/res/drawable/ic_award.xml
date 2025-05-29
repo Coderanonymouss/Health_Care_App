@@ -1,12 +1,12 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp" android:height="24dp"
     android:viewportWidth="24" android:viewportHeight="24">
-    <!-- Круглая часть -->
+    <!-- Круглая медаль -->
     <path
-        android:fillColor="#FFC107"
+        android:fillColor="#FFD600"
         android:pathData="M12,3a9,9 0 1,0 0,18a9,9 0 1,0 0,-18z"/>
-    <!-- Бантик -->
+    <!-- Ленточка внизу -->
     <path
-        android:fillColor="#E65100"
-        android:pathData="M7,21l5,-5l5,5"/>
+        android:fillColor="#FFA000"
+        android:pathData="M10,15v5l2,-2l2,2v-5"/>
 </vector>

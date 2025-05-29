@@ -38,6 +38,7 @@
         <activity android:name=".doctor.chat.DoctorPatientProfileActivity" />
         <activity android:name=".doctor.chat.SelectFolderActivity"/>
         <activity android:name=".patient.chat.ProfileDoctorInPatientActivity"/>
+        <activity android:name=".doctor.AllUsersActivity"/>
 
         <activity android:name=".activity.doctor.MyCalendarDoctorActivity" />
         <activity android:name=".activity.patient.PatientInfoActivity" />
@@ -70,9 +71,12 @@
         <activity android:name=".activity.doctor.DoctorDetailActivity"/>
         <activity android:name=".patient.medicine.IntakeHistoryActivity" />
         <activity android:name=".patient.videolesson.PatientVideoPlayerActivity" />
+        <activity android:name=".patient.progress.PatientAnalyticsActivity" />
+        <activity android:name=".patient.progress.PatientMonitoringActivity" />
+        <activity android:name=".patient.search.AIChatActivity" />
 
 
-        <activity android:name=".activity.patient.HomeActivity" />
+        <activity android:name=".patient.HomeActivity" />
         <activity android:name=".patient.medicine.MedicinesActivity" />
         <activity android:name=".activity.MainActivity"
             android:exported="true">

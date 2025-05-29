@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".admin.AdminPanelActivity">
+    tools:context=".admin.AdminPanelActivity"
+    android:background="@drawable/bg_home_gradient">
 
     <!-- Заголовок -->
 
@@ -46,7 +47,7 @@
             android:backgroundTint="@android:color/white"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/primary"
+            app:strokeColor="@color/dlya_shapka"
             app:strokeWidth="1dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
@@ -61,7 +62,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_doctor"
-                app:tint="@color/primary"/>
+                app:tint="@color/dlya_shapka"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,7 +84,7 @@
             android:backgroundTint="@android:color/white"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/primary"
+            app:strokeColor="@color/dlya_shapka"
             app:strokeWidth="1dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
@@ -98,7 +99,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_users"
-                app:tint="@color/primary"/>
+                app:tint="@color/dlya_shapka"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,7 +121,7 @@
             android:backgroundTint="@android:color/white"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/primary"
+            app:strokeColor="@color/dlya_shapka"
             app:strokeWidth="1dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
@@ -135,7 +136,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_settings"
-                    app:tint="@color/primary"/>
+                    app:tint="@color/dlya_shapka"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,7 +158,7 @@
             android:backgroundTint="@android:color/white"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/primary"
+            app:strokeColor="@color/dlya_shapka"
             app:strokeWidth="1dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
@@ -172,7 +173,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_report"
-                    app:tint="@color/primary"/>
+                    app:tint="@color/dlya_shapka"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -194,7 +195,7 @@
             android:backgroundTint="@android:color/white"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:strokeColor="@color/primary"
+            app:strokeColor="@color/dlya_shapka"
             app:strokeWidth="1dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
@@ -209,7 +210,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/ic_profile"
-                    app:tint="@color/primary"/>
+                    app:tint="@color/dlya_shapka"/>
 
                 <TextView
                     android:layout_width="wrap_content"

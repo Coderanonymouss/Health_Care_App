@@ -7,7 +7,7 @@
     <color name="red">#C62828</color>
     <color name="blue">#2196F3</color>
     <color name="teal_700">#018786</color>
-    <color name="primary">#00796B</color>
+    <color name="dlya_shapka">#00796B</color>
     <color name="primary_dark">#168a62</color>
     <color name="secondary">#FFA726</color>
     <color name="danger">#FF5252</color>
@@ -19,6 +19,10 @@
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
     <color name="bgLightBlue">#F2F8FD</color>
+    <color name="edit_bg">#F7F7F7</color>
+    <color name="edit_stroke">#DDDDDD</color>
+    <color name="edit_hint">#8AA0B3</color>
+    <color name="edit_text">#202124</color>
 
 
 
@@ -33,5 +37,6 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="background">#FAFAFA</color>
+    <color name="primaryDark">#3167C2</color>
 
 </resources>
