@@ -1,4 +1,4 @@
-package com.ensias.healthcareapp.activity.patient;
+package com.ensias.healthcareapp.patient;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -25,8 +25,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import com.google.android.gms.location.*;
@@ -40,14 +42,16 @@ public class EditProfilePatientActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
 
     private ImageView profileImage;
-    private TextInputEditText nameText, phoneText, addressText;
+    private TextInputEditText phoneText, addressText;
 
     private Uri uriImage;
     private FirebaseFirestore firestore;
     private StorageReference storageRef;
     private String patientUid;
-    private LocationManager locationManager;
 
+    // Для отслеживания старых значений
+    private String currentPhone = "";
+    private String currentAddress = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +71,8 @@ public class EditProfilePatientActivity extends AppCompatActivity {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        Intent intent = getIntent();
-        phoneText.setText(intent.getStringExtra("CURRENT_PHONE"));
-        addressText.setText(intent.getStringExtra("CURRENT_ADDRESS"));
-
-
+        // Загружаем актуальные данные из Firestore
+        loadPatientInfo();
 
         // Загрузка и обновление фото
         storageRef.child(patientUid + ".jpg").getDownloadUrl()
@@ -81,31 +82,63 @@ public class EditProfilePatientActivity extends AppCompatActivity {
         selectImage.setOnClickListener(v -> openFileChooser());
 
         updateProfile.setOnClickListener(v -> {
-            uploadProfileImage();
-            updatePatientInfo(
-                    Objects.requireNonNull(addressText.getText()).toString(),
-                    Objects.requireNonNull(phoneText.getText()).toString()
+            // Обновляем фото только если выбрано новое
+            if (uriImage != null) {
+                uploadProfileImage();
+            }
+            // Обновляем только измененные и непустые поля
+            updatePatientInfoSafely(
+                    Objects.requireNonNull(addressText.getText()).toString().trim(),
+                    Objects.requireNonNull(phoneText.getText()).toString().trim()
             );
         });
 
         addressLayout.setEndIconOnClickListener(v -> requestLocationPermissionAndFetchAddress());
     }
 
-    // Сохранять только адрес и телефон
-    private void updatePatientInfo(String address, String phone) {
-        DocumentReference document = firestore.collection("Patient").document(patientUid);
-        document.update("address", address, "tel", phone)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, ProfilePatientActivity.class));
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+    // Загружаем текущие значения профиля
+    private void loadPatientInfo() {
+        firestore.collection("Patient").document(patientUid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        currentPhone = documentSnapshot.getString("tel") == null ? "" : documentSnapshot.getString("tel");
+                        currentAddress = documentSnapshot.getString("address") == null ? "" : documentSnapshot.getString("address");
+
+                        phoneText.setText(currentPhone);
+                        addressText.setText(currentAddress);
+                    }
                 });
     }
 
+    // Обновляем только непустые и измененные поля
+    private void updatePatientInfoSafely(String address, String phone) {
+        DocumentReference document = firestore.collection("Patient").document(patientUid);
+
+        Map<String, Object> updates = new HashMap<>();
+
+        // Проверяем только непустые и измененные значения
+        if (!address.isEmpty() && !address.equals(currentAddress)) updates.put("address", address);
+        if (!phone.isEmpty() && !phone.equals(currentPhone)) updates.put("tel", phone);
+
+        if (!updates.isEmpty()) {
+            document.update(updates)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, ProfilePatientActivity.class));
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                    });
+        } else {
+            // Нет изменений — не трогаем базу
+            Toast.makeText(this, "Өзгерістер енгізілмеді", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Открытие выбора файла
     private void openFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -121,30 +154,40 @@ public class EditProfilePatientActivity extends AppCompatActivity {
         }
     }
 
-    // Сохраняем фото по patientUid
+    // Сохраняем фото по patientUid + обновляем ссылку в Patient и User
     private void uploadProfileImage() {
         if (uriImage != null) {
             StorageReference fileRef = storageRef.child(patientUid + ".jpg");
             fileRef.putFile(uriImage)
-                    .addOnSuccessListener(task -> Log.d(TAG, "Photo updated"))
-                    .addOnFailureListener(e -> Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(taskSnapshot -> {
+                        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String photoUrl = uri.toString();
+                            savePhotoUrlToFirestore(photoUrl);
+                            Log.d(TAG, "Photo updated: " + photoUrl);
+                        });
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Image upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                    );
         }
     }
 
-    private void updatePatientInfo(String name, String address, String phone) {
-        DocumentReference document = firestore.collection("Patient").document(patientUid);
-        document.update("fullName", name, "address", address, "tel", phone)
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Профиль жаңартылды", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, ProfilePatientActivity.class));
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, Objects.requireNonNull(e.getMessage()));
-                });
+    // Сохраняем ссылку фото в Patient и User
+    private void savePhotoUrlToFirestore(String photoUrl) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Patient
+        db.collection("Patient").document(patientUid)
+                .update("photoUrl", photoUrl)
+                .addOnSuccessListener(unused -> Log.d(TAG, "Patient photoUrl updated"))
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to update Patient photoUrl: " + e.getMessage()));
+        // User
+        db.collection("User").document(patientUid)
+                .update("photoUrl", photoUrl)
+                .addOnSuccessListener(unused -> Log.d(TAG, "User photoUrl updated"))
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to update User photoUrl: " + e.getMessage()));
     }
 
+    // Запрос разрешения и получение адреса
     private void requestLocationPermissionAndFetchAddress() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);

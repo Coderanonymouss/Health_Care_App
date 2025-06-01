@@ -10,7 +10,7 @@
         android:id="@+id/btn_create_admin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Создать Админа"
+        android:text="@string/add_admin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

@@ -145,7 +145,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Пациенттер"
+                    android:text="@string/patients"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -181,7 +181,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Профиль"
+                    android:text="@string/profile"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -189,6 +189,44 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_settings"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_margin="6dp"
+            android:backgroundTint="@android:color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:strokeColor="@color/dlya_shapka"
+            app:strokeWidth="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/dlya_shapka"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/params"
+                    android:textSize="15sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/primary_dark"
+                    android:fontFamily="@font/montserrat_medium"/>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_videos"
             android:layout_width="0dp"
@@ -204,7 +242,6 @@
             app:strokeWidth="2dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -220,30 +257,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Бейне сабақтар"
+                    android:text="@string/videolessons"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
                     android:fontFamily="@font/montserrat_medium" />
             </LinearLayout>
+
+
         </com.google.android.material.card.MaterialCardView>
     </androidx.gridlayout.widget.GridLayout>
-
-    <!-- Кнопка выхода -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signOutBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Шығу"
-        app:icon="@drawable/ic_logout"
-        app:iconTint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/danger"
-        app:cornerRadius="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

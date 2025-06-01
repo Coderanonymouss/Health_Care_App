@@ -13,11 +13,41 @@ public class Patient {
     private String uid;
     private String photoUrl;
 
+    private String diagnosis;
+
+    private String iin;
+
+    private String rehabStage;
+
     // Пустой конструктор нужен для Firebase
     public Patient() {}
 
     // Геттеры и сеттеры для всех полей
 
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getIin() {
+        return iin;
+    }
+
+    public void setIin(String iin) {
+        this.iin = iin;
+    }
+
+    public String getRehabStage() {
+        return rehabStage;
+    }
+
+    public void setRehabStage(String rehabStage) {
+        this.rehabStage = rehabStage;
+    }
 
     public String getDoctorUid() {
         return doctorUid;

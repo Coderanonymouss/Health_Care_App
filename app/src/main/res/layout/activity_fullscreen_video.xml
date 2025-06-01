@@ -19,6 +19,6 @@
         android:layout_gravity="top|start"
         android:layout_margin="16dp"
         android:background="@android:color/transparent"
-        android:contentDescription="Назад"
+        android:contentDescription="@string/back"
         android:src="@android:drawable/ic_menu_close_clear_cancel" />
 </FrameLayout>

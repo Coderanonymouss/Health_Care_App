@@ -40,7 +40,7 @@ public class FolderListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         firestore = FirebaseFirestore.getInstance();
-        folderRef = firestore.collection("VideoFolders");
+        folderRef = firestore.collection("video_folders");
         Query query = folderRef.orderBy("name");
 
         FirestoreRecyclerOptions<VideoFolder> options =

@@ -25,8 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.doctor.ProfileDoctorActivity;
-import com.ensias.healthcareapp.activity.patient.ProfilePatientActivity;
+import com.ensias.healthcareapp.patient.ProfilePatientActivity;
 import com.ensias.healthcareapp.doctor.adapter.MessageAdapter;
 import com.ensias.healthcareapp.model.Message;
 import com.ensias.healthcareapp.patient.chat.ProfileDoctorInPatientActivity;

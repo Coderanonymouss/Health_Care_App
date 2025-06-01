@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Qamqor</string>
     <string name="main_activity_description">Менторларыңызбен жай ғана сөйлесіңіз.</string>
@@ -6,7 +7,7 @@
     <string name="chat_with_mentor">Ментормен сөйлесу</string>
 
     <!-- NOTIFICATION SERVICE -->
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
     <string name="notification_title">"Сізге хабарлама келді"</string>
 
     <!-- MAIN ACTIVITY -->
@@ -68,22 +69,11 @@
         <item>Ревматолог</item>
     </string-array>
 
-    <string-array name="blood_spinner">
-        <item>A+</item>
-        <item>A-</item>
-        <item>B+</item>
-        <item>B-</item>
-        <item>AB+</item>
-        <item>AB-</item>
-        <item>O+</item>
-        <item>O-</item>
-    </string-array>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Сәлем, бос фрагмент</string>
     <string name="messages">Хабарлама</string>
     <string name="welcome_user">Қош келдіңіз</string>
-    <string name="choose_an_option">Опция таңдаңыз</string>
+    <string name="choose_an_option">Тілді таңдаңыз</string>
     <string name="medical_folder">Медициналық папка</string>
     <string name="my_doctors">Менің дәрігерлерім</string>
     <string name="appointement">Кездесу</string>
@@ -105,7 +95,7 @@
     <string name="salem">Сәлем, қолданушы!</string>
     <string name="edit">Өңдеу</string>
     <string name="my_profile">Менің профилім</string>
-    <string name="add_medicine">дәрі қосу\n</string>
+    <string name="add_medicine">дәрі \n қосу</string>
     <string name="patient_email_com">Пациент: patient@email.com</string>
     <string name="watch_v_videos_embed_youtu_be_v_e_watch_v_w_11"><![CDATA[(?<=watch\\?v=|/videos/|embed/|youtu.be/|/v/|/e/|watch\\?.+&v=)([\\w-]{11})]]></string>
     <string name="play_video">бейне ойнату</string>
@@ -115,22 +105,132 @@
     <string name="chat_patient">чат</string>
     <string name="new_patient">Пациент қосу</string>
     <string name="_00_00">00:00</string>
-    <string name="message_chat">Сообщение...</string>
-    <string name="select_folder">select folder\n</string>
+    <string name="message_chat">Хабарлама...</string>
+    <string name="select_folder">қалтаны \n таңдаңыз</string>
     <string name="prompt_select_patient">Пациентті таңдаңыз</string>
     <string name="prompt_select_folder">Папканы таңдаңыз</string>
-    <string name="youtube">YouTube-ссылка (опционально)</string>
-    <string name="back">Назад</string>
-    <string name="name">Имя</string>
+    <string name="youtube">YouTube-сілтемесі</string>
+    <string name="back">Артқа</string>
+    <string name="name">Аты</string>
     <string name="role">Роль</string>
     <string name="arrays_medicine">Дәрілер тізімі</string>
-    <string name="update_profile">UPDATE PROFILE</string>
-    <string name="enter_your_phone">Enter your phone</string>
-    <string name="enter_your_address">Enter your address</string>
-    <string name="edit_my_profile">Edit My Profile</string>
-    <string name="hi_doctor">Сәлем, доктор!</string>
+    <string name="update_profile">ПРОФИЛЬДІ ЖАҢАРТУ</string>
+    <string name="enter_your_phone">Телефонды енгізіңіз</string>
+    <string name="enter_your_address">Мекен-жайыңызды енгізіңіз</string>
+    <string name="edit_my_profile">Менің Профилімді Өңдеу</string>
+    <string name="hi_doctor">Сәлем, дәрігер!</string>
     <string name="chat">Чат</string>
+    <string name="folder">Папка</string>
+    <string name="menu">Мәзір</string>
+    <string name="add_patient">Пациентті қосу</string>
+    <string name="iin_patient">Пациенттің ЖСН</string>
+    <string name="read_IIn">ЖСН енгізіңіз</string>
+    <string name="email_patient">Пациенттің email</string>
+    <string name="admin_panel">Админ панель</string>
+    <string name="doctors">Дәрігерлер</string>
+    <string name="patients">Пациенттер</string>
+    <string name="params">Параметрлер</string>
+    <string name="esep">Есептер</string>
+    <string name="exit">Шығу</string>
+    <string name="first_last_name">Аты-жөні</string>
+    <string name="example_email">email@example.com</string>
+    <string name="notification">Хабарлама</string>
+    <string name="dark_topic">Тёмная тема</string>
+    <string name="save">Сақтау</string>
+    <string name="add_admin">Админ жасау</string>
+    <string name="send">Жіберу</string>
+    <string name="folders_choose">Папкаларды таңдау</string>
+    <string name="folders_selected">Таңдалған папкалар:</string>
+    <string name="folders_assign">Папкаларды тағайындау</string>
+    <string name="name_doctor">Дәрігердің аты</string>
+    <string name="speciality">Мамандығы</string>
+    <string name="phone">Телефон</string>
+    <string name="control_request">Бақылауды сұрау</string>
+    <string name="videolessons">Бейне сабақтар</string>
+    <string name="patient_name">Науқастың аты</string>
+    <string name="iin">Жсн: —</string>
+    <string name="add_videolesson">Бейнесабақ қосу</string>
+    <string name="progress_overall">Общий прогресс</string>
+    <string name="violations">Бұзушылықтар</string>
+    <string name="expired_videos">Мерзімі өткен бейнелер: 0</string>
+    <string name="missed_medications">Мерзімі өткен дәрілер: 0</string>
+    <string name="medicines">Дәрі</string>
+    <string name="add_new_folder">Жаңа папка құру</string>
+    <string name="enter_your_name">Өз атыңызды енгізіңіз</string>
+    <string name="doctor_register">Дәрігерді тіркеу</string>
+    <string name="photo_choose">Сурет таңдау</string>
+    <string name="full_name">Толық аты-жөні</string>
+    <string name="phone_number">Телефон номері</string>
+    <string name="confirm">РАСТАУ</string>
+    <string name="address">Адрес</string>
+    <string name="hello_patient">Сәлем, қолданушы!</string>
+    <string name="my_doctor">Дәрігерім</string>
+    <string name="my_medicines">Дәрілерім</string>
+    <string name="records">Жазбалар</string>
+    <string name="techniques_history">Қабылдау тарихы</string>
+    <string name="register">Тіркелу</string>
+    <string name="forgot_password">Құпия сөзді ұмыттыңыз ба?</string>
+    <string name="select_contact_to_communicate_with">Байланыс үшін контактіні таңдаңыз</string>
+    <string name="my_patients">Менің Пациенттерім</string>
+    <string name="analitica">Аналитика</string>
+    <string name="progress">Прогресс: 0/0</string>
+    <string name="history_videolessons">Бейне сабақтарының тарихы</string>
+    <string name="history_medicine">Дәрі-дәрмектің тарихы</string>
+    <string name="folders_assigned">Маған тағайындалған папкалар:</string>
+    <string name="day_contract">Күн қатарынан: 3 🔥</string>
+    <string name="video_until_medal">Медальға тағы бір бейне!</string>
+    <string name="patient_video_list">Науқасқа арналған бейне оқулықтардың тізімі</string>
+    <string name="folder_videos">Папкадағы видеолар:</string>
+    <string name="firstname">Аты</string>
+    <string name="specialty">Мамандығы</string>
+    <string name="home_address">Мекен-жай</string>
+    <string name="description">Сипаттама</string>
+    <string name="patient_profile">Пациент профилі</string>
+    <string name="fullname">Аты Жөні</string>
+    <string name="register_new_account">Жаңа аккаунт тіркеу</string>
+    <string name="registry">Тіркелу</string>
+    <string name="reset_password">Құпиясөзді қалпына келтіру</string>
+    <string name="send_recovery_link">Қалпына келтіру сілтемесін жіберу</string>
+    <string name="choose_folder">Папканы таңдаңыз</string>
+    <string name="video_lesson_name">Бейне Сабақтың атауы (мысалы, 1 сабақ)</string>
+    <string name="select_video_from_gallery">Галереядан бейнені таңдаңыз</string>
+    <string name="video_watched_count">Бейне қаралды: 0</string>
+    <string name="level">Деңгей: 1</string>
+    <string name="video_lessons_list_patient">Науқасқа арналған бейне оқулықтардың тізімі</string>
+    <string name="videolesson">Видеосабақ</string>
+    <string name="medicine_name">Дәрінің атауы</string>
+    <string name="dosage">Дозасы (мысалы, 500 мг)</string>
+    <string name="duration_days">Ұзақтығы (күн)</string>
+    <string name="times_per_day">Продолжительность (дней)</string>
+    <string name="youtube_link">YouTube сілтемесі</string>
+    <string name="from_gallery">Галереядан</string>
+    <string name="name_folder">Қалта атауы</string>
+    <string name="loading">Жүктеу...</string>
+    <string name="doctor">Дәрігер</string>
+    <string name="call">Қоңырау шалу</string>
+    <string name="doctor_name">Дәрігер Аты</string>
+    <string name="doctor_example_com">doctor@example.com</string>
+    <string name="delete">Өшіру</string>
+    <string name="medicine_done">Дәрі — ✅</string>
+    <string name="medicine">Дәрі</string>
+    <string name="intake_time">Қабылдау уақыты: 08:00, 14:00</string>
+    <string name="last_intake">Соңғы қабылдау: --:--</string>
+    <string name="marked_as_taken">Қабылдадым</string>
+    <string name="kurs">Курс</string>
+    <string name="accepted">Қабылданды</string>
+    <string name="missed">Өткізіп алған</string>
+    <string name="days_left">күн \n қалды</string>
+    <string name="take_for_today">бүгінге \n iшетініңіз</string>
+    <string name="medicine_taken">Бүгін \n қабылдаймын</string>
+    <string name="medicine_name_multiline">Дәрі \n атауы</string>
+    <string name="date">Күні</string>
+    <string name="time">Уақыт</string>
+    <string name="name_video">Видеоның атауы</string>
+    <string name="watch_video">Видеоны қарау</string>
+    <string name="available">Қолжетімді</string>
+    <string name="you">Сіз</string>
+    <string name="language" translatable="false">Тіл</string>
+    <string name="language_changed" translatable="false">Тіл өзгертілді</string>
+    <string name="language_already_selected" translatable="false">Бұл тіл қазір таңдалған</string>
 
-    <!--<string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
-        -->
 </resources>

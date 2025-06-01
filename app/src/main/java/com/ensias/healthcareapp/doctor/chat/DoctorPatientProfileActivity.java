@@ -1,7 +1,10 @@
 package com.ensias.healthcareapp.doctor.chat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,16 +28,19 @@ import com.squareup.picasso.Picasso;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DoctorPatientProfileActivity extends AppCompatActivity {
 
     private ImageView ivPatientPhoto;
-    private TextView tvName, tvEmail, tvPhone, tvVideoStats, tvMedStats, tvOverdueVideos, tvOverdueMeds, tvOverallProgress;
+    private TextView tvIIN, tvName, tvEmail, tvPhone, tvVideoStats, tvMedStats, tvOverdueVideos, tvOverdueMeds, tvOverallProgress;
     private ProgressBar progressOverall;
     private MaterialButton btnAddVideo;
-    private String patientUid; // UID пациента
-    private String patientEmail; // email пациента
+    private String patientUid;
+    private String patientEmail;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +48,7 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
 
         ivPatientPhoto = findViewById(R.id.ivPatientPhoto);
         tvName = findViewById(R.id.tvPatientName);
-        tvEmail = findViewById(R.id.tvPatientEmail);
+        tvEmail = findViewById(R.id.tvPatientEmail); // ✅ используем email вместо iin
         tvPhone = findViewById(R.id.tvPatientPhone);
         tvVideoStats = findViewById(R.id.tvVideoStats);
         tvMedStats = findViewById(R.id.tvMedStats);
@@ -53,7 +59,7 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
         btnAddVideo = findViewById(R.id.btnAddVideo);
 
         patientUid = getIntent().getStringExtra("patient_uid");
-        patientEmail = getIntent().getStringExtra("patient_email"); // <---
+        patientEmail = getIntent().getStringExtra("patient_email");
 
         if (patientUid != null) {
             loadPatientData(patientUid, patientEmail);
@@ -65,11 +71,9 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SelectFolderActivity.class);
             intent.putExtra("patientUid", patientUid);
             intent.putExtra("patientEmail", patientEmail);
-            startActivityForResult(intent, 101); // используем startActivityForResult!
+            startActivityForResult(intent, 101);
         });
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -78,18 +82,18 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
             String folderId = data.getStringExtra("folderId");
             if (folderId != null && patientUid != null) {
                 assignFolderToPatient(patientUid, folderId);
-                saveFolderIdToPatient(patientUid, folderId); // ДОБАВЬ ЭТУ СТРОКУ!
+                saveFolderIdToPatient(patientUid, folderId);
             }
         }
     }
+
     private void saveFolderIdToPatient(String patientUid, String folderId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        java.util.Map<String, Object> data = new java.util.HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("folderId", folderId);
 
-        db.collection("Patient")
-                .document(patientUid)
-                .set(data, SetOptions.merge()) // <<--- Обязательно SetOptions.merge()
+        db.collection("Patient").document(patientUid)
+                .set(data, SetOptions.merge())
                 .addOnSuccessListener(aVoid ->
                         Toast.makeText(this, "Папка успешно назначена в профиль пациента!", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e ->
@@ -100,14 +104,12 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String documentId = patientUid + "_" + folderId;
 
-        // Информация для хранения
-        java.util.Map<String, Object> data = new java.util.HashMap<>();
+        Map<String, Object> data = new HashMap<>();
         data.put("patientUid", patientUid);
         data.put("folderId", folderId);
         data.put("assignedAt", System.currentTimeMillis());
 
-        db.collection("patient_folders")
-                .document(documentId)
+        db.collection("patient_folders").document(documentId)
                 .set(data)
                 .addOnSuccessListener(aVoid ->
                         Toast.makeText(this, "Папка успешно назначена пациенту!", Toast.LENGTH_SHORT).show())
@@ -116,9 +118,7 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
     }
 
     private void loadPatientData(String uid, String emailFromIntent) {
-        DocumentReference ref = FirebaseFirestore.getInstance()
-                .collection("Patient").document(uid);
-
+        DocumentReference ref = FirebaseFirestore.getInstance().collection("Patient").document(uid);
         ref.get().addOnSuccessListener(doc -> {
             if (doc.exists()) {
                 String firstName = doc.getString("firstName");
@@ -131,25 +131,16 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
                 tvEmail.setText(email != null ? email : "—");
                 tvPhone.setText(phone != null ? phone : "—");
 
-                // Фото: используем email из интента, если нет — из документа
-                String emailForPhoto = emailFromIntent != null ? emailFromIntent : email;
                 String imageId;
-                if (email != null) {
-                    try {
-                        // КОДИРУЕМ email для url (иначе фото не загрузится!)
-                        imageId = URLEncoder.encode(email, "UTF-8") + ".jpg";
-                    } catch (UnsupportedEncodingException e) {
-                        imageId = email + ".jpg";
-                    }
-                } else {
-                    imageId = "none.jpg";
+                try {
+                    imageId = URLEncoder.encode(patientUid, "UTF-8") + ".jpg";
+                } catch (UnsupportedEncodingException e) {
+                    imageId = patientUid + ".jpg";
                 }
 
                 String url = "https://firebasestorage.googleapis.com/v0/b/rehabcare-fc585.appspot.com/o/PatientProfile%2F" + imageId + "?alt=media";
-                Picasso.get()
-                        .load(url)
-                        .placeholder(R.drawable.ic_account)
-                        .into(ivPatientPhoto);
+                Picasso.get().load(url).placeholder(R.drawable.ic_account).into(ivPatientPhoto);
+
                 loadVideoProgress(uid);
                 loadMedProgress(uid);
                 loadOverdueStats(uid);
@@ -180,132 +171,50 @@ public class DoctorPatientProfileActivity extends AppCompatActivity {
     }
 
     private void loadOverdueStats(String uid) {
-        // Просроченные видеоуроки
-        FirebaseFirestore.getInstance()
-                .collection("video_overdue")
-                .document(uid)
-                .get()
+        FirebaseFirestore.getInstance().collection("video_overdue").document(uid).get()
                 .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        Long overdue = doc.getLong("count");
-                        tvOverdueVideos.setText("Просроченных видео: " + (overdue != null ? overdue : 0));
-                    } else {
-                        tvOverdueVideos.setText("Просроченных видео: 0");
-                    }
-                })
-                .addOnFailureListener(e -> {
+                    Long overdue = doc.getLong("count");
+                    tvOverdueVideos.setText("Просроченных видео: " + (overdue != null ? overdue : 0));
+                }).addOnFailureListener(e -> {
                     tvOverdueVideos.setText("Просроченных видео: —");
                     Log.e("PROFILE", "Ошибка чтения просроченных видео", e);
                 });
 
-        // Просроченные лекарства
-        FirebaseFirestore.getInstance()
-                .collection("med_overdue")
-                .document(uid)
-                .get()
+        FirebaseFirestore.getInstance().collection("med_overdue").document(uid).get()
                 .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        Long overdue = doc.getLong("count");
-                        tvOverdueMeds.setText("Пропущенных лекарств: " + (overdue != null ? overdue : 0));
-                    } else {
-                        tvOverdueMeds.setText("Пропущенных лекарств: 0");
-                    }
-                })
-                .addOnFailureListener(e -> {
+                    Long overdue = doc.getLong("count");
+                    tvOverdueMeds.setText("Пропущенных лекарств: " + (overdue != null ? overdue : 0));
+                }).addOnFailureListener(e -> {
                     tvOverdueMeds.setText("Пропущенных лекарств: —");
                     Log.e("PROFILE", "Ошибка чтения просроченных лекарств", e);
                 });
     }
 
     private void loadMedProgress(String uid) {
-        FirebaseFirestore.getInstance()
-                .collection("med_progress")
-                .document(uid)
-                .get()
+        FirebaseFirestore.getInstance().collection("med_progress").document(uid).get()
                 .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        Long taken = doc.getLong("taken");
-                        Long total = doc.getLong("total");
-                        long takenCount = taken != null ? taken : 0;
-                        long totalCount = total != null ? total : 0;
-                        tvMedStats.setText(takenCount + "/" + totalCount);
-                    } else {
-                        tvMedStats.setText("—");
-                    }
-                })
-                .addOnFailureListener(e -> {
+                    Long taken = doc.getLong("taken");
+                    Long total = doc.getLong("total");
+                    long takenCount = taken != null ? taken : 0;
+                    long totalCount = total != null ? total : 0;
+                    tvMedStats.setText(takenCount + "/" + totalCount);
+                }).addOnFailureListener(e -> {
                     tvMedStats.setText("—");
                     Log.e("PROFILE", "Ошибка чтения прогресса лекарств", e);
                 });
     }
 
     private void loadVideoProgress(String uid) {
-        // Получаем документ по uid пациента в коллекции video_progress
-        FirebaseFirestore.getInstance()
-                .collection("video_progress")
-                .document(uid)
-                .get()
+        FirebaseFirestore.getInstance().collection("video_progress").document(uid).get()
                 .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        // Например: { watchedCount: 5, totalVideos: 10 }
-                        Long watched = doc.getLong("watchedCount");
-                        Long total = doc.getLong("totalVideos");
-                        // Если поля нет — ставим 0
-                        long watchedCount = watched != null ? watched : 0;
-                        long totalCount = total != null ? total : 0;
-                        // Выводим, например: 5/10
-                        tvVideoStats.setText(watchedCount + "/" + totalCount);
-                    } else {
-                        // Если прогресса нет — выводим прочерк
-                        tvVideoStats.setText("—");
-                    }
-                })
-                .addOnFailureListener(e -> {
+                    Long watched = doc.getLong("watchedCount");
+                    Long total = doc.getLong("totalVideos");
+                    long watchedCount = watched != null ? watched : 0;
+                    long totalCount = total != null ? total : 0;
+                    tvVideoStats.setText(watchedCount + "/" + totalCount);
+                }).addOnFailureListener(e -> {
                     tvVideoStats.setText("—");
-                    // Для отладки:
                     Log.e("PROFILE", "Ошибка чтения прогресса видео", e);
                 });
-    }
-
-    private void showFolderPickerDialog() {
-        String doctorId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseFirestore.getInstance()
-                .collection("video_folders")
-                .whereEqualTo("doctorId", doctorId)
-                .get()
-                .addOnSuccessListener(query -> {
-                    ArrayList<String> folderNames = new ArrayList<>();
-                    ArrayList<String> folderIds = new ArrayList<>();
-                    for (QueryDocumentSnapshot doc : query) {
-                        // Если папки делаются индивидуальными — фильтруй по patientUid
-                        if (doc.contains("patientUid")) {
-                            String patientInFolder = doc.getString("patientUid");
-                            if (patientInFolder != null && !patientInFolder.equals(patientUid))
-                                continue;
-                        }
-                        folderNames.add(doc.getString("name"));
-                        folderIds.add(doc.getId());
-                    }
-                    if (folderNames.isEmpty()) {
-                        Toast.makeText(this, "Нет доступных папок. Создайте папку на экране видеоуроков!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    new MaterialAlertDialogBuilder(this)
-                            .setTitle("Выберите папку для видеоурока")
-                            .setItems(folderNames.toArray(new String[0]), (dialog, which) -> {
-                                String selectedFolderId = folderIds.get(which);
-                                openAddVideoActivity(selectedFolderId);
-                            })
-                            .setNegativeButton("Отмена", null)
-                            .show();
-                })
-                .addOnFailureListener(e -> Toast.makeText(this, "Ошибка загрузки папок", Toast.LENGTH_SHORT).show());
-    }
-
-    private void openAddVideoActivity(String folderId) {
-        Intent intent = new Intent(this, DoctorUploadVideoActivity.class);
-        intent.putExtra("folderId", folderId);
-        intent.putExtra("patientUid", patientUid); // если видео строго для этого пациента
-        startActivity(intent);
     }
 }

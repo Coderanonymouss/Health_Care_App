@@ -38,15 +38,16 @@
         <activity android:name=".doctor.chat.DoctorPatientProfileActivity" />
         <activity android:name=".doctor.chat.SelectFolderActivity"/>
         <activity android:name=".patient.chat.ProfileDoctorInPatientActivity"/>
-        <activity android:name=".doctor.AllUsersActivity"/>
+        <activity android:name=".doctor.patients.AllUsersActivity"/>
+        <activity android:name=".SettingsActivity"/>
 
         <activity android:name=".activity.doctor.MyCalendarDoctorActivity" />
-        <activity android:name=".activity.patient.PatientInfoActivity" />
+
         <activity android:name=".doctor.chat.ChatActivity" />
         <activity android:name=".doctor.DoctorHomeActivity" />
         <activity android:name=".activity.doctor.EditProfileDoctorActivity" />
         <activity android:name=".activity.patient.PatientAppointementsActivity" />
-        <activity android:name=".activity.patient.ProfilePatientActivity" />
+        <activity android:name=".patient.ProfilePatientActivity" />
         <activity android:name=".patient.chat.MyDoctorsActivity" />
         <activity android:name=".admin.AdminPanelActivity" />
         <activity android:name=".admin.ManageDoctorsActivity" />
@@ -56,10 +57,10 @@
         <activity android:name=".admin.AdminProfileActivity" />
         <activity android:name=".admin.adminLogin.AdminSetupActivity" />
         <activity android:name=".patient.FirstSigninPatientActivity" />
-        <activity android:name=".activity.doctor.AddPatientActivity"/>
+        <activity android:name=".doctor.AddPatientActivity"/>
         <activity android:name=".doctor.videolesson.DoctorUploadVideoActivity" />
         <activity android:name=".doctor.ProfileDoctorActivity" />
-        <activity android:name=".activity.patient.EditProfilePatientActivity" />
+        <activity android:name=".patient.EditProfilePatientActivity" />
         <activity android:name=".activity.doctor.DoctorAppointementActivity" />
         <activity android:name=".doctor.chat.MyPatientsActivity" />
         <activity android:name=".activity.SearchPatActivity" />
@@ -69,7 +70,6 @@
         <activity android:name=".activity.patient.FullScreenVideoActivity"
             android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".activity.doctor.DoctorDetailActivity"/>
-        <activity android:name=".patient.medicine.IntakeHistoryActivity" />
         <activity android:name=".patient.videolesson.PatientVideoPlayerActivity" />
         <activity android:name=".patient.progress.PatientAnalyticsActivity" />
         <activity android:name=".patient.progress.PatientMonitoringActivity" />

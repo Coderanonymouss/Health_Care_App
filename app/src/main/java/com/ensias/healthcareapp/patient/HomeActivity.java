@@ -5,20 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.ensias.healthcareapp.BaseActivity;
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.DossierMedical;
 import com.ensias.healthcareapp.R;
-import com.ensias.healthcareapp.activity.MainActivity;
-import com.ensias.healthcareapp.activity.SearchPatActivity;
-import com.ensias.healthcareapp.activity.patient.ProfilePatientActivity;
+import com.ensias.healthcareapp.SettingsActivity;
 import com.ensias.healthcareapp.patient.medicine.MedicinesActivity;
 import com.ensias.healthcareapp.patient.chat.MyDoctorsActivity;
 import com.ensias.healthcareapp.patient.progress.PatientAnalyticsActivity;
-import com.ensias.healthcareapp.patient.search.AIChatActivity;
 import com.ensias.healthcareapp.patient.videolesson.PatientVideoListActivity;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,10 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * Бұл класс - Пациенттің басты (үй) экраны.
  * Мұнда қолданушы өзінің дәрігерлеріне, бейнесабақтарға, профильге, т.б. өтуге мүмкіндік алады.
  */
-public class HomeActivity extends AppCompatActivity {
-
-    // Шығу батырмасы
-    MaterialButton signOutBtn;
+public class HomeActivity extends BaseActivity {
 
     // Карточкалар арқылы түрлі функцияларға өту
     MaterialCardView cardMyDoctors, cardMedicines, cardVideoLesson,
@@ -80,15 +71,6 @@ public class HomeActivity extends AppCompatActivity {
                     Common.CurrentUserName = documentSnapshot.getString("fullName");
                 });
 
-        // 🔘 Шығу батырмасы (сессияны жабу)
-        signOutBtn = findViewById(R.id.signOutBtn);
-        signOutBtn.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Барлық алдыңғы экрандарды жояды
-            startActivity(intent);
-            finish();
-        });
 
         // 🩺 Менің дәрігерлерім (MyDoctorsActivity)
         cardMyDoctors = findViewById(R.id.card_myDoctors);
@@ -113,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
         // 🔍 Дәрігерлерді немесе басқа пациенттерді іздеу
         cardSearch = findViewById(R.id.card_search);
         cardSearch.setOnClickListener(v ->
-                startActivity(new Intent(this, AIChatActivity.class)));
+                startActivity(new Intent(this, SettingsActivity.class)));
 
         // 📁 Медициналық жазбалар (DossierMedical)
         cardDossier = findViewById(R.id.card_dossier);

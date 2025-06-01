@@ -54,7 +54,6 @@ public class SelectFolderActivity extends AppCompatActivity {
     private void loadFolders() {
         FirebaseFirestore.getInstance()
                 .collection("video_folders")
-                .whereEqualTo("createdBy", doctorEmail)
                 .get()
                 .addOnSuccessListener(query -> {
                     ArrayList<FolderItems> folders = new ArrayList<>();

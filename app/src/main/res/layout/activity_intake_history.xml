@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:text="История приёмов"
+            android:text="@string/techniques_history"
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:textStyle="bold" />

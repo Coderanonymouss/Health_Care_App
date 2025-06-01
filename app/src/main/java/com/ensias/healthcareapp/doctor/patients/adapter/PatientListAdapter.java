@@ -1,5 +1,6 @@
-package com.ensias.healthcareapp.doctor.adapter;
+package com.ensias.healthcareapp.doctor.patients.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +16,20 @@ import com.ensias.healthcareapp.model.Patient;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.PatientViewHolder> {
     private List<Patient> patients;
     private Context context;
+    private OnPatientClickListener listener; // 👈
 
-    public PatientListAdapter(Context context, List<Patient> patients) {
+    // Добавь интерфейс
+    public interface OnPatientClickListener {
+        void onPatientClick(Patient patient);
+    }
+
+    public PatientListAdapter(Context context, List<Patient> patients, OnPatientClickListener listener) {
         this.context = context;
         this.patients = patients;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,18 +39,23 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         return new PatientViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
         Patient patient = patients.get(position);
+        // Первая строка — имя и фамилия
         holder.tvName.setText(patient.getFirstName() + " " + patient.getLastName());
-        holder.tvEmail.setText(patient.getEmail());
-
-        // Фото (если есть)
+        // Вторая строка — иин
+        holder.tvEmail.setText(patient.getIin());
         if (patient.getPhotoUrl() != null && !patient.getPhotoUrl().isEmpty()) {
             Picasso.get().load(patient.getPhotoUrl()).placeholder(R.drawable.ic_account).into(holder.ivPhoto);
         } else {
             holder.ivPhoto.setImageResource(R.drawable.ic_account);
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onPatientClick(patient);
+        });
     }
 
     @Override

@@ -13,7 +13,7 @@
             android:id="@+id/tvDocName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Имя врача"
+            android:text="@string/name_doctor"
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingBottom="8dp"/>
@@ -22,7 +22,7 @@
             android:id="@+id/tvDocSpeciality"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Специальность"
+            android:text="@string/speciality"
             android:textSize="16sp"
             android:paddingBottom="8dp"/>
 
@@ -30,7 +30,7 @@
             android:id="@+id/tvDocPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Телефон"
+            android:text="@string/phone"
             android:textSize="16sp"
             android:paddingBottom="24dp"/>
 
@@ -38,7 +38,7 @@
             android:id="@+id/btnRequestControl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Запросить контроль"
+            android:text="@string/control_request"
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="@android:color/white"/>
     </LinearLayout>

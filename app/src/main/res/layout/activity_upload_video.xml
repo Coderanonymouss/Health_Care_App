@@ -23,7 +23,7 @@
             android:id="@+id/input_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Имя видеоурока (например, 1 урок)"
+            android:hint="@string/video_lesson_name"
             android:layout_marginBottom="12dp"/>
 
         <!-- Ссылка на YouTube (необязательно) -->
@@ -39,7 +39,7 @@
             android:id="@+id/btn_choose_gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Выбрать видео из галереи"
+            android:text="@string/select_video_from_gallery"
             android:layout_marginBottom="12dp"/>
 
         <!-- Имя выбранного файла (отображается после выбора) -->
@@ -56,7 +56,7 @@
             android:id="@+id/btn_upload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Сохранить"/>
+            android:text="@string/save"/>
 
     </LinearLayout>
 </ScrollView>

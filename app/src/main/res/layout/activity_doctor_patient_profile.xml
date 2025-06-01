@@ -42,7 +42,7 @@
                     android:id="@+id/tvPatientName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Имя пациента"
+                    android:text="@string/patient_name"
                     android:textStyle="bold"
                     android:textSize="22sp"
                     android:textColor="#222"
@@ -52,7 +52,7 @@
                     android:id="@+id/tvPatientEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="email@example.com"
                     android:textSize="15sp"
                     android:textColor="#666"
                     android:layout_marginBottom="2dp"/>
@@ -61,10 +61,10 @@
                     android:id="@+id/tvPatientPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Телефон"
-                    android:textSize="15sp"
+                    android:layout_marginBottom="2dp"
+                    android:text="@string/phone"
                     android:textColor="#666"
-                    android:layout_marginBottom="2dp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Добавить видеоурок"
+            android:text="@string/add_videolesson"
             android:textAllCaps="false"
             android:textColor="#FFF"
             android:backgroundTint="#2e7d32"
@@ -94,7 +94,7 @@
             android:layout_marginBottom="16dp">
 
             <TextView
-                android:text="Общий прогресс"
+                android:text="@string/progress_overall"
                 android:textStyle="bold"
                 android:textColor="#222"
                 android:textSize="18sp"
@@ -134,7 +134,7 @@
             android:layout_marginBottom="16dp">
 
             <TextView
-                android:text="Нарушения"
+                android:text="@string/violations"
                 android:textStyle="bold"
                 android:textColor="#C62828"
                 android:textSize="18sp"
@@ -146,7 +146,7 @@
                 android:id="@+id/tvOverdueVideos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Просроченных видео: 0"
+                android:text="@string/expired_videos"
                 android:textSize="15sp"
                 android:textColor="#C62828"
                 android:layout_marginBottom="2dp"/>
@@ -155,7 +155,7 @@
                 android:id="@+id/tvOverdueMeds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Пропущенных лекарств: 0"
+                android:text="@string/missed_medications"
                 android:textSize="15sp"
                 android:textColor="#C62828"/>
         </LinearLayout>
@@ -179,7 +179,7 @@
                 android:layout_marginEnd="6dp">
 
                 <TextView
-                    android:text="Видеоуроки"
+                    android:text="@string/videolessons"
                     android:textColor="#222"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -190,7 +190,7 @@
                     android:id="@+id/tvVideoStats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0/0"
+                    android:text="10/7"
                     android:textColor="#00796B"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
@@ -207,7 +207,7 @@
                 android:layout_marginStart="6dp">
 
                 <TextView
-                    android:text="Лекарства"
+                    android:text="@string/medicines"
                     android:textColor="#222"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -218,7 +218,7 @@
                     android:id="@+id/tvMedStats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0/0"
+                    android:text="5/2"
                     android:textColor="#C62828"
                     android:textSize="20sp"
                     android:textStyle="bold"/>

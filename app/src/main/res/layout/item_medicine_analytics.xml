@@ -8,20 +8,20 @@
     <TextView android:id="@+id/tvMedicineName"
         android:layout_width="0dp" android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="Название" android:textStyle="bold"/>
+        android:text="@string/name" android:textStyle="bold"/>
 
     <TextView android:id="@+id/tvCourseDays"
         android:layout_width="0dp" android:layout_height="wrap_content"
-        android:layout_weight="1" android:text="Курс"/>
+        android:layout_weight="1" android:text="@string/kurs"/>
 
 
     <TextView android:id="@+id/tvTakenCount"
         android:layout_width="0dp" android:layout_height="wrap_content"
-        android:layout_weight="1" android:text="Принято"/>
+        android:layout_weight="1" android:text="@string/accepted"/>
 
     <TextView android:id="@+id/tvMissedCount"
         android:layout_width="0dp" android:layout_height="wrap_content"
-        android:layout_weight="1" android:text="Пропущено"/>
+        android:layout_weight="1" android:text="@string/missed"/>
 
     <TextView android:id="@+id/tvPercent"
         android:layout_width="0dp" android:layout_height="wrap_content"

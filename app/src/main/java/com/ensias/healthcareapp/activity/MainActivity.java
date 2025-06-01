@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference usersRef = db.collection("User"); // "User" коллекциясы
 
     private EditText emailText, passwordText, confirmPassword; // Email, құпия сөз және оның қайталануы
-    private Button loginBtn,greateAccountBtn; // Батырмалар
+    private Button loginBtn; // Батырмалар
 
     private GoogleSignInClient googleSignInClient; // Google Sign-in клиенті
 
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         loginBtn = findViewById(R.id.LoginBtn);
-        greateAccountBtn = findViewById(R.id.CreateAccount);
 
         Animation logoAnim = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
         logoImage.startAnimation(logoAnim);

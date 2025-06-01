@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Регистрация доктора"
+            android:text="@string/doctor_register"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -59,7 +59,7 @@
             android:id="@+id/buttonSelectImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Выбрать фото"
+            android:text="@string/photo_choose"
             app:layout_constraintTop_toBottomOf="@id/profileImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -78,7 +78,7 @@
                 android:id="@+id/firstSignFullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full Name"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,7 +96,7 @@
                 android:id="@+id/firstSignBirthDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Birthday"
+                android:hint="@string/birthday"
                 android:focusable="false"
                 android:clickable="true"
                 android:inputType="none" />
@@ -116,7 +116,7 @@
                 android:id="@+id/firstSignTel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Phone Number"
+                android:hint="@string/phone_number"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:backgroundTint="@color/dlya_shapka"
-            android:text="CONFIRM"
+            android:text="@string/confirm"
             android:textColor="@color/white"
             android:textAllCaps="false"
             app:cornerRadius="8dp"

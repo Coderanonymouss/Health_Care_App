@@ -19,13 +19,13 @@
         android:id="@+id/btn_select_folders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Папкаларды таңдау"/>
+        android:text="@string/folders_choose"/>
 
     <TextView
         android:id="@+id/tv_selected_folders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Таңдалған папкалар: "
+        android:text="@string/folders_selected"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"/>
 
@@ -33,5 +33,5 @@
         android:id="@+id/btn_assign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Папкаларды тағайындау"/>
+        android:text="@string/folders_assign"/>
 </LinearLayout>

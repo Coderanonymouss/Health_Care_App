@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Админ панель"
+        android:text="@string/admin_panel"
         android:textColor="@color/primary_dark"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
                     android:layout_height="41dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Дәрігерлер"
+                    android:text="@string/doctors"
                     android:textColor="@color/primary_dark"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -106,7 +106,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Пациенттер"
+                    android:text="@string/patients"
                     android:textColor="@color/primary_dark"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -141,7 +141,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Параметрлер"
+                    android:text="@string/params"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -178,7 +178,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Есептер"
+                    android:text="@string/esep"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -215,7 +215,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Профиль"
+                    android:text="@string/profile"
                     android:textSize="15sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/primary_dark"
@@ -230,7 +230,7 @@
         android:id="@+id/signOutBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Шығу"
+        android:text="@string/exit"
         app:icon="@drawable/ic_logout"
         app:iconTint="@android:color/white"
         android:textColor="@android:color/white"

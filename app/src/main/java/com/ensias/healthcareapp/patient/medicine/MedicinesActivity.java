@@ -165,6 +165,59 @@ public class MedicinesActivity extends AppCompatActivity {
         String json = new com.google.gson.Gson().toJson(medicineList);
         prefs.edit().putString("medicines", json).apply();
     }
+    public void updateDailyProgressSummary()    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String dateKey = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        db.collection("users")
+                .document(userId)
+                .collection("medicines")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    final int[] total = {0};
+                    final int[] taken = {0};
+                    final int[] missed = {0};
+
+                    for (DocumentSnapshot medDoc : snapshot) {
+                        String medId = medDoc.getId();
+                        db.collection("users")
+                                .document(userId)
+                                .collection("medicines")
+                                .document(medId)
+                                .collection("intakes")
+                                .get()
+                                .addOnSuccessListener(intakes -> {
+                                    for (DocumentSnapshot intake : intakes) {
+                                        String datetime = intake.getString("datetime");
+                                        if (datetime != null && datetime.startsWith(dateKey)) {
+                                            total[0]++;
+                                            if (Boolean.TRUE.equals(intake.getBoolean("status"))) {
+                                                taken[0]++;
+                                            } else {
+                                                missed[0]++;
+                                            }
+                                        }
+                                    }
+
+                                    // После подсчёта сохраняем
+                                    Map<String, Object> progress = new HashMap<>();
+                                    progress.put("date", dateKey);
+                                    progress.put("taken", taken[0]);
+                                    progress.put("missed", missed[0]);
+                                    progress.put("total", total[0]);
+                                    progress.put("uid", userId);
+                                    progress.put("timestamp", new Date());
+
+                                    db.collection("users")
+                                            .document(userId)
+                                            .collection("progress_summary")
+                                            .document(dateKey)
+                                            .set(progress);
+                                });
+                    }
+                });
+    }
 
     /**
      * Дәрілерді SharedPreferences-тен жүктеу
@@ -313,13 +366,17 @@ public class MedicinesActivity extends AppCompatActivity {
     /**
      * Қабылдаудың фактін Firestore-ға және жергілікті базаға сақтайды
      */
+// Добавьте этот метод в MedicinesActivity
     public void saveIntakeToFirestore(String medId, String medName, String dateTimeKey, boolean status) {
-        Map<String,Object> data = new HashMap<>();
-        data.put("medicine", medName);
+        Map<String, Object> data = new HashMap<>();
+        data.put("medicineId", medId);
+        data.put("medicineName", medName);
         data.put("datetime", dateTimeKey);
         data.put("status", status);
         data.put("timestamp", System.currentTimeMillis());
+        data.put("userId", userId); // Добавлено для глобальной коллекции
 
+        // Сохраняем в подколлекцию каждого пользователя
         db.collection("users")
                 .document(userId)
                 .collection("medicines")
@@ -329,9 +386,15 @@ public class MedicinesActivity extends AppCompatActivity {
                 .set(data)
                 .addOnSuccessListener(a -> {
                     saveIntakeLocally(medId, dateTimeKey, status);
-                    Log.d("FIREBASE","✅ Intake saved");
+                    Log.d("FIREBASE", "✅ Intake saved in user path");
                 })
-                .addOnFailureListener(e -> Log.e("FIREBASE","❌ Intake save failed",e));
+                .addOnFailureListener(e -> Log.e("FIREBASE", "❌ Save failed", e));
+
+        // Дополнительно сохраняем в глобальную коллекцию progress
+        db.collection("progress")
+                .add(data)
+                .addOnSuccessListener(a -> Log.d("FIREBASE", "✅ Progress saved globally"))
+                .addOnFailureListener(e -> Log.e("FIREBASE", "❌ Global progress save failed", e));
     }
 
     /**

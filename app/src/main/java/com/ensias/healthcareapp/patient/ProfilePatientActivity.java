@@ -1,4 +1,4 @@
-package com.ensias.healthcareapp.activity.patient;
+package com.ensias.healthcareapp.patient;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

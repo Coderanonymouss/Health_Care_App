@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.6"
-        android:text="Дәрі \n атауы"
+        android:text="@string/medicine_name_multiline"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"/>
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.9"
-        android:text="Дәрі \n қабылдағаныңыз"
+        android:text="@string/medicine_taken"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"/>
@@ -32,7 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="бүгінге \n iшетініңіз"
+        android:text="@string/take_for_today"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"/>
@@ -40,7 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.9"
-        android:text="күн \n қалды "
+        android:text="@string/days_left"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"/>

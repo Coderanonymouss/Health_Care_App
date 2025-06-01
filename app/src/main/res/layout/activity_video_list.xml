@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="Видеоуроки"
+        app:title="@string/videolessons"
         app:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back_24" />
 
@@ -34,14 +34,14 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:overScrollMode="ifContentScrolls"
-            android:contentDescription="Список видеоуроков для пациента"/>
+            android:contentDescription="@string/video_lessons_list_patient"/>
 
         <!-- Кнопка Добавить видео (современно и удобно) -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddVideo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Добавить видео"
+            android:text="@string/add_videolesson"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="18dp"
             android:layout_marginLeft="8dp"

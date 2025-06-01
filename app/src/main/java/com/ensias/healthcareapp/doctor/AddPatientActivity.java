@@ -1,4 +1,4 @@
-package com.ensias.healthcareapp.activity.doctor;
+package com.ensias.healthcareapp.doctor;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -44,8 +44,6 @@ public class AddPatientActivity extends AppCompatActivity {
     private String foundFirstName = "";
     private String foundLastName = "";
     private String foundMiddleName = "";
-
-    // Новые поля
     private String foundBirthDate = "";
     private String foundGender = "";
     private String foundDiagnosis = "";
@@ -58,9 +56,8 @@ public class AddPatientActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("Пациентті қосу"); // если хочешь динамически
+        toolbarTitle.setText("Пациентті қосу");
 
-// Если нужен back:
         toolbar.setNavigationOnClickListener(v -> finish());
 
         iinField = findViewById(R.id.input_patient_iin);
@@ -82,14 +79,7 @@ public class AddPatientActivity extends AppCompatActivity {
                     checkIIN(iin);
                 } else {
                     fioText.setText("");
-                    foundIIN = "";
-                    foundFirstName = "";
-                    foundLastName = "";
-                    foundMiddleName = "";
-                    foundBirthDate = "";
-                    foundGender = "";
-                    foundDiagnosis = "";
-                    foundRehabStage = "";
+                    clearFoundFields();
                 }
             }
         });
@@ -97,7 +87,17 @@ public class AddPatientActivity extends AppCompatActivity {
         addBtn.setOnClickListener(v -> addPatient());
     }
 
-    // Поиск пациента по ИИН (с твоего backend-сервера, например, Render)
+    private void clearFoundFields() {
+        foundIIN = "";
+        foundFirstName = "";
+        foundLastName = "";
+        foundMiddleName = "";
+        foundBirthDate = "";
+        foundGender = "";
+        foundDiagnosis = "";
+        foundRehabStage = "";
+    }
+
     private void checkIIN(String iin) {
         fioText.setText("Іздеу...");
         String url = "https://health-backend-d1ug.onrender.com/api/patient/" + iin;
@@ -106,7 +106,10 @@ public class AddPatientActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> fioText.setText("Серверден қате!"));
+                runOnUiThread(() -> {
+                    fioText.setText("Серверден қате!");
+                    clearFoundFields();
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -117,8 +120,7 @@ public class AddPatientActivity extends AppCompatActivity {
                         foundIIN = json.getString("iin");
                         foundFirstName = json.optString("firstName", "");
                         foundLastName = json.optString("lastName", "");
-                        foundMiddleName = json.has("middleName") && !json.isNull("middleName")
-                                ? json.optString("middleName", "") : "";
+                        foundMiddleName = json.optString("middleName", "");
                         foundBirthDate = json.optString("birthDate", "");
                         foundGender = json.optString("gender", "");
                         foundDiagnosis = json.optString("diagnosis", "");
@@ -130,32 +132,21 @@ public class AddPatientActivity extends AppCompatActivity {
                             fioText.setText(fio);
                         });
                     } catch (Exception ex) {
-                        runOnUiThread(() -> fioText.setText("Пациент табылмады!"));
-                        foundIIN = "";
-                        foundFirstName = "";
-                        foundLastName = "";
-                        foundMiddleName = "";
-                        foundBirthDate = "";
-                        foundGender = "";
-                        foundDiagnosis = "";
-                        foundRehabStage = "";
+                        runOnUiThread(() -> {
+                            fioText.setText("Пациент табылмады!");
+                            clearFoundFields();
+                        });
                     }
                 } else {
-                    runOnUiThread(() -> fioText.setText("Пациент табылмады!"));
-                    foundIIN = "";
-                    foundFirstName = "";
-                    foundLastName = "";
-                    foundMiddleName = "";
-                    foundBirthDate = "";
-                    foundGender = "";
-                    foundDiagnosis = "";
-                    foundRehabStage = "";
+                    runOnUiThread(() -> {
+                        fioText.setText("Пациент табылмады!");
+                        clearFoundFields();
+                    });
                 }
             }
         });
     }
 
-    // Добавление пациента в Firestore (перед этим проверка, что такого пациента нет)
     private void addPatient() {
         String iin = iinField.getText().toString().trim();
         String email = emailField.getText().toString().trim().toLowerCase();
@@ -169,6 +160,7 @@ public class AddPatientActivity extends AppCompatActivity {
             return;
         }
 
+        // Проверяем, что такого пациента ещё нет
         db.collection("Patient").whereEqualTo("iin", iin)
                 .get()
                 .addOnSuccessListener(qs1 -> {
@@ -201,12 +193,16 @@ public class AddPatientActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser newUser = task.getResult().getUser();
                         if (newUser != null) {
+                            String patientUid = newUser.getUid();
+
                             // Отправляем письмо для сброса пароля пациенту
                             auth.sendPasswordResetEmail(email)
                                     .addOnCompleteListener(resetTask -> {
                                         if (resetTask.isSuccessful()) {
-                                            // Теперь сохраняем пациента в Firestore
+                                            // Сохраняем пациента в Firestore
                                             Map<String, Object> patient = new HashMap<>();
+                                            patient.put("type", "Patient");
+                                            patient.put("uid", patientUid);
                                             patient.put("iin", iin);
                                             patient.put("firstName", foundFirstName);
                                             patient.put("lastName", foundLastName);
@@ -221,15 +217,24 @@ public class AddPatientActivity extends AppCompatActivity {
                                             if (!TextUtils.isEmpty(foundDiagnosis)) patient.put("diagnosis", foundDiagnosis);
                                             if (!TextUtils.isEmpty(foundRehabStage)) patient.put("rehabStage", foundRehabStage);
 
-                                            db.collection("Patient").add(patient)
+                                            db.collection("Patient").document(patientUid)
+                                                    .set(patient)
                                                     .addOnSuccessListener(aVoid -> {
-                                                        Toast.makeText(this, "Пациентіңіз сәтті қосылды! Сілтеме жібердім.", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(this, "Пациентіңіз сәтті қосылды! Сілтеме жіберілді.", Toast.LENGTH_LONG).show();
+                                                        finish();
+                                                    })
+                                                    .addOnFailureListener(e -> Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                            db.collection("User").document(patientUid)
+                                                    .set(patient)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
                                                         finish();
                                                     })
                                                     .addOnFailureListener(e -> Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                                         } else {
                                             Toast.makeText(this, "Хат жіберу мүмкін болмады: " + Objects.requireNonNull(resetTask.getException()).getMessage(), Toast.LENGTH_LONG).show();
                                         }
+
                                     });
                         }
                     } else {

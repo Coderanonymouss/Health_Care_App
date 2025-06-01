@@ -70,6 +70,9 @@ public class MyPatientsAdapter extends FirestoreRecyclerAdapter<Patient, MyPatie
     private void openDoctorPatientProfile(Context context, Patient patient) {
         Intent intent = new Intent(context, DoctorPatientProfileActivity.class); // Профиль по UID!
         intent.putExtra("patient_uid", patient.getUid());
+        intent.putExtra("patient_email", patient.getEmail());
+        intent.putExtra("iin", patient.getIin());
+
         context.startActivity(intent);
     }
 

@@ -168,7 +168,7 @@ public class DoctorUploadVideoActivity extends AppCompatActivity {
 
     private void uploadVideoToStorageAndSave(String folderId, Uri videoUri, String doctorEmail, String title) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
-                .child("videos/" + System.currentTimeMillis() + "_" + title + ".mp4");
+                .child("videos/" + folderId + "/" + System.currentTimeMillis() + "_" + title + ".mp4");
 
         storageRef.putFile(videoUri)
                 .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()

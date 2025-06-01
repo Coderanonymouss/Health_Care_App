@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:hint="Email"
+                android:hint="@string/email"
                 app:boxBackgroundColor="@color/edit_bg"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="16dp"
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Құпия сөз"
+                android:hint="@string/password"
                 app:boxBackgroundColor="@color/edit_bg"
                 app:boxBackgroundMode="outline"
                 app:boxCornerRadiusBottomEnd="16dp"
@@ -131,29 +131,18 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_primary"
-                android:text="КІРУ"
+                android:text="@string/login"
                 android:textAllCaps="true"
                 android:textColor="#fff"
                 android:textStyle="bold" />
 
-            <!-- Кнопка Тіркелу -->
-            <Button
-                android:id="@+id/CreateAccount"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/btn_primary"
-                android:text="ТІРКЕЛУ"
-                android:textAllCaps="true"
-                android:textColor="#fff"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ResetPasswordBtn"
                 android:layout_width="342dp"
                 android:layout_height="33dp"
                 android:gravity="center"
-                android:text="Құпия сөзді ұмыттыңыз ба?"
+                android:text="@string/forgot_password"
                 android:textColor="#524646"
                 android:textSize="16sp"
                 android:textStyle="italic" />

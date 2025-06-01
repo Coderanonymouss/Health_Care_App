@@ -43,6 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
-        android:contentDescription="Добавить лекарство"
+        android:contentDescription="@string/add_patient"
         android:src="@drawable/ic_add" />
 </FrameLayout>

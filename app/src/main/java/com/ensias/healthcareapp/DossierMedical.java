@@ -15,7 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ensias.healthcareapp.Common.Common;
-import com.ensias.healthcareapp.activity.patient.PatientInfoActivity;
+//import com.ensias.healthcareapp.activity.patient.PatientInfoActivity;
+import com.ensias.healthcareapp.doctor.ProfileDoctorActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -162,7 +163,7 @@ public class DossierMedical extends AppCompatActivity {
     }
 
     private void openPatientFiche(){
-        Intent intent = new Intent(this, PatientInfoActivity.class);
+        Intent intent = new Intent(this, ProfileDoctorActivity.class);
         String patient_name = getIntent().getStringExtra("patient_name");
         String patient_email = getIntent().getStringExtra("patient_email");
         intent.putExtra("patient_email", patient_email);
@@ -171,7 +172,7 @@ public class DossierMedical extends AppCompatActivity {
     }
 
     private void openPatientInfo(){
-        Intent intent = new Intent(this, PatientInfoActivity.class);
+        Intent intent = new Intent(this, ProfileDoctorActivity.class);
         String patient_name = getIntent().getStringExtra("patient_name");
         String patient_email = getIntent().getStringExtra("patient_email");
         intent.putExtra("patient_email", patient_email);

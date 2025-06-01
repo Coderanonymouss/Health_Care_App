@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Qamqor</string>
+    <string name="main_activity_description">Just chat with your mentors.</string>
+    <string name="login">Login</string>
+    <string name="chat_with_mentor">Chat with mentor</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="notification_title">"You have a new message"</string>
+
+    <string name="error_not_connected">Connection required!</string>
+    <string name="error_authentication_canceled">Authentication canceled…</string>
+    <string name="error_no_internet">No internet connection!</string>
+    <string name="error_unknown_error">An unknown error occurred…</string>
+    <string name="connection_succeed">Authentication successful!</string>
+    <string name="button_login_text_logged">Show profile</string>
+    <string name="button_login_text_not_logged">Login</string>
+
+    <string name="toolbar_title_login_activity">Your profile</string>
+    <string name="text_input_username">Username</string>
+    <string name="text_view_email">Email address:</string>
+    <string name="button_update_account">Update username</string>
+    <string name="button_delete_account">Delete account</string>
+    <string name="button_sign_out_account">Sign out</string>
+    <string name="info_no_email_found">Email address not found</string>
+    <string name="info_no_username_found">Username not found</string>
+    <string name="popup_message_confirmation_delete_account">Do you want to delete your account?</string>
+    <string name="popup_message_choice_yes">Yes</string>
+    <string name="popup_message_choice_no">No</string>
+    <string name="check_box_is_mentor">Are you a mentor?</string>
+
+    <string name="toolbar_title_mentor_chat_activity">Chats</string>
+    <string name="text_input_title_mentor_chat_activity">Enter your message</string>
+    <string name="button_title_mentor_chat_activity">SEND</string>
+    <string name="text_view_mentor_chat_error">This chat is currently empty…</string>
+    <string name="popup_title_permission_files_access">Permission is required for this app to work.</string>
+    <string name="toast_title_no_image_chosen">No image selected…</string>
+
+    <!-- Book api -->
+    <string name="thumbnail">Thumbnail</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="price">40 $</string>
+    <string name="author">Author</string>
+
+    <string name="search">SEARCH</string>
+    <string name="hint">Enter your query</string>
+    <string name="description_image_view">Sample image</string>
+    <string name="description_divider">Divider</string>
+    <string name="Failed_to_Load_data">Check your internet connection</string>
+    <string name="NO_RESULT">No results found</string>
+
+    <string-array name="fiche_type">
+        <item>Consultation</item>
+        <item>Hospitalization</item>
+    </string-array>
+
+    <string-array name="specialite_spinner">
+        <item>Dentist</item>
+        <item>General Practitioner</item>
+        <item>ENT Specialist</item>
+        <item>Ophthalmologist</item>
+        <item>Pediatrician</item>
+        <item>Radiologist</item>
+        <item>Rheumatologist</item>
+    </string-array>
+
+
+    <string name="hello_blank_fragment">Hello, blank fragment</string>
+    <string name="messages">Messages</string>
+    <string name="welcome_user">Welcome</string>
+    <string name="choose_an_option">Choose an language</string>
+    <string name="medical_folder">Medical folder</string>
+    <string name="my_doctors">My doctors</string>
+    <string name="appointement">Appointment</string>
+    <string name="signout">Sign out</string>
+    <string name="profile">Profile</string>
+    <string name="todo">To-do list</string>
+    <string name="choose_your_appointement_time">Choose your appointment time:</string>
+    <string name="birthday">Birthday</string>
+    <string name="resetpassword">Forgot your password?</string>
+    <string name="resend_verification">Resend message</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_up_btn">Register</string>
+    <string name="login_btn">LOGIN</string>
+    <string name="confirm_password">Repeat your password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="sign_up_Hight">Qamqor</string>
+    <string name="qamqor_logo">Qamqor Logo</string>
+    <string name="salem">Hello, user!</string>
+    <string name="edit">Edit</string>
+    <string name="my_profile">My profile</string>
+    <string name="add_medicine">Add medicine</string>
+    <string name="patient_email_com">Patient: patient@email.com</string>
+    <string name="watch_v_videos_embed_youtu_be_v_e_watch_v_w_11"><![CDATA[(?<=watch\\?v=|/videos/|embed/|youtu.be/|/v/|/e/|watch\\?.+&v=)([\\w-]{11})]]></string>
+    <string name="play_video">Play video</string>
+    <string name="video_status">Video status</string>
+    <string name="status">Status</string>
+    <string name="call_patient">Call</string>
+    <string name="chat_patient">Chat</string>
+    <string name="new_patient">Add patient</string>
+    <string name="_00_00">00:00</string>
+    <string name="message_chat">Message...</string>
+    <string name="select_folder">Select folder</string>
+    <string name="prompt_select_patient">Select a patient</string>
+    <string name="prompt_select_folder">Select a folder</string>
+    <string name="youtube">YouTube link (optional)</string>
+    <string name="back">Back</string>
+    <string name="name">Name</string>
+    <string name="role">Role</string>
+    <string name="arrays_medicine">List of medicines</string>
+    <string name="update_profile">UPDATE PROFILE</string>
+    <string name="enter_your_phone">Enter your phone</string>
+    <string name="enter_your_address">Enter your address</string>
+    <string name="edit_my_profile">Edit My Profile</string>
+    <string name="hi_doctor">Hello, doctor!</string>
+    <string name="chat">Chat</string>
+    <string name="folder">Folder</string>
+    <string name="menu">Menu</string>
+    <string name="add_patient">Add patient</string>
+    <string name="iin_patient">Patient is IIN</string>
+    <string name="read_IIn">Enter IIN</string>
+    <string name="email_patient">Patient is email</string>
+    <string name="admin_panel">Admin panel</string>
+    <string name="doctors">Doctors</string>
+    <string name="patients">Patients</string>
+    <string name="params">Settings</string>
+    <string name="esep">Reports</string>
+    <string name="exit">Exit</string>
+    <string name="first_last_name">Name Surname</string>
+    <string name="example_email">email@example.com</string>
+    <string name="notification">Notifications</string>
+    <string name="dark_topic">Dark theme</string>
+    <string name="save">Save</string>
+    <string name="add_admin">Create Admin</string>
+    <string name="send">Send</string>
+    <string name="folders_choose">Select folders</string>
+    <string name="folders_selected">Selected folders:</string>
+    <string name="folders_assign">Assign folders</string>
+    <string name="name_doctor">Doctor is name</string>
+    <string name="speciality">Specialty</string>
+    <string name="phone">Phone</string>
+    <string name="control_request">Request control</string>
+    <string name="videolessons">Video lessons</string>
+    <string name="patient_name">Patient is name</string>
+    <string name="iin">IIN: —</string>
+    <string name="add_videolesson">Add video lesson</string>
+    <string name="progress_overall">Overall progress</string>
+    <string name="violations">Violations</string>
+    <string name="expired_videos">Expired videos: 0</string>
+    <string name="missed_medications">Missed medications: 0</string>
+    <string name="medicines">Medicines</string>
+    <string name="add_new_folder">Create new folder</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="doctor_register">Doctor registration</string>
+    <string name="photo_choose">Choose photo</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="address">Address</string>
+    <string name="hello_patient">Hello, user!</string>
+    <string name="my_doctor">My doctor</string>
+    <string name="my_medicines">My medicines</string>
+    <string name="records">Records</string>
+    <string name="techniques_history">Medication history</string>
+    <string name="register">Register</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="select_contact_to_communicate_with">Select contact to communicate with</string>
+    <string name="my_patients">My Patients</string>
+    <string name="analitica">Analytics</string>
+    <string name="progress">Progress: 0/0</string>
+    <string name="history_videolessons">Video lesson history</string>
+    <string name="history_medicine">Medicine intake history</string>
+    <string name="folders_assigned">Folders assigned to me:</string>
+    <string name="day_contract">Days in a row: 3 🔥</string>
+    <string name="video_until_medal">One more video to a medal!</string>
+    <string name="patient_video_list">List of video lessons for the patient</string>
+    <string name="folder_videos">Videos in folder:</string>
+    <string name="firstname">First name</string>
+    <string name="specialty">Specialty</string>
+    <string name="home_address">Home address</string>
+    <string name="description">Description</string>
+    <string name="patient_profile">Patient profile</string>
+    <string name="fullname">Full Name</string>
+    <string name="register_new_account">Register a new account</string>
+    <string name="registry">Registration</string>
+    <string name="reset_password">Reset password</string>
+    <string name="send_recovery_link">Send recovery link</string>
+    <string name="choose_folder">Choose folder</string>
+    <string name="video_lesson_name">Video lesson name (e.g., Lesson 1)</string>
+    <string name="select_video_from_gallery">Select video from gallery</string>
+    <string name="video_watched_count">Videos watched: 0</string>
+    <string name="level">Level: 1</string>
+    <string name="video_lessons_list_patient">List of video lessons for the patient</string>
+    <string name="videolesson">Video lesson</string>
+    <string name="medicine_name">Medicine name</string>
+    <string name="dosage">Dosage (e.g., 500 mg)</string>
+    <string name="duration_days">Duration (days)</string>
+    <string name="times_per_day">Intakes per day</string>
+    <string name="youtube_link">YouTube link</string>
+    <string name="from_gallery">From gallery</string>
+    <string name="name_folder">Folder name</string>
+    <string name="loading">Loading...</string>
+    <string name="doctor">Doctor</string>
+    <string name="call">Call</string>
+    <string name="doctor_name">Doctor is Name</string>
+    <string name="doctor_example_com">doctor@example.com</string>
+    <string name="delete">Delete</string>
+    <string name="medicine_done">Medicine — ✅</string>
+    <string name="medicine">Medicine</string>
+    <string name="intake_time">Intake time: 08:00, 14:00</string>
+    <string name="last_intake">Last intake: --:--</string>
+    <string name="marked_as_taken">Taken</string>
+    <string name="kurs">Course</string>
+    <string name="accepted">Taken</string>
+    <string name="missed">Missed</string>
+    <string name="days_left">days left</string>
+    <string name="take_for_today">Your dose for today</string>
+    <string name="medicine_taken">You have taken your medicine</string>
+    <string name="medicine_name_multiline">Medicine name</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="name_video">Video name</string>
+    <string name="watch_video">Watch video</string>
+    <string name="available">Available</string>
+    <string name="you">You</string>
+    <string name="language_changed">Language changed</string>
+    <string name="language_already_selected">This language is already selected</string>
+</resources>

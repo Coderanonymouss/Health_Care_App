@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Сәлем, қолданушы!"
+        android:text="@string/hello_patient"
         android:textColor="@color/primary_dark"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Дәрігерлерім"
+                    android:text="@string/my_doctor"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Дәрілерім"
+                    android:text="@string/my_medicines"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Бейнесабақ"
+                    android:text="@string/videolessons"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Профиль"
+                    android:text="@string/profile"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -196,7 +196,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_search"
+                    android:src="@drawable/ic_settings"
                     app:tint="@color/dlya_shapka" />
 
                 <TextView
@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Іздеу"
+                    android:text="@string/params"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -239,25 +239,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Жазбалар"
+                    android:text="@string/records"
                     android:textColor="@color/primary_dark"
                     android:textSize="16sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.gridlayout.widget.GridLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signOutBtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Шығу"
-        app:icon="@drawable/ic_logout"
-        app:iconTint="@android:color/white"
-        app:cornerRadius="24dp"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/danger"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

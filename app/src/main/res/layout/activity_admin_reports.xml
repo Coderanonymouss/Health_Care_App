@@ -11,7 +11,7 @@
         android:id="@+id/textReports"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Есептер"
+        android:text="@string/esep"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/primary_dark"

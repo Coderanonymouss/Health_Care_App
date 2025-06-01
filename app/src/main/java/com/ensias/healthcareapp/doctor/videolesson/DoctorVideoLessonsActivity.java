@@ -64,7 +64,7 @@ public class DoctorVideoLessonsActivity extends AppCompatActivity {
                     if (folder != null) folder.setId(snapshot.getId()); // Firestore құжатының ID-сын модельге орнату
                     return folder;
                 })
-                .setLifecycleOwner(this)
+
                 .build();
 
         // Адаптерді орнату және папкаға байланысты әрекеттерді өңдеу
@@ -166,4 +166,20 @@ public class DoctorVideoLessonsActivity extends AppCompatActivity {
                     Toast.makeText(this, "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+        super.onStop();
+    }
+
 }

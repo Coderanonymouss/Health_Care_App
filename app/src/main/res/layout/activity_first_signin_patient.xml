@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Телефон"
+        android:hint="@string/phone"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="#22BE87">
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Адрес"
+        android:hint="@string/address"
         android:textColorHint="#22BE87"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="#22BE87"
@@ -48,7 +48,7 @@
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Подтвердить"
+        android:text="@string/confirm"
         android:layout_marginTop="24dp" />
 
 </LinearLayout>

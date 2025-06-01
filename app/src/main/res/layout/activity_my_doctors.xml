@@ -23,7 +23,7 @@
         android:id="@+id/doctor_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Выберите контакт для общения"
+        android:text="@string/select_contact_to_communicate_with"
         android:textColor="#A0A0A0"
         android:textSize="15sp"
         android:gravity="center"

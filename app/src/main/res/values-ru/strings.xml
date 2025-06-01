@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Qamqor</string>
+    <string name="main_activity_description">Просто общайтесь со своими менторами.</string>
+    <string name="login">Войти</string>
+    <string name="chat_with_mentor">Чат с ментором</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="notification_title">"Вам пришло сообщение"</string>
+
+    <string name="error_not_connected">Требуется подключение!</string>
+    <string name="error_authentication_canceled">Аутентификация отменена…</string>
+    <string name="error_no_internet">Нет интернет-соединения!</string>
+    <string name="error_unknown_error">Произошла неизвестная ошибка…</string>
+    <string name="connection_succeed">Аутентификация прошла успешно!</string>
+    <string name="button_login_text_logged">Показать профиль</string>
+    <string name="button_login_text_not_logged">Войти</string>
+
+    <string name="toolbar_title_login_activity">Ваш профиль</string>
+    <string name="text_input_username">Имя пользователя</string>
+    <string name="text_view_email">Электронная почта:</string>
+    <string name="button_update_account">Обновить имя пользователя</string>
+    <string name="button_delete_account">Удалить аккаунт</string>
+    <string name="button_sign_out_account">Выйти</string>
+    <string name="info_no_email_found">Электронная почта не найдена</string>
+    <string name="info_no_username_found">Имя пользователя не найдено</string>
+    <string name="popup_message_confirmation_delete_account">Вы действительно хотите удалить аккаунт?</string>
+    <string name="popup_message_choice_yes">Да</string>
+    <string name="popup_message_choice_no">Нет</string>
+    <string name="check_box_is_mentor">Вы ментор?</string>
+
+    <string name="toolbar_title_mentor_chat_activity">Чаты</string>
+    <string name="text_input_title_mentor_chat_activity">Введите сообщение</string>
+    <string name="button_title_mentor_chat_activity">ОТПРАВИТЬ</string>
+    <string name="text_view_mentor_chat_error">Этот чат пока пуст…</string>
+    <string name="popup_title_permission_files_access">Для работы приложения требуется разрешение.</string>
+    <string name="toast_title_no_image_chosen">Изображение не выбрано…</string>
+
+    <!-- Book api -->
+    <string name="thumbnail">Миниатюра</string>
+    <string name="title">Название</string>
+    <string name="category">Категория</string>
+    <string name="price">40 $</string>
+    <string name="author">Автор</string>
+
+    <string name="search">ПОИСК</string>
+    <string name="hint">Введите ваш запрос</string>
+    <string name="description_image_view">Пример изображения</string>
+    <string name="description_divider">Разделитель</string>
+    <string name="Failed_to_Load_data">Проверьте интернет-соединение</string>
+    <string name="NO_RESULT">Результаты не найдены</string>
+
+    <string-array name="fiche_type">
+        <item>Консультация</item>
+        <item>Госпитализация</item>
+    </string-array>
+
+    <string-array name="specialite_spinner">
+        <item>Стоматолог</item>
+        <item>Терапевт</item>
+        <item>ЛОР-врач</item>
+        <item>Окулист</item>
+        <item>Педиатр</item>
+        <item>Рентгенолог</item>
+        <item>Ревматолог</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="messages">Сообщения</string>
+    <string name="welcome_user">Добро пожаловать</string>
+    <string name="choose_an_option">Выберите язык</string>
+    <string name="medical_folder">Медицинская папка</string>
+    <string name="my_doctors">Мои врачи</string>
+    <string name="appointement">Встреча</string>
+    <string name="signout">Выйти</string>
+    <string name="profile">Профиль</string>
+    <string name="todo">Список дел</string>
+    <string name="choose_your_appointement_time">Выберите время встречи:</string>
+    <string name="birthday">Дата рождения</string>
+    <string name="resetpassword">Забыли пароль?</string>
+    <string name="resend_verification">Отправить повторно</string>
+    <string name="sign_up">РЕГИСТРАЦИЯ</string>
+    <string name="sign_up_btn">Зарегистрироваться</string>
+    <string name="login_btn">ВОЙТИ</string>
+    <string name="confirm_password">Повторите пароль</string>
+    <string name="password">Пароль</string>
+    <string name="email">Электронная почта</string>
+    <string name="sign_up_Hight">Qamqor</string>
+    <string name="qamqor_logo">Логотип Qamqor</string>
+    <string name="salem">Здравствуйте, пользователь!</string>
+    <string name="edit">Редактировать</string>
+    <string name="my_profile">Мой профиль</string>
+    <string name="add_medicine">Добавить лекарство</string>
+    <string name="patient_email_com">Пациент: patient@email.com</string>
+    <string name="watch_v_videos_embed_youtu_be_v_e_watch_v_w_11"><![CDATA[(?<=watch\\?v=|/videos/|embed/|youtu.be/|/v/|/e/|watch\\?.+&v=)([\\w-]{11})]]></string>
+    <string name="play_video">Воспроизвести видео</string>
+    <string name="video_status">Статус видео</string>
+    <string name="status">Статус</string>
+    <string name="call_patient">Позвонить</string>
+    <string name="chat_patient">Чат</string>
+    <string name="new_patient">Добавить \n пациента</string>
+    <string name="_00_00">00:00</string>
+    <string name="message_chat">Сообщение...</string>
+    <string name="select_folder">Выбрать папку</string>
+    <string name="prompt_select_patient">Выберите пациента</string>
+    <string name="prompt_select_folder">Выберите папку</string>
+    <string name="youtube">YouTube-ссылка (опционально)</string>
+    <string name="back">Назад</string>
+    <string name="name">Имя</string>
+    <string name="role">Роль</string>
+    <string name="arrays_medicine">Список лекарств</string>
+    <string name="update_profile">ОБНОВИТЬ ПРОФИЛЬ</string>
+    <string name="enter_your_phone">Введите телефон</string>
+    <string name="enter_your_address">Введите адрес</string>
+    <string name="edit_my_profile">Редактировать профиль</string>
+    <string name="hi_doctor">Здравствуйте, доктор!</string>
+    <string name="chat">Чат</string>
+    <string name="folder">Папка</string>
+    <string name="menu">Меню</string>
+    <string name="add_patient">Добавить пациента</string>
+    <string name="iin_patient">ИИН пациента</string>
+    <string name="read_IIn">Введите ИИН</string>
+    <string name="email_patient">Электронная почта пациента</string>
+    <string name="admin_panel">Панель администратора</string>
+    <string name="doctors">Врачи</string>
+    <string name="patients">Пациенты</string>
+    <string name="params">Параметры</string>
+    <string name="esep">Отчёты</string>
+    <string name="exit">Выйти</string>
+    <string name="first_last_name">Имя Фамилия</string>
+    <string name="example_email">email@example.com</string>
+    <string name="notification">Уведомления</string>
+    <string name="dark_topic">Тёмная тема</string>
+    <string name="save">Сохранить</string>
+    <string name="add_admin">Создать администратора</string>
+    <string name="send">Отправить</string>
+    <string name="folders_choose">Выбрать папки</string>
+    <string name="folders_selected">Выбранные папки:</string>
+    <string name="folders_assign">Назначить папки</string>
+    <string name="name_doctor">Имя врача</string>
+    <string name="speciality">Специальность</string>
+    <string name="phone">Телефон</string>
+    <string name="control_request">Запросить контроль</string>
+    <string name="videolessons">Видеоуроки</string>
+    <string name="patient_name">Имя пациента</string>
+    <string name="iin">ИИН: —</string>
+    <string name="add_videolesson">Добавить видеоурок</string>
+    <string name="progress_overall">Общий прогресс</string>
+    <string name="violations">Нарушения</string>
+    <string name="expired_videos">Просроченных видео: 0</string>
+    <string name="missed_medications">Пропущено лекарств: 0</string>
+    <string name="medicines">Лекарства</string>
+    <string name="add_new_folder">Создать новую папку</string>
+    <string name="enter_your_name">Введите имя</string>
+    <string name="doctor_register">Регистрация врача</string>
+    <string name="photo_choose">Выбрать фото</string>
+    <string name="full_name">ФИО</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="confirm">ПОДТВЕРДИТЬ</string>
+    <string name="address">Адрес</string>
+    <string name="hello_patient">Здравствуйте, пользователь!</string>
+    <string name="my_doctor">Мой врач</string>
+    <string name="my_medicines">Мои лекарства</string>
+    <string name="records">Записи</string>
+    <string name="techniques_history">История приёмов</string>
+    <string name="register">Регистрация</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="select_contact_to_communicate_with">Выберите контакт для общения</string>
+    <string name="my_patients">Мои пациенты</string>
+    <string name="analitica">Аналитика</string>
+    <string name="progress">Прогресс: 0/0</string>
+    <string name="history_videolessons">История видеоуроков</string>
+    <string name="history_medicine">История приёма лекарств</string>
+    <string name="folders_assigned">Назначенные мне папки:</string>
+    <string name="day_contract">Дней подряд: 3 🔥</string>
+    <string name="video_until_medal">Ещё одно видео до медали!</string>
+    <string name="patient_video_list">Список видеоуроков для пациента</string>
+    <string name="folder_videos">Видео в папке:</string>
+    <string name="firstname">Имя</string>
+    <string name="specialty">Специальность</string>
+    <string name="home_address">Домашний адрес</string>
+    <string name="description">Описание</string>
+    <string name="patient_profile">Профиль пациента</string>
+    <string name="fullname">ФИО</string>
+    <string name="register_new_account">Создать новый аккаунт</string>
+    <string name="registry">Регистрация</string>
+    <string name="reset_password">Восстановить пароль</string>
+    <string name="send_recovery_link">Отправить ссылку для восстановления</string>
+    <string name="choose_folder">Выберите папку</string>
+    <string name="video_lesson_name">Название видеоурока (например, Урок 1)</string>
+    <string name="select_video_from_gallery">Выбрать видео из галереи</string>
+    <string name="video_watched_count">Просмотрено видео: 0</string>
+    <string name="level">Уровень: 1</string>
+    <string name="video_lessons_list_patient">Список видеоуроков для пациента</string>
+    <string name="videolesson">Видеоурок</string>
+    <string name="medicine_name">Название лекарства</string>
+    <string name="dosage">Дозировка (например, 500 мг)</string>
+    <string name="duration_days">Продолжительность (дней)</string>
+    <string name="times_per_day">Приёмов в день</string>
+    <string name="youtube_link">Ссылка на YouTube</string>
+    <string name="from_gallery">Из галереи</string>
+    <string name="name_folder">Название папки</string>
+    <string name="loading">Загрузка...</string>
+    <string name="doctor">Врач</string>
+    <string name="call">Позвонить</string>
+    <string name="doctor_name">Имя врача</string>
+    <string name="doctor_example_com">doctor@example.com</string>
+    <string name="delete">Удалить</string>
+    <string name="medicine_done">Лекарство — ✅</string>
+    <string name="medicine">Лекарство</string>
+    <string name="intake_time">Время приёма: 08:00, 14:00</string>
+    <string name="last_intake">Последний приём: --:--</string>
+    <string name="marked_as_taken">Принял</string>
+    <string name="kurs">Курс</string>
+    <string name="accepted">Принято</string>
+    <string name="missed">Пропущено</string>
+    <string name="days_left">дней осталось</string>
+    <string name="take_for_today">Ваша доза на сегодня</string>
+    <string name="medicine_taken">Вы приняли лекарство</string>
+    <string name="medicine_name_multiline">Название лекарства</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="name_video">Название видео</string>
+    <string name="watch_video">Смотреть видео</string>
+    <string name="available">Доступно</string>
+    <string name="you">Вы</string>
+    <string name="language_changed">Язык изменён</string>
+    <string name="language_already_selected">Этот язык уже выбран</string>
+
+</resources>

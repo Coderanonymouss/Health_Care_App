@@ -13,14 +13,14 @@
             android:id="@+id/etMedName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Название лекарства"
+            android:hint="@string/medicine_name"
             android:inputType="textCapWords" />
 
         <EditText
             android:id="@+id/etMedDosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Дозировка (например, 500 мг)"
+            android:hint="@string/dosage"
             android:inputType="text" />
 
 
@@ -28,7 +28,7 @@
             android:id="@+id/etDurationDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Длительность (дней)"
+            android:hint="@string/duration_days"
             android:inputType="number" />
 
 
@@ -36,7 +36,7 @@
             android:id="@+id/etTimesPerDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Приёмов в день"
+            android:hint="@string/times_per_day"
             android:inputType="number" />
 
         <!-- Контейнер для динамических TimePicker -->

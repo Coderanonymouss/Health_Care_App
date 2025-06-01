@@ -29,7 +29,7 @@
             android:id="@+id/tvVideoTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Название видео"
+            android:text="@string/name_video"
             android:textSize="16sp"
             android:textStyle="bold"
             android:maxLines="2"
@@ -42,7 +42,7 @@
             android:layout_height="36dp"
             android:src="@drawable/ic_play_circle"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Смотреть видео"
+            android:contentDescription="@string/watch_video"
             android:layout_marginStart="12dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

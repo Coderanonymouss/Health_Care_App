@@ -28,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Лекарство"
+                android:text="@string/medicine"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/primaryText"
@@ -41,7 +41,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:background="?android:selectableItemBackgroundBorderless"
-                android:contentDescription="Удалить"
+                android:contentDescription="@string/delete"
                 android:padding="8dp"
                 app:srcCompat="@drawable/ic_baseline_delete_24"/>
         </LinearLayout>
@@ -50,7 +50,7 @@
             android:id="@+id/tvMedDosage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Дозировка: 500mg"
+            android:text="@string/dosage"
             android:textColor="@color/secondaryText"
             android:textSize="15sp"
             android:layout_marginTop="2dp"/>
@@ -59,7 +59,7 @@
             android:id="@+id/tvMedTimes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Қабылдау уақыты: 08:00, 14:00"
+            android:text="@string/intake_time"
             android:textColor="@color/secondaryText"
             android:textSize="15sp"
             android:layout_marginTop="2dp"/>
@@ -68,7 +68,7 @@
             android:id="@+id/tvLastTaken"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Соңғы қабылдау: --:--"
+            android:text="@string/last_intake"
             android:textColor="@color/primaryText"
             android:textSize="13sp"
             android:layout_marginTop="2dp"/>
@@ -86,7 +86,7 @@
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Қабылдадым"
+            android:text="@string/marked_as_taken"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/dlya_shapka"
             android:textColor="@android:color/white"

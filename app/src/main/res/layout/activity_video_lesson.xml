@@ -12,7 +12,7 @@
         android:id="@+id/tvVideoReport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Видео просмотрено: 0"
+        android:text="@string/video_watched_count"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingBottom="8dp" />
@@ -22,7 +22,7 @@
         android:id="@+id/tvLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Уровень: 1"
+        android:text="@string/level"
         android:textSize="16sp"
         android:paddingBottom="4dp"/>
 

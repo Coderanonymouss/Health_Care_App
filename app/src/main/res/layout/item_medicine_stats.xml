@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="Название"
+        android:text="@string/name"
         android:textStyle="bold"
         android:gravity="center"
         android:maxLines="1"/>
@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
-        android:text="Дата"
+        android:text="@string/date"
         android:gravity="center"
         android:maxLines="1"/>
 
@@ -31,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.2"
-        android:text="Время"
+        android:text="@string/time"
         android:gravity="center"
         android:maxLines="1"/>
 
@@ -40,7 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Статус"
+        android:text="@string/status"
         android:gravity="center"
         android:maxLines="1"/>
 </LinearLayout>

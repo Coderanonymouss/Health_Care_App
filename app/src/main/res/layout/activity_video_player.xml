@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Видеоурок"
+            android:text="@string/videolesson"
             android:textColor="#FFF"
             android:textSize="20sp"
             android:textStyle="bold" />

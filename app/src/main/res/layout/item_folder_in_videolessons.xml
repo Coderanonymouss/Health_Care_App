@@ -11,7 +11,7 @@
         android:id="@+id/tvFolderName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Папка"
+        android:text="@string/folder"
         android:textSize="20sp"
         android:padding="16dp"/>
 </androidx.cardview.widget.CardView>
